@@ -1,0 +1,9 @@
+name: Blog post
+slug: blog-post
+fields:
+- name: Summary
+  slug: summary
+  type: text
+- name: Content
+  slug: content
+  type: text
