@@ -13,7 +13,11 @@
         {% for field in contentType.fields %}
             <div class="form-group">
                 <label for="{{ field.slug }}">{{ field.name }}</label>
-                <input type="text" class="form-control" id="{{ field.slug }}" name="{{ field.slug }}">
+                {% if field.type == 'text' %}
+                    <input type="text" class="form-control" id="{{ field.slug }}" name="{{ field.slug }}">
+                {% elseif field.type == 'textarea' %}
+                    <textarea class="form-control" id="{{ field.slug }}" name="{{ field.slug }}"></textarea>
+                {% endif %}
             </div>
         {% endfor %}
         <input type="submit" class="btn btn-primary">

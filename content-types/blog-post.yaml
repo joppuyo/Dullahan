@@ -6,4 +6,4 @@ fields:
   type: text
 - name: Content
   slug: content
-  type: text
+  type: textarea
