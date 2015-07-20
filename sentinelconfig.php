@@ -53,7 +53,7 @@ return [
 
   'users' => [
 
-	'model' => 'Dash\Model\User',
+	'model' => 'Dullahan\Model\User',
 
   ],
 
