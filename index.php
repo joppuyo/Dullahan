@@ -39,7 +39,11 @@ $app->view()->parserExtensions = [
   new \Slim\Views\TwigExtension(),
 ];
 
-$app->map('/admin/write/:contentType/', '\Dullahan\Controller\ContentController:write')->via('GET','POST');
+$app->group('/admin', function() use ($app){
+	$app->map('/login/', '\Dullahan\Controller\UserController:login')->via('GET','POST');
+	$app->map('/register/', '\Dullahan\Controller\UserController:register')->via('GET','POST');
+	$app->map('/write/:contentType/', '\Dullahan\Controller\ContentController:write')->via('GET','POST');
+});
 $app->get('/api/content/:contentType/', '\Dullahan\Controller\ContentController:listContentJson');
 
 $app->run();

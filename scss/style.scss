@@ -1,1 +1,32 @@
+$font-size-base: 16px;
+$brand-primary: #5f9ddc;
+$body-bg: #ebebeb;
+$btn-primary-border: $brand-primary;
 @import "bootstrap";
+
+.center-vertically {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dullahan-box {
+  background-color: white;
+  padding: 16px;
+  h1 {
+    margin-top: 0;
+  }
+}
+
+html, body, .container, .row {
+  height: 100%;
+}
+
+@media (max-width: $screen-sm-max) {
+
+  .dullahan-box-login {
+    top: 0;
+    transform: none;
+  }
+
+}
