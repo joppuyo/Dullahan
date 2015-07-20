@@ -1,9 +1,9 @@
 <?php
 namespace Dullahan\Model;
 
-use Illuminate\Database\Eloquent\Model;
+use Cartalyst\Sentinel\Users\EloquentUser;
 
-class User extends Model {
+class User extends EloquentUser {
 	function content(){
 		return $this->hasMany('Dullahan\Model\Content');
 	}
