@@ -39,23 +39,23 @@ $app->view()->parserExtensions = [
   new \Slim\Views\TwigExtension(),
 ];
 
-function checkLogin() {
-	return function(){
-		$app = \Slim\Slim::getInstance();
-		$user = Sentinel::check();
-		if(!$user){
-			$app->flash('error', 'Please log in first.');
-			$app->redirectTo('login');
-		}
-	};
+function checkLogin(){
+    return function () {
+        $app = \Slim\Slim::getInstance();
+        $user = Sentinel::check();
+        if (!$user) {
+            $app->flash('error', 'Please log in first.');
+            $app->redirectTo('login');
+        }
+    };
 }
 
-$app->map('/admin/login/', '\Dullahan\Controller\UserController:login')->via('GET','POST')->name('login');
+$app->map('/admin/login/', '\Dullahan\Controller\UserController:login')->via('GET', 'POST')->name('login');
 
-$app->map('/admin/register/', '\Dullahan\Controller\UserController:register')->via('GET','POST');
+$app->map('/admin/register/', '\Dullahan\Controller\UserController:register')->via('GET', 'POST');
 
-$app->group('/admin', checkLogin(), function() use ($app){
-	$app->map('/write/:contentType/', '\Dullahan\Controller\ContentController:write')->via('GET','POST');
+$app->group('/admin', checkLogin(), function () use ($app) {
+    $app->map('/write/:contentType/', '\Dullahan\Controller\ContentController:write')->via('GET', 'POST');
 });
 $app->get('/api/content/:contentType/', '\Dullahan\Controller\ContentController:listContentJson');
 

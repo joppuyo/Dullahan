@@ -8,17 +8,20 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package Dullahan\Model
  * @property string $title
- * @property array $fields
+ * @property array  $fields
  * @property string $slug
  *
  *
  */
-class Content extends Model {
-	public function user(){
-		return $this->belongsTo('Dullahan\Model\User');
-	}
-	protected $casts = [
-	  'fields' => 'array',
-	  'is_published' => 'boolean',
-	];
+class Content extends Model
+{
+    public function user()
+    {
+        return $this->belongsTo('Dullahan\Model\User');
+    }
+
+    protected $casts = [
+        'fields' => 'array',
+        'is_published' => 'boolean',
+      ];
 }
