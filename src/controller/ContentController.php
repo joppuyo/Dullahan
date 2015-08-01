@@ -8,12 +8,18 @@ use Symfony\Component\Yaml\Parser;
 
 class ContentController extends Controller
 {
+
+    public function listContent()
+    {
+        $content = Content::all();
+        $this->app->render('content.twig', ['content' => $content]);
+    }
+
     public function write($contentTypeSlug)
     {
         $yaml = new Parser();
         try {
-            $contentType
-              = $yaml->parse(file_get_contents("content-types/$contentTypeSlug.yaml"));
+            $contentType = $yaml->parse(file_get_contents("content-types/$contentTypeSlug.yaml"));
             $this->app->render('write.twig', ['contentType' => $contentType]);
         } catch (Exception $e) {
             echo "could not open configuration: " . $e->getMessage();
@@ -30,12 +36,12 @@ class ContentController extends Controller
                 $field = [];
                 $field['name'] = $currentField['name'];
                 $field['slug'] = $currentField['slug'];
-                $field['value']
-                  = $this->app->request->post($currentField['slug']);
+                $field['value'] = $this->app->request->post($currentField['slug']);
                 array_push($fields, $field);
             }
             $content->fields = $fields;
             $content->save();
+            $this->app->redirectTo('listContent');
         }
     }
 

@@ -1,0 +1,28 @@
+{% extends 'dash.twig' %}
+{% block content %}
+        <h1>Content</h1>
+        <a href="{{ urlFor('writeContent', {contentType: 'blog-post'}) }}" class="btn btn-primary">Add new content</a>
+        <table class="table" style="table-layout: fixed;">
+            <thead>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Published</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th></th>
+            </thead>
+            <tbody>
+        {% for item in content %}
+            <tr>
+                <td>{{ item.title }}</td>
+                <td>{{ item.content_type }}</td>
+                <td>{% if item.is_published %}Yes{% else %}No{% endif %}</td>
+                <td>{{ item.created_at | date('Y-m-d H:s') }}</td>
+                <td>{{ item.updated_at | date('Y-m-d H:s') }}</td>
+                <td><a class="btn btn-primary btn-xs">Edit content</a></td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}

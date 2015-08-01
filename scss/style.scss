@@ -4,6 +4,8 @@ $body-bg: #ebebeb;
 $btn-primary-border: $brand-primary;
 @import "bootstrap";
 
+$sidebar-bg-color: #2C3E50;
+
 .center-vertically {
   position: relative;
   top: 50%;
@@ -18,8 +20,42 @@ $btn-primary-border: $brand-primary;
   }
 }
 
-html, body, .container, .row {
+html, body, .container-fluid, .row {
   height: 100%;
+}
+
+.nav {
+  background-color: $sidebar-bg-color;
+  height: 100%;
+  width: 96px;
+  float: left;
+}
+
+.nav-item {
+  height: 96px;
+  padding-top: 16px;
+}
+
+.nav-item-active {
+  background-color: black;
+}
+
+.nav-item-icon {
+  background-color: white;
+  border-radius: 36px;
+  height: 36px;
+  width: 36px;
+  margin: 0 auto;
+}
+
+.nav-item-title {
+  color: white;
+  text-align: center;
+  padding: 11px;
+}
+
+.content {
+  margin-left: 96px;
 }
 
 @media (max-width: $screen-sm-max) {

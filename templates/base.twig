@@ -8,9 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="container">
-{% block body %}
-{% endblock %}
+<div class="container-fluid">
+    <div class="row">
+        <div style="overflow: hidden; height: 100%">
+        {% block body %}
+        {% endblock %}
+        </div>
+    </div>
 </div>
 </body>
 </html>
