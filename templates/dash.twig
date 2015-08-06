@@ -1,19 +1,19 @@
 {% extends 'base.twig' %}
 {% block body %}
 <div class="nav">
-    <div class="nav-item nav-item-active">
+    <div class="nav-item {% if active == 'content' %}nav-item-active{% endif %}">
         <div class="nav-item-icon"></div>
         <div class="nav-item-title">Content</div>
     </div>
-    <div class="nav-item">
+    <div class="nav-item {% if active == 'media' %}nav-item-active{% endif %}">
         <div class="nav-item-icon"></div>
         <div class="nav-item-title">Media</div>
     </div>
-    <div class="nav-item">
+    <div class="nav-item {% if active == 'users' %}nav-item-active{% endif %}">
         <div class="nav-item-icon"></div>
         <div class="nav-item-title">Users</div>
     </div>
-    <div class="nav-item">
+    <div class="nav-item {% if active == 'settings' %}nav-item-active{% endif %}">
         <div class="nav-item-icon"></div>
         <div class="nav-item-title">Settings</div>
     </div>
