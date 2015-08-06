@@ -42,6 +42,7 @@ class ContentController extends Controller
             }
             $content->fields = $fields;
             $content->save();
+            $this->app->flash('success', 'New content added succesfully!');
             $this->app->redirectTo('listContent');
         }
     }
