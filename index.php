@@ -39,6 +39,10 @@ $app->view()->parserExtensions = [
   new \Slim\Views\TwigExtension(),
 ];
 
+$app->contentService = function(){
+    return new \Dullahan\Service\ContentService();
+};
+
 function checkLogin(){
     return function () {
         $app = \Slim\Slim::getInstance();
