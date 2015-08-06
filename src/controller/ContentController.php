@@ -2,6 +2,7 @@
 
 namespace Dullahan\Controller;
 
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Dullahan\Model\Content;
 use Exception;
 use Symfony\Component\Yaml\Parser;
@@ -29,7 +30,7 @@ class ContentController extends Controller
             $content->title = $this->app->request->post('d-title');
             $content->slug = $this->app->request->post('d-slug');
             $content->is_published = true;
-            $content->user_id = 1;
+            $content->user_id = Sentinel::getUser()->id;
             $content->content_type = $contentTypeSlug;
             $fields = [];
             foreach ($contentType['fields'] as $currentField) {
