@@ -1,0 +1,25 @@
+{% extends 'dash.twig' %}
+{% block content %}
+    <h1>Edit {{ contentType.name }} "{{ content.title }}"</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="d-title">Title</label>
+            <input type="text" class="form-control" id="d-title" name="d-title" value="{{ content.title }}">
+        </div>
+        <div class="form-group">
+            <label for="d-slug">Slug</label>
+            <input type="text" class="form-control" id="d-slug" name="d-slug" value="{{ content.slug }}">
+        </div>
+        {% for field in contentType.fields %}
+            <div class="form-group">
+                <label for="{{ field.slug }}">{{ field.name }}</label>
+                {% if field.type == 'text' %}
+                    <input type="text" class="form-control" id="{{ field.slug }}" name="{{ field.slug }}" value="{{ attribute(customFields, field.slug) }}">
+                {% elseif field.type == 'textarea' %}
+                    <textarea class="form-control" id="{{ field.slug }}" name="{{ field.slug }}">{{ attribute(customFields, field.slug) }}</textarea>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <input type="submit" class="btn btn-primary" value="Save content">
+    </form>
+{% endblock %}

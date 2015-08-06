@@ -1,5 +1,8 @@
 {% extends 'dash.twig' %}
 {% block content %}
+        {% if flash.success %}
+            <div class="alert alert-success">{{ flash.success }}</div>
+        {% endif %}
         <h1>Content</h1>
         <a href="{{ urlFor('writeContent', {contentType: 'blog-post'}) }}" class="btn btn-primary">Add new content</a>
         <table class="table" style="table-layout: fixed;">
@@ -19,7 +22,7 @@
                 <td>{% if item.is_published %}Yes{% else %}No{% endif %}</td>
                 <td>{{ item.created_at | date('Y-m-d H:s') }}</td>
                 <td>{{ item.updated_at | date('Y-m-d H:s') }}</td>
-                <td><a class="btn btn-primary btn-xs">Edit content</a></td>
+                <td><a class="btn btn-primary btn-xs" href="{{ urlFor('contentEdit', {'contentId': item.id}) }}">Edit content</a></td>
             </tr>
         {% endfor %}
             </tbody>

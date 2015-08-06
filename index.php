@@ -57,6 +57,7 @@ $app->map('/admin/register/', '\Dullahan\Controller\UserController:register')->v
 $app->group('/admin', checkLogin(), function () use ($app) {
     $app->get('/', '\Dullahan\Controller\ContentController:listContent')->name('listContent');
     $app->map('/write/:contentType/', '\Dullahan\Controller\ContentController:write')->via('GET', 'POST')->name('writeContent');
+    $app->map('/edit/:contentId/', '\Dullahan\Controller\ContentController:edit')->via('GET', 'POST')->name('contentEdit');
 });
 $app->get('/api/content/:contentType/', '\Dullahan\Controller\ContentController:listContentJson');
 
