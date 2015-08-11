@@ -59,9 +59,10 @@ $app->map('/admin/login/', '\Dullahan\Controller\UserController:login')->via('GE
 $app->map('/admin/register/', '\Dullahan\Controller\UserController:register')->via('GET', 'POST');
 
 $app->group('/admin', checkLogin(), function () use ($app) {
-    $app->get('/', '\Dullahan\Controller\ContentController:listContent')->name('listContent');
-    $app->map('/write/:contentType/', '\Dullahan\Controller\ContentController:write')->via('GET', 'POST')->name('writeContent');
-    $app->map('/edit/:contentId/', '\Dullahan\Controller\ContentController:edit')->via('GET', 'POST')->name('contentEdit');
+    $app->get('/content', '\Dullahan\Controller\ContentController:listContent')->name('listContent')->name('contentList');
+    $app->map('/content/write/:contentType/', '\Dullahan\Controller\ContentController:write')->via('GET', 'POST')->name('writeContent');
+    $app->map('/content/edit/:contentId/', '\Dullahan\Controller\ContentController:edit')->via('GET', 'POST')->name('contentEdit');
+    $app->get('/media', '\Dullahan\Controller\MediaController:listContent')->name('mediaList.twig');
 });
 $app->get('/api/content/:contentType/', '\Dullahan\Controller\ContentController:listContentJson');
 

@@ -8,15 +8,27 @@ class UserController extends Controller
 {
     public function login()
     {
-        $this->app->render('login.twig');
-        if ($this->app->request->isPost()) {
-            $credentials = [
-              'email' => $this->app->request->post('email'),
-              'password' => $this->app->request->post('password')
-            ];
-
-            Sentinel::authenticateAndRemember($credentials);
+        if (Sentinel::getUser()) {
+            $this->app->redirectTo('contentList');
         }
+        $post = $this->app->request()->post();
+        if ($this->app->request->isPost()) {
+            try {
+                $credentials = [
+                  'email' => $this->app->request->post('email'),
+                  'password' => $this->app->request->post('password')
+                ];
+                $status = Sentinel::authenticateAndRemember($credentials);
+                if (!$status) {
+                    $this->app->flashNow('error', 'Check email and password');
+                } else {
+                    $this->app->redirectTo('contentList');
+                }
+            } catch (\Exception $e) {
+                $this->app->flashNow('error', $e->getMessage());
+            }
+        }
+        $this->app->render('login.twig', ['post' => $post]);
     }
 
     public function register()
