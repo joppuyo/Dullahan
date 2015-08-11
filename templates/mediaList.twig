@@ -1,0 +1,16 @@
+{% set active = 'media' %}
+{% extends 'dash.twig' %}
+{% block content %}
+    {% if flash.success %}
+        <div class="alert alert-success">{{ flash.success }}</div>
+    {% endif %}
+    <h1>Media</h1>
+    <a href="{{ urlFor('writeContent', {contentType: 'blog-post'}) }}" class="btn btn-primary">Upload media</a>
+    <div class="row">
+    {% for file in media %}
+        <div class="col-md-2 col-sm-3 col-xs-6">
+        <img class="img-responsive" style="width: 100%" src="media/{{ file.path }}/320">
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
