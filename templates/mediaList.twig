@@ -6,11 +6,16 @@
     {% endif %}
     <h1>Media</h1>
     <a href="{{ urlFor('writeContent', {contentType: 'blog-post'}) }}" class="btn btn-primary">Upload media</a>
-    <div class="row">
-    {% for file in media %}
-        <div class="col-md-2 col-sm-3 col-xs-6">
-        <img class="img-responsive" style="width: 100%" src="media/{{ file.path }}/320">
+    <div class="media-image-grid-container">
+        <div class="row">
+        {% for file in media %}
+            <div class="media-image-container col-md-2 col-sm-3 col-xs-6">
+                <div class="media-image">
+                    <img class="img-responsive" style="width: 100%" src="media/{{ file.path }}?size=320&ratio=square">
+                    <div class="media-image-name">{{ file.path }}</div>
+                </div>
+            </div>
+        {% endfor %}
         </div>
-    {% endfor %}
     </div>
 {% endblock %}

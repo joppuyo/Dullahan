@@ -3,6 +3,7 @@ $brand-primary: #5f9ddc;
 $body-bg: #ebebeb;
 $btn-primary-border: $brand-primary;
 @import "bootstrap";
+@import "mixins";
 
 $sidebar-bg-color: #2C3E50;
 
@@ -56,6 +57,23 @@ html, body, .container-fluid, .row {
 
 .content {
   margin-left: 96px;
+}
+
+.media-image-grid-container {
+  padding: 8px;
+}
+
+.media-image-container {
+  padding:8px;
+}
+
+.media-image {
+  background-color: white;
+}
+
+.media-image-name {
+  padding: 8px;
+  @include truncate;
 }
 
 @media (max-width: $screen-sm-max) {

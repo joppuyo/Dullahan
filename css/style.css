@@ -4953,6 +4953,21 @@ html, body, .container-fluid, .row {
 .content {
   margin-left: 96px; }
 
+.media-image-grid-container {
+  padding: 8px; }
+
+.media-image-container {
+  padding: 8px; }
+
+.media-image {
+  background-color: white; }
+
+.media-image-name {
+  padding: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
 @media (max-width: 991px) {
   .dullahan-box-login {
     top: 0;
