@@ -4909,27 +4909,14 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
-.center-vertically {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%); }
-
-.dullahan-box {
-  background-color: white;
-  padding: 16px; }
-  .dullahan-box h1 {
-    margin-top: 0; }
-
-html, body, .container-fluid, .row {
-  height: 100%; }
-
 .nav {
   background-color: #2C3E50;
   height: 100%;
   width: 96px;
   float: left; }
+
+.nav a:hover, .nav a:focus {
+  text-decoration: none !important; }
 
 .nav-item {
   height: 96px;
@@ -4949,6 +4936,22 @@ html, body, .container-fluid, .row {
   color: white;
   text-align: center;
   padding: 11px; }
+
+.center-vertically {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%); }
+
+.dullahan-box {
+  background-color: white;
+  padding: 16px; }
+  .dullahan-box h1 {
+    margin-top: 0; }
+
+html, body, .container-fluid, .row {
+  height: 100%; }
 
 .content {
   margin-left: 96px; }

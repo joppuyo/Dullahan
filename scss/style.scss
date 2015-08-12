@@ -2,10 +2,11 @@ $font-size-base: 16px;
 $brand-primary: #5f9ddc;
 $body-bg: #ebebeb;
 $btn-primary-border: $brand-primary;
+$sidebar-bg-color: #2C3E50;
+
 @import "bootstrap";
 @import "mixins";
-
-$sidebar-bg-color: #2C3E50;
+@import "nav";
 
 .center-vertically {
   position: relative;
@@ -23,36 +24,6 @@ $sidebar-bg-color: #2C3E50;
 
 html, body, .container-fluid, .row {
   height: 100%;
-}
-
-.nav {
-  background-color: $sidebar-bg-color;
-  height: 100%;
-  width: 96px;
-  float: left;
-}
-
-.nav-item {
-  height: 96px;
-  padding-top: 16px;
-}
-
-.nav-item-active {
-  background-color: black;
-}
-
-.nav-item-icon {
-  background-color: white;
-  border-radius: 36px;
-  height: 36px;
-  width: 36px;
-  margin: 0 auto;
-}
-
-.nav-item-title {
-  color: white;
-  text-align: center;
-  padding: 11px;
 }
 
 .content {

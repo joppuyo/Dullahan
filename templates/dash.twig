@@ -1,14 +1,18 @@
 {% extends 'base.twig' %}
 {% block body %}
 <div class="nav">
-    <div class="nav-item {% if active == 'content' %}nav-item-active{% endif %}">
-        <div class="nav-item-icon"></div>
-        <div class="nav-item-title">Content</div>
-    </div>
-    <div class="nav-item {% if active == 'media' %}nav-item-active{% endif %}">
-        <div class="nav-item-icon"></div>
-        <div class="nav-item-title">Media</div>
-    </div>
+    <a href="{{ urlFor('contentList') }}">
+        <div class="nav-item {% if active == 'content' %}nav-item-active{% endif %}">
+            <div class="nav-item-icon"></div>
+            <div class="nav-item-title">Content</div>
+        </div>
+    </a>
+    <a href="{{ urlFor('mediaList') }}">
+        <div class="nav-item {% if active == 'media' %}nav-item-active{% endif %}">
+            <div class="nav-item-icon"></div>
+            <div class="nav-item-title">Media</div>
+        </div>
+    </a>
     <div class="nav-item {% if active == 'users' %}nav-item-active{% endif %}">
         <div class="nav-item-icon"></div>
         <div class="nav-item-title">Users</div>

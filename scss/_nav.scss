@@ -1,0 +1,33 @@
+.nav {
+  background-color: $sidebar-bg-color;
+  height: 100%;
+  width: 96px;
+  float: left;
+}
+
+.nav a:hover, .nav a:focus {
+  text-decoration: none !important;
+}
+
+.nav-item {
+  height: 96px;
+  padding-top: 16px;
+}
+
+.nav-item-active {
+  background-color: black;
+}
+
+.nav-item-icon {
+  background-color: white;
+  border-radius: 36px;
+  height: 36px;
+  width: 36px;
+  margin: 0 auto;
+}
+
+.nav-item-title {
+  color: white;
+  text-align: center;
+  padding: 11px;
+}
