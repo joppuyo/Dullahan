@@ -65,6 +65,6 @@ $app->group('/admin', checkLogin(), function () use ($app) {
     $app->get('/media', '\Dullahan\Controller\MediaController:listContent')->name('mediaList.twig');
 });
 $app->get('/api/content/:contentType/', '\Dullahan\Controller\ContentController:listContentJson');
-$app->get('/media/:fileName(/:size)', '\Dullahan\Controller\MediaController:getFile');
+$app->get('/media/:fileName', '\Dullahan\Controller\MediaController:getFile');
 
 $app->run();

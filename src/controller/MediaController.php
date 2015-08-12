@@ -31,12 +31,21 @@ class MediaController extends Controller
         $this->app->render('mediaList.twig', ['media' => $media]);
     }
 
-    public function getFile($filename, $size = 'default'){
+    public function getFile($filename){
         $file = $this->filesystem->read($filename);
         $image = $this->manager->make($file);
-        if ($size !== 'default') {
+
+        $size = intval($this->app->request->get('size'));
+        $aspect = $this->app->request->get('aspect');
+
+        if ($size && !$aspect) {
             $image->widen($size);
         }
+
+        if ($size && $aspect = 'square') {
+            $image->fit($size, $size);
+        }
+
         $this->app->response()->header('Content-Type', $image->mime());
         echo $image->encode($image->mime(), 90);
     }
