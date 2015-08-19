@@ -43,7 +43,7 @@ class ContentController extends Controller
             $content->fields = $fields;
             $content->save();
             $this->app->flash('success', 'New content added succesfully!');
-            $this->app->redirectTo('listContent');
+            $this->app->redirectTo('contentList');
         }
     }
 
@@ -75,7 +75,7 @@ class ContentController extends Controller
 
                 $content->save();
                 $this->app->flash('success', 'Content saved successfully');
-                $this->app->redirectTo('listContent');
+                $this->app->redirectTo('contentList');
             }
 
             $this->app->render('contentEdit.twig', ['contentType' => $contentType, 'content' => $content, 'customFields' => $customFields]);
