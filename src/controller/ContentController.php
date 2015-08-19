@@ -94,6 +94,16 @@ class ContentController extends Controller
         $content = Content::where('content_type', $contentTypeSlug)
           ->where('is_published', true)
           ->get();
+
+        // Convert fields into object properties
+        $content->map(function($item){
+            foreach ($item->fields as $field) {
+                $name = $field['slug'];
+                $value = $field['value'];
+                $item->$name = $value;
+            }
+            unset($item->fields);
+        });
         $this->app->contentType('application/json');
         $this->app->halt(200, $content->toJson(JSON_PRETTY_PRINT));
 
