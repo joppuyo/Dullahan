@@ -26,7 +26,7 @@ class ContentController extends Controller
         }
 
         $media = $this->app->mediaService->getAllMedia();
-        $this->app->render('write.twig', ['contentType' => $contentType, 'media' => $media]);
+        $this->app->render('contentAdd.twig', ['contentType' => $contentType, 'media' => $media]);
 
         if ($this->app->request->isPost()) {
             $content = new Content();
