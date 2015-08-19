@@ -18,6 +18,13 @@
                     <input type="text" class="form-control" id="{{ field.slug }}" name="{{ field.slug }}" value="{{ attribute(customFields, field.slug) }}">
                 {% elseif field.type == 'textarea' %}
                     <textarea class="form-control" id="{{ field.slug }}" name="{{ field.slug }}">{{ attribute(customFields, field.slug) }}</textarea>
+                {% elseif field.type == 'image' %}
+                    <select class="form-control" id="{{ field.slug }}" name="{{ field.slug }}">
+                        <option value="">No Media</option>
+                        {% for item in media %}
+                            <option value="{{ item.path }}" {% if item.path == attribute(customFields, field.slug) %}selected{% endif %}>{{ item.path }}</option>
+                        {% endfor %}
+                    </select>
                 {% endif %}
             </div>
         {% endfor %}

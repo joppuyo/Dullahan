@@ -22,6 +22,7 @@ class MediaController extends Controller
     }
 
     public function listContent(){
+        // TODO: get this from mediaService
         $media = $this->filesystem->listContents();
         $media = array_filter($media, function($file){
             $fileTypes = ['jpg', 'jpeg', 'png', 'gif'];

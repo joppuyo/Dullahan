@@ -43,6 +43,10 @@ $app->contentService = function(){
     return new \Dullahan\Service\ContentService();
 };
 
+$app->mediaService = function(){
+    return new \Dullahan\Service\MediaService();
+};
+
 function checkLogin(){
     return function () {
         $app = \Slim\Slim::getInstance();

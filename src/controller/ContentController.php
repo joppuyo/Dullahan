@@ -21,10 +21,13 @@ class ContentController extends Controller
         $yaml = new Parser();
         try {
             $contentType = $yaml->parse(file_get_contents("content-types/$contentTypeSlug.yaml"));
-            $this->app->render('write.twig', ['contentType' => $contentType]);
         } catch (Exception $e) {
             echo "could not open configuration: " . $e->getMessage();
         }
+
+        $media = $this->app->mediaService->getAllMedia();
+        $this->app->render('write.twig', ['contentType' => $contentType, 'media' => $media]);
+
         if ($this->app->request->isPost()) {
             $content = new Content();
             $content->title = $this->app->request->post('d-title');
@@ -59,6 +62,8 @@ class ContentController extends Controller
                 $customFields[$field['slug']] = $field['value'];
             }
 
+            $media = $this->app->mediaService->getAllMedia();
+
             if ($this->app->request->isPost()) {
                 $content->title = $this->app->request->post('d-title');
                 $content->slug = $this->app->request->post('d-slug');
@@ -78,7 +83,7 @@ class ContentController extends Controller
                 $this->app->redirectTo('contentList');
             }
 
-            $this->app->render('contentEdit.twig', ['contentType' => $contentType, 'content' => $content, 'customFields' => $customFields]);
+            $this->app->render('contentEdit.twig', ['contentType' => $contentType, 'content' => $content, 'customFields' => $customFields, 'media' => $media]);
         } catch (Exception $e) {
             echo "Exception: " . $e->getMessage();
         }
