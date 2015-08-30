@@ -25,7 +25,7 @@ class ContentService extends Service
         foreach ($contentTypes as $currentContentType) {
             if ($currentContentType['slug'] === $contentTypeSlug) {
                 foreach ($currentContentType['fields'] as $field) {
-                    if ($field['name'] = $fieldName) {
+                    if ($field['name'] === $fieldName) {
                         return $field;
                     }
                 }
