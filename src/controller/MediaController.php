@@ -43,7 +43,7 @@ class MediaController extends Controller
             $image->widen($size);
         }
 
-        if ($size && $aspect = 'square') {
+        if ($size && $aspect === 'square') {
             $image->fit($size, $size);
         }
 
