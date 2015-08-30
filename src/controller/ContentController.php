@@ -96,10 +96,17 @@ class ContentController extends Controller
           ->get();
 
         // Convert fields into object properties
-        $content->map(function($item){
+        $content->map(function($item) use ($contentTypeSlug) {
             foreach ($item->fields as $field) {
                 $name = $field['slug'];
                 $value = $field['value'];
+
+                // Add full URL to image field
+                $fieldType = $this->app->contentService->getContentTypeField($contentTypeSlug, $field['slug']);
+                if ($fieldType['type'] === 'image') {
+                    $value = $this->app->request->getUrl() . $this->app->request->getRootUri() . "/media/" . $field['value'];
+                }
+
                 $item->$name = $value;
             }
             unset($item->fields);

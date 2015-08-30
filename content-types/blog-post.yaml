@@ -1,6 +1,9 @@
 name: Blog post
 slug: blog-post
 fields:
+- name: Image
+  slug: image
+  type: image
 - name: Summary
   slug: summary
   type: text

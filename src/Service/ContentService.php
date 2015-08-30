@@ -19,4 +19,17 @@ class ContentService extends Service
 
         return $contentTypes;
     }
+
+    public function getContentTypeField($contentTypeSlug, $fieldName) {
+        $contentTypes = $this->enumerateContentTypes();
+        foreach ($contentTypes as $currentContentType) {
+            if ($currentContentType['slug'] === $contentTypeSlug) {
+                foreach ($currentContentType['fields'] as $field) {
+                    if ($field['name'] = $fieldName) {
+                        return $field;
+                    }
+                }
+            }
+        }
+    }
 }
