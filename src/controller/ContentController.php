@@ -103,11 +103,12 @@ class ContentController extends Controller
 
                 // Add full URL to image field
                 $fieldType = $this->app->contentService->getContentTypeField($contentTypeSlug, $field['slug']);
-                if ($fieldType['type'] === 'image') {
+                if ($fieldType['type'] === 'image' && !empty($field['value'])) {
                     $value = $this->app->request->getUrl() . $this->app->request->getRootUri() . "/media/" . $field['value'];
                 }
-
-                $item->$name = $value;
+                if (!empty($value)) {
+                    $item->$name = $value;
+                }
             }
             unset($item->fields);
         });
