@@ -94,6 +94,9 @@ class ContentController extends Controller
         $content = Content::where('content_type', $contentType)
           ->where('slug', $contentSlug)
           ->get();
+        if ($content->isEmpty()){
+            $this->app->notFound();
+        }
         $content = $this->app->contentService->convertFields($content);
         $this->app->halt(200, $content[0]->toJson(JSON_PRETTY_PRINT));
     }
