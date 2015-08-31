@@ -95,7 +95,7 @@ class ContentController extends Controller
           ->where('slug', $contentSlug)
           ->get();
         $content = $this->app->contentService->convertFields($content);
-        $this->app->halt(200, $content->toJson(JSON_PRETTY_PRINT));
+        $this->app->halt(200, $content[0]->toJson(JSON_PRETTY_PRINT));
     }
 
     public function listContentJson($contentTypeSlug)
