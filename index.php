@@ -69,6 +69,7 @@ $app->group('/admin', checkLogin(), function () use ($app) {
     $app->get('/media', '\Dullahan\Controller\MediaController:listContent')->name('mediaList');
 });
 $app->get('/api/content/:contentType/', '\Dullahan\Controller\ContentController:listContentJson');
+$app->get('/api/content/:contentType/:slug/', '\Dullahan\Controller\ContentController:getContentJson');
 $app->get('/media/:fileName', '\Dullahan\Controller\MediaController:getFile');
 
 $app->run();

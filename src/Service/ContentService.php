@@ -32,4 +32,25 @@ class ContentService extends Service
             }
         }
     }
+
+    public function convertFields($content){
+        // Convert fields into object properties
+        $content->map(function($item) {
+            foreach ($item->fields as $field) {
+                $name = $field['slug'];
+                $value = $field['value'];
+
+                // Add full URL to image field
+                $fieldType = $this->app->contentService->getContentTypeField($item['content_type'], $field['slug']);
+                if ($fieldType['type'] === 'image' && !empty($field['value'])) {
+                    $value = $this->app->request->getUrl() . $this->app->request->getRootUri() . "/media/" . $field['value'];
+                }
+                if (!empty($value)) {
+                    $item->$name = $value;
+                }
+            }
+            unset($item->fields);
+        });
+        return $content;
+    }
 }

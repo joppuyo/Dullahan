@@ -89,31 +89,22 @@ class ContentController extends Controller
         }
     }
 
+    public function getContentJson($contentType, $contentSlug)
+    {
+        $content = Content::where('content_type', $contentType)
+          ->where('slug', $contentSlug)
+          ->get();
+        $content = $this->app->contentService->convertFields($content);
+        $this->app->halt(200, $content->toJson(JSON_PRETTY_PRINT));
+    }
+
     public function listContentJson($contentTypeSlug)
     {
         $content = Content::where('content_type', $contentTypeSlug)
           ->where('is_published', true)
           ->get();
-
-        // Convert fields into object properties
-        $content->map(function($item) use ($contentTypeSlug) {
-            foreach ($item->fields as $field) {
-                $name = $field['slug'];
-                $value = $field['value'];
-
-                // Add full URL to image field
-                $fieldType = $this->app->contentService->getContentTypeField($contentTypeSlug, $field['slug']);
-                if ($fieldType['type'] === 'image' && !empty($field['value'])) {
-                    $value = $this->app->request->getUrl() . $this->app->request->getRootUri() . "/media/" . $field['value'];
-                }
-                if (!empty($value)) {
-                    $item->$name = $value;
-                }
-            }
-            unset($item->fields);
-        });
+        $content = $this->app->contentService->convertFields($content);
         $this->app->contentType('application/json');
         $this->app->halt(200, $content->toJson(JSON_PRETTY_PRINT));
-
     }
 }
