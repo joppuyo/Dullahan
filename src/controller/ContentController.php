@@ -12,7 +12,7 @@ class ContentController extends Controller
 
     public function listContent()
     {
-        $content = Content::all();
+        $content = Content::all()->sortByDesc('updated_at');
         $this->app->render('content.twig', ['content' => $content]);
     }
 
