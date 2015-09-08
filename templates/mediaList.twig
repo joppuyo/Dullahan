@@ -5,7 +5,7 @@
         <div class="alert alert-success">{{ flash.success }}</div>
     {% endif %}
     <h1>Media</h1>
-    <a href="{{ urlFor('writeContent', {contentType: 'blog-post'}) }}" class="btn btn-primary">Upload media</a>
+    <a href="{{ urlFor('mediaAdd') }}" class="btn btn-primary">Upload media</a>
     <div class="media-image-grid-container">
         <div class="row">
         {% for file in media %}

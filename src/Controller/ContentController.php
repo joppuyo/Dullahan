@@ -13,10 +13,16 @@ class ContentController extends Controller
     public function listContent()
     {
         $content = Content::all()->sortByDesc('updated_at');
-        $this->app->render('content.twig', ['content' => $content]);
+        $this->app->render('contentList.twig', ['content' => $content]);
     }
 
-    public function write($contentTypeSlug)
+    public function addContentSelect()
+    {
+        $contentTypes = $this->app->contentService->enumerateContentTypes();
+        $this->app->render('contentAddSelect.twig', ['contentTypes' => $contentTypes]);
+    }
+
+    public function addContent($contentTypeSlug)
     {
         $yaml = new Parser();
         try {
@@ -50,7 +56,7 @@ class ContentController extends Controller
         }
     }
 
-    public function edit($contentId){
+    public function editContent($contentId){
         $content = Content::find($contentId);
         $yaml = new Parser();
         try {

@@ -64,9 +64,11 @@ $app->map('/admin/register/', '\Dullahan\Controller\UserController:register')->v
 
 $app->group('/admin', checkLogin(), function () use ($app) {
     $app->get('/content', '\Dullahan\Controller\ContentController:listContent')->name('listContent')->name('contentList');
-    $app->map('/content/write/:contentType/', '\Dullahan\Controller\ContentController:write')->via('GET', 'POST')->name('writeContent');
-    $app->map('/content/edit/:contentId/', '\Dullahan\Controller\ContentController:edit')->via('GET', 'POST')->name('contentEdit');
+    $app->map('/content/add/', '\Dullahan\Controller\ContentController:addContentSelect')->via('GET', 'POST')->name('contentAddSelect');
+    $app->map('/content/add/:contentType/', '\Dullahan\Controller\ContentController:addContent')->via('GET', 'POST')->name('contentAdd');
+    $app->map('/content/edit/:contentId/', '\Dullahan\Controller\ContentController:editContent')->via('GET', 'POST')->name('contentEdit');
     $app->get('/media', '\Dullahan\Controller\MediaController:listContent')->name('mediaList');
+    $app->get('/media/add/', '\Dullahan\Controller\MediaController:dummyMethod')->name('mediaAdd');
 });
 $app->get('/api/content/:contentType/', '\Dullahan\Controller\ContentController:listContentJson');
 $app->get('/api/content/:contentType/:slug/', '\Dullahan\Controller\ContentController:getContentJson');

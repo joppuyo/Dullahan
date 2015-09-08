@@ -1,0 +1,14 @@
+{% set active = 'content' %}
+{% extends 'dash.twig' %}
+{% block content %}
+    {% if flash.success %}
+        <div class="alert alert-success">{{ flash.success }}</div>
+    {% endif %}
+    <h1>Select content to add</h1>
+    <ul>
+        {% for contentType in contentTypes %}
+        <li><a href="{{ urlFor('contentAdd', {'contentType': contentType.slug}) }}">{{ contentType.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
