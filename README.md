@@ -13,6 +13,7 @@ Headless PHP CMS
 - [ ] Content transitions
 - [ ] Content revisions
 - [ ] Content type reference
+- [ ] Pagination
 
 ### Media
 
