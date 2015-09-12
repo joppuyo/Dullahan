@@ -1,0 +1,12 @@
+name: Organizer
+slug: organizer
+fields:
+- name: Role
+  slug: role
+  type: text
+- name: Image
+  slug: image
+  type: image
+- name: Email
+  slug: email
+  type: text

@@ -1,0 +1,6 @@
+name: Page
+slug: page
+fields:
+- name: Content
+  slug: content
+  type: textarea

@@ -14,14 +14,35 @@ use Intervention\Image\ImageManager;
 
 class MediaController extends Controller
 {
-    function __construct(){
+    function __construct()
+    {
         parent::__construct();
         $this->manager = new ImageManager(['driver' => 'imagick']);
         $adapter = new Local('uploads/');
         $this->filesystem = new Filesystem($adapter);
     }
 
-    public function listContent(){
+    public function addContent()
+    {
+        $errors = [];
+        if ($this->app->request->isPost()) {
+            $storage = new \Upload\Storage\FileSystem('uploads');
+            $file = new \Upload\File('media', $storage);
+            $file->addValidations([
+                new \Upload\Validation\Mimetype(['image/png', 'image/gif', 'image/jpeg'])
+            ]);
+            try {
+                $file->upload();
+                $this->app->redirectTo('mediaList');
+            } catch (\Exception $e) {
+                //$errors = $file->getErrors();
+            }
+        }
+        $this->app->render('mediaAdd.twig', ['errors' => $errors]);
+    }
+
+    public function listContent()
+    {
         // TODO: get this from mediaService
         $media = $this->filesystem->listContents();
         $media = array_filter($media, function($file){
@@ -32,7 +53,8 @@ class MediaController extends Controller
         $this->app->render('mediaList.twig', ['media' => $media]);
     }
 
-    public function getFile($filename){
+    public function getFile($filename)
+    {
         $file = $this->filesystem->read($filename);
         $image = $this->manager->make($file);
 

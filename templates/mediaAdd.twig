@@ -1,0 +1,13 @@
+{% set active = 'media' %}
+{% extends 'dash.twig' %}
+{% block content %}
+    <h1>Add media</h1>
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="file" name="media" value=""/>
+    </div>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Upload File"/>
+    </div>
+</form>
+{% endblock %}
