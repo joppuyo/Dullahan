@@ -2,7 +2,12 @@
 {% extends 'dash.twig' %}
 {% block content %}
     <h1>Add media</h1>
-<form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
+    {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %}
+    {% endif %}
     <div class="form-group">
         <input type="file" name="media" value=""/>
     </div>

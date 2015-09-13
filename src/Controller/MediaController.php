@@ -35,7 +35,7 @@ class MediaController extends Controller
                 $file->upload();
                 $this->app->redirectTo('mediaList');
             } catch (\Exception $e) {
-                //$errors = $file->getErrors();
+                $errors = $file->getErrors();
             }
         }
         $this->app->render('mediaAdd.twig', ['errors' => $errors]);
