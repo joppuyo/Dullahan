@@ -17,7 +17,7 @@ Headless PHP CMS
 
 ### Media
 
-- [ ] Image upload
+- [x] Image upload
 - [ ] Image cache
 - [ ] Image delete
 
