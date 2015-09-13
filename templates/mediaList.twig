@@ -11,7 +11,7 @@
         {% for file in media %}
             <div class="media-image-container col-md-2 col-sm-3 col-xs-6">
                 <div class="media-image">
-                    <img class="img-responsive" style="width: 100%" src="media/{{ file.path }}?size=320&ratio=square">
+                    <img class="img-responsive" style="width: 100%" src="media/{{ file.path }}?size=320&aspect=square">
                     <div class="media-image-name">{{ file.path }}</div>
                 </div>
             </div>
