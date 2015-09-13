@@ -52,15 +52,19 @@ class MediaController extends Controller
         $file = $this->filesystem->read($filename);
         $image = $this->manager->make($file);
 
-        $size = intval($this->app->request->get('size'));
-        $aspect = $this->app->request->get('aspect');
+        $size = $this->app->request->get('size');
+        if ($size !== null) {
+            $size = intval($size);
+            if ($size <= 0 || $size > 5000) {
+                $this->app->halt(500, 'Invalid size parameter');
+            }
 
-        if ($size && !$aspect) {
-            $image->widen($size);
-        }
-
-        if ($size && $aspect === 'square') {
-            $image->fit($size, $size);
+            $aspect = $this->app->request->get('aspect');
+            if ($aspect === 'square') {
+                $image->fit($size);
+            } else {
+                $image->widen($size);
+            }
         }
 
         $this->app->response()->header('Content-Type', $image->mime());
