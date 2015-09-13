@@ -28,6 +28,21 @@
                 {% endif %}
             </div>
         {% endfor %}
-        <input type="submit" class="btn btn-primary" value="Save content">
+        <button type="submit" class="btn btn-primary" value="save">Save content</button>
+        <a class="btn btn-danger js-delete-content" data-id="{{ content.id }}" data-title="{{ content.title }}">Delete content</a>
     </form>
+
+    {% verbatim %}
+
+    <script id="content-delete-template" type="text/x-handlebars-template">
+        <h1>Delete "{{ title }}" ?</h1>
+        <p>Are you sure you want to delete the content "{{ title }}"? This operation cannot be undone.</p>
+        <form method="post">
+            <button class="btn btn-danger" type="submit" name="delete" value="{{ id }}">Delete content</button>
+            <a class="btn btn-default featherlight-close">Cancel</a>
+        </form>
+    </script>
+
+    {% endverbatim %}
+
 {% endblock %}

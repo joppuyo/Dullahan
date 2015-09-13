@@ -71,6 +71,13 @@ class ContentController extends Controller
             $media = $this->app->mediaService->getAllMedia();
 
             if ($this->app->request->isPost()) {
+                if($this->app->request->post('delete') !== null) {
+                    $content = Content::find($this->app->request->post('delete'));
+                    $this->app->flash('success', "Content $content->title deleted successfully.");
+                    $content->delete();
+                    $this->app->redirectTo('contentList');
+                }
+
                 $content->title = $this->app->request->post('d-title');
                 $content->slug = $this->app->request->post('d-slug');
 
