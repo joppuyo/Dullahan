@@ -14,6 +14,8 @@ Headless PHP CMS
 - [ ] Content revisions
 - [ ] Content type reference
 - [ ] Pagination
+- [ ] Drafts
+- [ ] Sorting (Manual, chronological, reverse chronological)
 
 ### Media
 
