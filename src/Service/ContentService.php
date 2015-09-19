@@ -40,10 +40,15 @@ class ContentService extends Service
                 $name = $field['slug'];
                 $value = $field['value'];
 
+                $mediaPath = $this->app->request->getUrl() . $this->app->request->getRootUri() . '/media';
+
+                // Replace %MEDIAPATH% placeholder in all fields
+                $value = str_replace('%MEDIAPATH%', $mediaPath, $value);
+
                 // Add full URL to image field
                 $fieldType = $this->app->contentService->getContentTypeField($item['content_type'], $field['slug']);
                 if ($fieldType['type'] === 'image' && !empty($field['value'])) {
-                    $value = $this->app->request->getUrl() . $this->app->request->getRootUri() . "/media/" . $field['value'];
+                    $value = $mediaPath . '/' . $field['value'];
                 }
                 if (!empty($value)) {
                     $item->$name = $value;
