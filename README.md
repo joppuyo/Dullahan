@@ -10,7 +10,7 @@ Headless PHP CMS
 - [ ] Markdown content support
 - [ ] Insert image into content field
 - [ ] Content image field
-- [ ] Content transitions
+- [ ] Content transformations
 - [ ] Content revisions
 - [ ] Content type reference
 - [ ] Pagination
