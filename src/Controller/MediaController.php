@@ -35,7 +35,7 @@ class MediaController extends Controller
                 $file->upload();
                 $this->app->redirectTo('mediaList');
             } catch (\Exception $e) {
-                //$errors = $file->getErrors();
+                $errors = $file->getErrors();
             }
         }
         $this->app->render('mediaAdd.twig', ['errors' => $errors]);
@@ -43,13 +43,7 @@ class MediaController extends Controller
 
     public function listContent()
     {
-        // TODO: get this from mediaService
-        $media = $this->filesystem->listContents();
-        $media = array_filter($media, function($file){
-            $fileTypes = ['jpg', 'jpeg', 'png', 'gif'];
-            return in_array($file['extension'], $fileTypes);
-        });
-
+        $media = $this->app->mediaService->getAllMedia();
         $this->app->render('mediaList.twig', ['media' => $media]);
     }
 
@@ -58,15 +52,19 @@ class MediaController extends Controller
         $file = $this->filesystem->read($filename);
         $image = $this->manager->make($file);
 
-        $size = intval($this->app->request->get('size'));
-        $aspect = $this->app->request->get('aspect');
+        $size = $this->app->request->get('size');
+        if ($size !== null) {
+            $size = intval($size);
+            if ($size <= 0 || $size > 5000) {
+                $this->app->halt(500, 'Invalid size parameter');
+            }
 
-        if ($size && !$aspect) {
-            $image->widen($size);
-        }
-
-        if ($size && $aspect === 'square') {
-            $image->fit($size, $size);
+            $aspect = $this->app->request->get('aspect');
+            if ($aspect === 'square') {
+                $image->fit($size);
+            } else {
+                $image->widen($size);
+            }
         }
 
         $this->app->response()->header('Content-Type', $image->mime());
