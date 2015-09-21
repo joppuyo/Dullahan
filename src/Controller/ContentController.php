@@ -118,6 +118,7 @@ class ContentController extends Controller
     {
         $content = Content::where('content_type', $contentTypeSlug)
           ->where('is_published', true)
+          ->orderBy('created_at', 'desc')
           ->get();
         $content = $this->app->contentService->convertFields($content);
         $this->app->contentType('application/json');
