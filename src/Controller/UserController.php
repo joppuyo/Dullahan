@@ -30,20 +30,4 @@ class UserController extends Controller
         }
         $this->app->render('login.twig', ['post' => $post]);
     }
-
-    public function register()
-    {
-        if ($this->app->request->isPost()) {
-
-            $credentials = [
-              'email' => $this->app->request->post('email'),
-              'password' => $this->app->request->post('password'),
-            ];
-
-            Sentinel::registerAndActivate($credentials);
-
-        }
-
-        $this->app->render('register.twig');
-    }
 }

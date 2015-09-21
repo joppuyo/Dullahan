@@ -47,9 +47,16 @@ $app->mediaService = function(){
     return new \Dullahan\Service\MediaService();
 };
 
+$app->helperService = function(){
+    return new \Dullahan\Service\HelperService();
+};
+
 function checkLogin(){
     return function () {
         $app = \Slim\Slim::getInstance();
+        if ($app->helperService->isFirstRun()) {
+            $app->redirectTo('firstRun');
+        }
         $user = Sentinel::check();
         if (!$user) {
             $app->flash('error', 'Please log in first.');
@@ -62,8 +69,11 @@ $app->map('/admin/login/', '\Dullahan\Controller\UserController:login')->via('GE
 
 $app->map('/admin/register/', '\Dullahan\Controller\UserController:register')->via('GET', 'POST');
 
+$app->map('/admin/firstrun/', '\Dullahan\Controller\AdminController:firstRun')->via('GET', 'POST')->name('firstRun');
+
 $app->group('/admin', checkLogin(), function () use ($app) {
-    $app->get('/content', '\Dullahan\Controller\ContentController:listContent')->name('listContent')->name('contentList');
+    $app->get('/', '\Dullahan\Controller\AdminController:adminRoot')->name('admin');
+    $app->get('/content', '\Dullahan\Controller\ContentController:listContent')->name('contentList');
     $app->map('/content/add/', '\Dullahan\Controller\ContentController:addContentSelect')->via('GET', 'POST')->name('contentAddSelect');
     $app->map('/content/add/:contentType/', '\Dullahan\Controller\ContentController:addContent')->via('GET', 'POST')->name('contentAdd');
     $app->map('/content/edit/:contentId/', '\Dullahan\Controller\ContentController:editContent')->via('GET', 'POST')->name('contentEdit');
