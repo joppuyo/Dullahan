@@ -16,6 +16,7 @@ Headless PHP CMS
 - [ ] Pagination
 - [ ] Drafts
 - [ ] Sorting (Manual, chronological, reverse chronological)
+- [ ] Content slug automatic generation
 
 ### Media
 
