@@ -2,6 +2,7 @@
 
 namespace Dullahan\Controller;
 
+use Carbon\Carbon;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Dullahan\Model\Content;
 use Exception;
@@ -110,12 +111,18 @@ class ContentController extends Controller
         if ($content->isEmpty()){
             $this->app->notFound();
         }
+        $lastModified = $content->first()->updated_at;
+        $timestamp = Carbon::createFromFormat('Y-m-d H:i:s',$lastModified)->timestamp;
+        $this->app->lastModified($timestamp);
         $content = $this->app->contentService->convertFields($content);
-        $this->app->halt(200, $content[0]->toJson(JSON_PRETTY_PRINT));
+        $this->app->halt(200, $content->first()->toJson(JSON_PRETTY_PRINT));
     }
 
     public function listContentJson($contentTypeSlug)
     {
+        $lastModified = Content::where('content_type', $contentTypeSlug)->max('updated_at');
+        $timestamp = Carbon::createFromFormat('Y-m-d H:i:s',$lastModified)->timestamp;
+        $this->app->lastModified($timestamp);
         $content = Content::where('content_type', $contentTypeSlug)
           ->where('is_published', true)
           ->orderBy('created_at', 'desc')
