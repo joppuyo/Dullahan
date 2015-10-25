@@ -115,6 +115,7 @@ class ContentController extends Controller
         $timestamp = Carbon::createFromFormat('Y-m-d H:i:s',$lastModified)->timestamp;
         $this->app->lastModified($timestamp);
         $content = $this->app->contentService->convertFields($content);
+        $this->app->contentType('application/json');
         $this->app->halt(200, $content->first()->toJson(JSON_PRETTY_PRINT));
     }
 
