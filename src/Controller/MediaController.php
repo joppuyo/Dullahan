@@ -68,7 +68,7 @@ class MediaController extends Controller
                     $image->widen($size);
                 }
             }
-            $imageData = $image->encode($image->mime(), 90);
+            $imageData = $image->encode($image->mime(), IMAGE_QUALITY);
             $this->app->cache->forever($cacheKey, $imageData);
             $this->app->response()->header('Content-Type', $image->mime());
             echo $imageData;
