@@ -51,6 +51,12 @@ $app->helperService = function(){
     return new \Dullahan\Service\HelperService();
 };
 
+$filestore = new \Illuminate\Cache\FileStore(
+  new \Illuminate\Filesystem\Filesystem(),
+  'cache'
+);
+$app->cache = new \Illuminate\Cache\Repository($filestore);
+
 function checkLogin(){
     return function () {
         $app = \Slim\Slim::getInstance();

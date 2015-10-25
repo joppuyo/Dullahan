@@ -51,23 +51,30 @@ class MediaController extends Controller
     {
         $file = $this->filesystem->read($filename);
         $image = $this->manager->make($file);
-
         $size = $this->app->request->get('size');
-        if ($size !== null) {
-            $size = intval($size);
-            if ($size <= 0 || $size > 5000) {
-                $this->app->halt(500, 'Invalid size parameter');
+        $aspect = $this->app->request->get('aspect');
+        $lastModified = $this->filesystem->getTimestamp($filename);
+        $cacheKey = "$filename.$lastModified.$size.$aspect";
+        $cached = $this->app->cache->get($cacheKey);
+        if(is_null($cached)){
+            if ($size !== null) {
+                $size = intval($size);
+                if ($size <= 0 || $size > 5000) {
+                    $this->app->halt(500, 'Invalid size parameter');
+                }
+                if ($aspect === 'square') {
+                    $image->fit($size);
+                } else {
+                    $image->widen($size);
+                }
             }
-
-            $aspect = $this->app->request->get('aspect');
-            if ($aspect === 'square') {
-                $image->fit($size);
-            } else {
-                $image->widen($size);
-            }
+            $imageData = $image->encode($image->mime(), 90);
+            $this->app->cache->forever($cacheKey, $imageData);
+            $this->app->response()->header('Content-Type', $image->mime());
+            echo $imageData;
+        } else {
+            $this->app->response()->header('Content-Type', $image->mime());
+            echo $cached;
         }
-
-        $this->app->response()->header('Content-Type', $image->mime());
-        echo $image->encode($image->mime(), 90);
     }
 }
