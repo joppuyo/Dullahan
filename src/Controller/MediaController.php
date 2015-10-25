@@ -54,6 +54,7 @@ class MediaController extends Controller
         $size = $this->app->request->get('size');
         $aspect = $this->app->request->get('aspect');
         $lastModified = $this->filesystem->getTimestamp($filename);
+        $this->app->lastModified($lastModified);
         $cacheKey = "$filename.$lastModified.$size.$aspect";
         $cached = $this->app->cache->get($cacheKey);
         if(is_null($cached)){
