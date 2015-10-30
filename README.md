@@ -21,7 +21,7 @@ Headless PHP CMS
 ### Media
 
 - [x] Image upload
-- [ ] Image cache
+- [x] Image cache
 - [ ] Image delete
 
 ### User
