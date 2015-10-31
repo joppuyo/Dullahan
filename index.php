@@ -5,6 +5,8 @@ session_start();
 require "vendor/autoload.php";
 require "config.php";
 
+date_default_timezone_set(TIMEZONE);
+
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
