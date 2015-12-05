@@ -17,7 +17,7 @@ class MediaController extends Controller
     function __construct()
     {
         parent::__construct();
-        $this->manager = new ImageManager(['driver' => 'imagick']);
+        $this->manager = new ImageManager(['driver' => IMAGE_LIBRARY]);
         $adapter = new Local('uploads/');
         $this->filesystem = new Filesystem($adapter);
     }
