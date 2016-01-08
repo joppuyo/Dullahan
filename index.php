@@ -10,7 +10,7 @@ date_default_timezone_set(TIMEZONE);
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-$config = new Cartalyst\Sentinel\Native\ConfigRepository('sentinelconfig.php');
+$config = new Cartalyst\Sentinel\Native\ConfigRepository('config-sentinel.php');
 
 $bootstrapper = new Cartalyst\Sentinel\Native\SentinelBootstrapper($config);
 
