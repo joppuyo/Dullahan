@@ -6,9 +6,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Phinx\Migration\AbstractMigration;
 
 class Migration extends AbstractMigration {
-	/**
-	 * @property $capsule Illuminate\Database\Capsule\Manager
-	 */
+	/** @var \Illuminate\Database\Capsule\Manager $capsule */
 	public $capsule;
 	public function init(){
 		$this->capsule = new Capsule;
@@ -20,8 +18,8 @@ class Migration extends AbstractMigration {
 		  'database'  => DB_NAME,
 		  'username'  => DB_USER,
 		  'password'  => DB_PASSWORD,
-		  'charset'   => 'utf8',
-		  'collation' => 'utf8_unicode_ci',
+		  'charset'   => DB_CHARSET,
+		  'collation' => DB_COLLATION,
 		]);
 
 		$this->capsule->bootEloquent();

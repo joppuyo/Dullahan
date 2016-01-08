@@ -4,8 +4,8 @@ use \Dullahan\Migration\Migration;
 
 class AddContentMigration extends Migration
 {
-    public function up()
-    {
+	public function up()
+	{
 		$this->capsule->schema()->create('contents', function($table){
 			$table->increments('id');
 			$table->string('title');
@@ -16,6 +16,8 @@ class AddContentMigration extends Migration
 			$table->string('content_type');
 			$table->timestamps();
 			$table->foreign('user_id')->references('id')->on('users');
+			$table->charset = DB_CHARSET;
+			$table->collation = DB_COLLATION;
 		});
-    }
+	}
 }
