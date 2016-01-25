@@ -107,6 +107,7 @@ class ContentController extends Controller
     {
         $content = Content::where('content_type', $contentType)
           ->where('slug', $contentSlug)
+          ->where('is_published', true)
           ->get();
         if ($content->isEmpty()){
             $this->app->notFound();
