@@ -13,16 +13,18 @@ class InitialMigration extends Migration
 			$table->boolean('completed')->default(0);
 			$table->timestamp('completed_at')->nullable();
 			$table->timestamps();
-
+			$table->charset = DB_CHARSET;
+			$table->collation = DB_COLLATION;
 			$table->engine = 'InnoDB';
 		});
 
 		$this->capsule->schema()->create('persistences', function ($table) {
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
-			$table->string('code');
+			$table->string('code', 191);
 			$table->timestamps();
-
+			$table->charset = DB_CHARSET;
+			$table->collation = DB_COLLATION;
 			$table->engine = 'InnoDB';
 			$table->unique('code');
 		});
@@ -33,16 +35,19 @@ class InitialMigration extends Migration
 			$table->string('code');
 			$table->boolean('completed')->default(0);
 			$table->timestamp('completed_at')->nullable();
+			$table->charset = DB_CHARSET;
+			$table->collation = DB_COLLATION;
 			$table->timestamps();
 		});
 
 		$this->capsule->schema()->create('roles', function ($table) {
 			$table->increments('id');
-			$table->string('slug');
+			$table->string('slug', 191);
 			$table->string('name');
 			$table->text('permissions')->nullable();
 			$table->timestamps();
-
+			$table->charset = DB_CHARSET;
+			$table->collation = DB_COLLATION;
 			$table->engine = 'InnoDB';
 			$table->unique('slug');
 		});
@@ -51,7 +56,8 @@ class InitialMigration extends Migration
 			$table->integer('user_id')->unsigned();
 			$table->integer('role_id')->unsigned();
 			$table->nullableTimestamps();
-
+			$table->charset = DB_CHARSET;
+			$table->collation = DB_COLLATION;
 			$table->engine = 'InnoDB';
 			$table->primary(['user_id', 'role_id']);
 		});
@@ -62,21 +68,23 @@ class InitialMigration extends Migration
 			$table->string('type');
 			$table->string('ip')->nullable();
 			$table->timestamps();
-
+			$table->charset = DB_CHARSET;
+			$table->collation = DB_COLLATION;
 			$table->engine = 'InnoDB';
 			$table->index('user_id');
 		});
 
 		$this->capsule->schema()->create('users', function ($table) {
 			$table->increments('id');
-			$table->string('email');
+			$table->string('email', 191);
 			$table->string('password');
 			$table->text('permissions')->nullable();
 			$table->timestamp('last_login')->nullable();
 			$table->string('first_name')->nullable();
 			$table->string('last_name')->nullable();
 			$table->timestamps();
-
+			$table->charset = DB_CHARSET;
+			$table->collation = DB_COLLATION;
 			$table->engine = 'InnoDB';
 			$table->unique('email');
 		});
