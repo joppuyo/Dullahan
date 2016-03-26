@@ -2,3 +2,4 @@ vendor
 config.php
 node_modules
 .idea
+dist
