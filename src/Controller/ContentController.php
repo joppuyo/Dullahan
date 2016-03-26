@@ -6,15 +6,16 @@ use Carbon\Carbon;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Dullahan\Model\Content;
 use Exception;
+use Slim\Http\Response;
 use Symfony\Component\Yaml\Parser;
 
 class ContentController extends Controller
 {
 
-    public function listContent()
+    public function listContent($request, Response $response, $arguments)
     {
         $content = Content::all()->sortByDesc('updated_at');
-        $this->app->render('contentList.twig', ['content' => $content]);
+        return dump($content);
     }
 
     public function addContentSelect()
