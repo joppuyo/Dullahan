@@ -56,3 +56,39 @@ html, body, .container-fluid, .row {
   }
 
 }
+
+body {
+  background-color: #F2F2F2;
+}
+
+.login-container {
+  background-color: #F2F2F2;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-box {
+  background-color: white;
+  width: 600px;
+  display: flex;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.10);
+}
+
+.login-box-left {
+  background-color: #9E4D9C;
+  min-width: 176px;
+}
+
+.login-box-right {
+  padding: 30px;
+  flex-grow: 1;
+}
+
+.login-header {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-weight: normal;
+}
