@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'whatwg-fetch';
 
 class LoginBox extends React.Component {
     constructor (props) {
@@ -8,7 +9,20 @@ class LoginBox extends React.Component {
     }
 
     onLoginClick(){
-        alert(`email: ${this.state.email}. password: ${this.state.password}`);
+        var credentials = {
+            email: this.state.email,
+            password: this.state.password,
+        };
+
+        fetch('/api/login', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+            }).then(response => response.json())
+            .then(data => {alert(data.token)})
     }
 
     onEmailInput(event){
