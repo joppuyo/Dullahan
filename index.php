@@ -60,6 +60,11 @@ $app->get('/', function(\Slim\Http\Request $request, \Slim\Http\Response $respon
    echo 'works';
 });
 
+$app->group('/api', function(){
+    $this->post('/register', '\Dullahan\Controller\UserController:register');
+    $this->post('/login', '\Dullahan\Controller\UserController:login');
+});
+
 $app->get('/test', '\Dullahan\Controller\ContentController:listContent');
 
 $app->run();

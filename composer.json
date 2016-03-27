@@ -15,7 +15,8 @@
     "illuminate/cache": "^5.1",
     "illuminate/filesystem": "^5.1",
     "symfony/var-dumper": "^2.7",
-    "paragonie/random_compat": "^1.1"
+    "paragonie/random_compat": "^1.1",
+    "ircmaxell/random-lib": "^1.1"
   },
   "autoload": {
     "psr-4": {
