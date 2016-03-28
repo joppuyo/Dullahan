@@ -1,23 +1,9 @@
 import React from 'react';
 import LoginBox from './LoginBox.jsx';
+import { Link } from 'react-router'
 
 export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {loggedIn: false};
-    }
-    handleOnLogin() {
-        this.setState({loggedIn: true});
-    }
     render() {
-        if (this.state.loggedIn) {
-            return (
-                <div><h1>You are logged in</h1></div>
-            )
-        } else {
-            return (
-                <LoginBox onLogin={this.handleOnLogin.bind(this)}></LoginBox>
-            )
-        }
+        return <h1>I am app<Link to="/login">Login</Link></h1>
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { hashHistory } from 'react-router';
 
 export default class LoginBox extends React.Component {
     constructor (props) {
@@ -19,10 +20,20 @@ export default class LoginBox extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(credentials)
-        }).then(response => response.json())
+        })
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response;
+                } else {
+                    var error = new Error(response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            })
+            .then(response => response.json())
             .then(data => {
                 localStorage.setItem('token', data.token);
-                this.props.onLogin();
+                hashHistory.push('/app')
             })
     }
 
