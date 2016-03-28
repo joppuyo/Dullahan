@@ -1,6 +1,8 @@
 import React from 'react';
 import { hashHistory } from 'react-router';
 
+import Navbar from './Navbar.jsx';
+
 export default class Dashboard extends React.Component {
     constructor(props) {
         super(props);
@@ -11,6 +13,14 @@ export default class Dashboard extends React.Component {
         }
     }
     render() {
-        return <h2>This is the app dashboard</h2>
+        return (
+            <div>
+                <div className="top-bar">Dullahan</div>
+                <div className="app-container">
+                    <Navbar/>
+                    <div className="app-content">{this.props.children}</div>
+                </div>
+            </div>
+        )
     }
 }
