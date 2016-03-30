@@ -3,6 +3,8 @@ $brand-primary: #9E4D9C;
 $body-bg: #ebebeb;
 $btn-primary-border: $brand-primary;
 $sidebar-bg-color: #2C3E50;
+$input-bg: #ECECEC;
+$input-border: #ECECEC;
 
 @import "bootstrap";
 @import "mixins";
@@ -125,4 +127,12 @@ body {
 .app-container {
   display: flex;
   height: calc(100vh - 56px);
+}
+
+.form-control {
+  box-shadow: none;
+  &:focus {
+    box-shadow: none;
+    border: 2px solid $brand-primary;
+  }
 }
