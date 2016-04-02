@@ -6,6 +6,8 @@ $sidebar-bg-color: #2C3E50;
 $input-bg: #ECECEC;
 $input-border: #ECECEC;
 
+$section-header-border-color: #CDCDCD;
+
 @import "bootstrap";
 @import "mixins";
 @import "nav";
@@ -137,5 +139,25 @@ body {
   &:focus {
     box-shadow: none;
     border: 2px solid $brand-primary;
+  }
+}
+
+.app-content {
+  display: flex;
+  flex-grow: 1;
+}
+
+.section-header {
+  background-color: white;
+  height: 80px;
+  flex-grow: 1;
+  border-bottom: 1px solid $section-header-border-color;
+  h1 {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+    margin-left: 15px;
+    line-height: 80px;
+    font-weight: normal;
   }
 }
