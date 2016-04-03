@@ -56,13 +56,31 @@ $app->cache = new \Illuminate\Cache\Repository($filestore);
     };
 }*/
 
+$app->add(new RKA\Middleware\IpAddress());
+
 $app->get('/', function(\Slim\Http\Request $request, \Slim\Http\Response $response, $arguments){
    echo 'works';
 });
 
-$app->group('/api', function(){
+$throttleMiddleware = function($throttleName) {
+    return function(\Slim\Http\Request $request, \Slim\Http\Response $response, $next) use ($throttleName){
+        $cache = new Doctrine\Common\Cache\FilesystemCache('cache/doctrine');
+        $storage = new \BehEh\Flaps\Storage\DoctrineCacheAdapter($cache);
+        $flaps = new \BehEh\Flaps\Flaps($storage);
+        $flap = $flaps->__get($throttleName);
+        $flap->pushThrottlingStrategy(new \BehEh\Flaps\Throttling\LeakyBucketStrategy(5, '20s'));
+        $flap->setViolationHandler(new \BehEh\Flaps\Violation\PassiveViolationHandler());
+        if (!$flap->limit($request->getAttribute('ip_address'))) {
+            return $response->withJson(['message' => 'Too many requests'], 429);
+        }
+        $response = $next($request, $response);
+        return $response;
+    };
+};
+
+$app->group('/api', function() use ($throttleMiddleware){
     $this->post('/register', '\Dullahan\Controller\UserController:register');
-    $this->post('/login', '\Dullahan\Controller\UserController:login');
+    $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
 });
 
 $app->get('/test', '\Dullahan\Controller\ContentController:listContent');
