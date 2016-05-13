@@ -1,6 +1,8 @@
 <?php
 namespace Dullahan\Service;
 
+use Slim\App;
+
 class Service
 {
     /**
@@ -10,6 +12,6 @@ class Service
 
     function __construct()
     {
-        $this->app = \Slim\Slim::getInstance();
+        //$this->app = App::getInstance;
     }
 }

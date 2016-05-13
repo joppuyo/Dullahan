@@ -11,12 +11,14 @@ namespace Dullahan\Controller;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local;
 use Intervention\Image\ImageManager;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class MediaController extends Controller
 {
-    function __construct()
+    function __construct($ci)
     {
-        parent::__construct();
+        parent::__construct($ci);
         $this->manager = new ImageManager(['driver' => IMAGE_LIBRARY]);
         $adapter = new Local('uploads/');
         $this->filesystem = new Filesystem($adapter);
@@ -77,5 +79,16 @@ class MediaController extends Controller
             $this->app->response()->header('Content-Type', $image->mime());
             echo $cached;
         }
+    }
+
+    public function listMedia(Request $request, Response $response, $arguments) {
+        $media = $this->container->MediaService->getAllMedia();
+        $media = collect($media)->values();
+        $baseUrl = $request->getUri()->getBaseUrl();
+        $media = $media->map(function($item) use ($baseUrl) {
+            $item['url'] = $baseUrl . '/uploads/' . $item['path'];
+            return $item;
+        });
+        return $response->withJson($media);
     }
 }
