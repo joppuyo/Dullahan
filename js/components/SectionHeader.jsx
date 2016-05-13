@@ -7,6 +7,8 @@ export default class SectionHeader extends React.Component {
     render() {
         return <div className="section-header">
             <h1>{this.props.title}</h1>
+            {/* Right side CTA button goes here */}
+            <div className="section-header-right">{ this.props.children }</div>
         </div>
     }
 }

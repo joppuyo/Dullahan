@@ -2,11 +2,12 @@ import React from 'react';
 import { hashHistory, Link } from 'react-router';
 import SectionHeader from './SectionHeader.jsx';
 import MediaItem from './MediaItem.jsx';
+import MediaUploadButton from './MediaUploadButton.jsx';
 
 export default class Media extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {images: [1, 2, 3]};
+        this.state = {images: []};
     }
     componentDidMount() {
         fetch('/api/media', {
@@ -33,7 +34,9 @@ export default class Media extends React.Component {
     render() {
         return (
             <div className="section-wrapper">
-                <SectionHeader title="Media"/>
+                <SectionHeader title="Media">
+                    <MediaUploadButton/>
+                </SectionHeader>
                 <div className="media-items-container">
                     {this.state.images.map(image => <MediaItem{...image}/>)}
                 </div>

@@ -161,59 +161,16 @@ body {
     margin-left: 15px;
     line-height: 80px;
     font-weight: normal;
+    float: left;
   }
+}
+
+.section-header-right {
+  float: right;
 }
 
 .section-wrapper {
   flex-grow: 1;
 }
 
-.media-items-container {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 15px;
-}
-
-.media-item-outer {
-  padding: 15px;
-  width: 320 + 15 + 15px;
-}
-
-.media-item-inner {
-  background-color: white;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.15);
-}
-
-.media-item-image {
-  width: 320px;
-  height: 240px;
-}
-
-.media-item-name {
-  margin-bottom: 7px;
-  margin-left: 15px;
-  margin-right: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.media-item-meta {
-  font-size: 14px;
-  margin-left: 15px;
-  color: #9B9B9B;
-}
-
-.media-item-lower {
-  padding-top: 15px;
-  position: relative;
-  padding-bottom: 15px;
-}
-
-.media-item-button {
-  right:0;
-  top:0;
-  bottom:0;
-  width: 40px;
-  position: absolute;
-  background-color: red;
-}
+@import 'media';
