@@ -91,4 +91,21 @@ class MediaController extends Controller
         });
         return $response->withJson($media);
     }
+    public function uploadMedia(Request $request, Response $response, $arguments)
+    {
+        $errors = [];
+
+        foreach ($_FILES as $key => $file) {
+            $storage = new \Upload\Storage\FileSystem('uploads');
+            $file = new \Upload\File($key, $storage);
+            try {
+                $file->upload();
+            } catch (\Exception $e) {
+                array_push($errors, 'Failed to upload ' . $file->getNameWithExtension());
+            }
+        }
+        
+        return $response->withJson(['errors' => $errors], 200, JSON_PRETTY_PRINT);
+
+    }
 }

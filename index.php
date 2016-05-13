@@ -83,6 +83,7 @@ $app->group('/api', function() use ($throttleMiddleware){
     $this->post('/register', '\Dullahan\Controller\UserController:register');
     $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
     $this->get('/media', '\Dullahan\Controller\MediaController:listMedia');
+    $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia');
 });
 
 $app->get('/test', '\Dullahan\Controller\ContentController:listContent');
