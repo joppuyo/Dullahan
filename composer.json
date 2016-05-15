@@ -19,7 +19,8 @@
     "ircmaxell/random-lib": "^1.1",
     "beheh/flaps": "^0.1.0",
     "doctrine/cache": "^1.6",
-    "akrabat/rka-ip-address-middleware": "^0.4.0"
+    "akrabat/rka-ip-address-middleware": "^0.4.0",
+    "danielstjules/stringy": "^2.3"
   },
   "autoload": {
     "psr-4": {

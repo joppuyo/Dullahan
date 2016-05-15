@@ -13,6 +13,7 @@ use League\Flysystem\Adapter\Local;
 use Intervention\Image\ImageManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use function Stringy\create as s;
 
 class MediaController extends Controller
 {
@@ -99,6 +100,7 @@ class MediaController extends Controller
             $storage = new \Upload\Storage\FileSystem('uploads');
             $file = new \Upload\File($key, $storage);
             try {
+                $file->setName(s($file->getName())->slugify());
                 $file->upload();
             } catch (\Exception $e) {
                 array_push($errors, 'Failed to upload ' . $file->getNameWithExtension());
