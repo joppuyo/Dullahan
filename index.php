@@ -42,6 +42,7 @@ $filestore = new \Illuminate\Cache\FileStore(
 );
 $app->cache = new \Illuminate\Cache\Repository($filestore);
 $container['MediaService'] = new \Dullahan\Service\MediaService();
+$container['ContentService'] = new \Dullahan\Service\ContentService();
 
 /*function checkLogin(){
     return function () {
@@ -84,6 +85,7 @@ $app->group('/api', function() use ($throttleMiddleware){
     $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
     $this->get('/media', '\Dullahan\Controller\MediaController:listMedia');
     $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia');
+    $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent');
 });
 
 $app->get('/test', '\Dullahan\Controller\ContentController:listContent');

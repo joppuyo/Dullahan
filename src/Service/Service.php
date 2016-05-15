@@ -1,17 +1,10 @@
 <?php
 namespace Dullahan\Service;
 
-use Slim\App;
+use Interop\Container\ContainerInterface;
+use Slim\Container;
 
 class Service
 {
-    /**
-     * @property $app \Slim\Slim
-     */
-    public $app;
 
-    function __construct()
-    {
-        //$this->app = App::getInstance;
-    }
 }

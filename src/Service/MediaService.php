@@ -8,7 +8,6 @@ use League\Flysystem\Filesystem;
 class MediaService extends Service
 {
     function __construct(){
-        parent::__construct();
         $adapter = new Local('uploads/');
         $this->filesystem = new Filesystem($adapter);
     }
