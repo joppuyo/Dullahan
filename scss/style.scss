@@ -122,18 +122,42 @@ body {
 }
 
 .side-nav-item {
-  height: 96px;
-  color: white;
   text-align: center;
-  line-height: 96px;
-  display: block;
-  &:hover {
-    color: white;
+  padding-top: 20px;
+}
+
+.side-nav-item-icon {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 30px;
+  width: 30px;
+  opacity: 0.66;
+}
+
+.side-nav-item-text {
+  padding-bottom: 20px;
+  color: white;
+  opacity: 0.66;
+}
+
+.side-nav-item-wrapper-active {
+  .side-nav-item {
+    background-color: mix(black, $sidebar-bg-color, 33%);
+  }
+  .side-nav-item-icon, .side-nav-item-text {
+    opacity: 1;
   }
 }
 
-.side-nav-item-active {
-  background-color: black;
+.side-nav-item-wrapper {
+  text-decoration: none;
+  &:hover, &:active, &:active {
+    color: white;
+    text-decoration: none;
+  }
 }
 
 .app-container {
@@ -181,3 +205,4 @@ body {
 }
 
 @import 'media';
+

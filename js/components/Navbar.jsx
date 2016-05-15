@@ -15,11 +15,13 @@ export default class Navbar extends React.Component {
                 name: 'Content',
                 active: true,
                 url: 'content',
+                icon: 'icon-nav-content',
             },
             {
                 name: 'Media',
                 active: false,
                 url: 'media',
+                icon: 'icon-nav-media',
             },
         ]
     }
@@ -33,5 +35,10 @@ export default class Navbar extends React.Component {
 }
 
 function NavItem (props) {
-    return <Link to={props.url} className="side-nav-item" activeClassName="side-nav-item-active">{props.name}</Link>
+    return <Link to={props.url} className="side-nav-item-wrapper" activeClassName="side-nav-item-wrapper-active">
+        <div className="side-nav-item">
+            <div className="side-nav-item-icon" style={{backgroundImage: `url("/assets/icons/${props.icon}.svg")` }}></div>
+            <div className="side-nav-item-text">{props.name}</div>
+        </div>
+    </Link>
 }
