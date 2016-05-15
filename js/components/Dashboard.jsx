@@ -15,7 +15,9 @@ export default class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                <div className="top-bar">Dullahan</div>
+                <div className="top-bar">
+                    <div className="top-bar-logo"></div>
+                </div>
                 <div className="app-container">
                     <Navbar/>
                     <div className="app-content">{this.props.children}</div>

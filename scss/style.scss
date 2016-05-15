@@ -101,12 +101,19 @@ body {
 }
 
 .top-bar {
-  height: 56px;
+  height: 64px;
   width: 100%;
   background-color: $brand-primary;
   color: white;
-  line-height: 56px;
-  padding-left: 30px;
+  line-height: 64px;
+}
+
+.top-bar-logo {
+  height: 64px;
+  width: 96px;
+  background: url('../assets/header-logo.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .side-nav {
