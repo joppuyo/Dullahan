@@ -3,6 +3,7 @@ import { hashHistory, Link } from 'react-router';
 import SectionHeader from './SectionHeader.jsx';
 import MediaItem from './MediaItem.jsx';
 import MediaUploadButton from './MediaUploadButton.jsx';
+import DocumentTitle from 'react-document-title';
 
 export default class Media extends React.Component {
     constructor(props) {
@@ -33,6 +34,7 @@ export default class Media extends React.Component {
 
     render() {
         return (
+        <DocumentTitle title="Media - Dullahan">
             <div className="section-wrapper">
                 <SectionHeader title="Media">
                     <MediaUploadButton/>
@@ -41,6 +43,7 @@ export default class Media extends React.Component {
                     {this.state.images.map(image => <MediaItem{...image}/>)}
                 </div>
             </div>
+        </DocumentTitle>
         )
     }
 }
