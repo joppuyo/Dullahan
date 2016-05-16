@@ -7,6 +7,7 @@ $input-bg: #ECECEC;
 $input-border: #ECECEC;
 
 $section-header-border-color: #CDCDCD;
+$top-bar-height: 64px;
 
 @import "bootstrap";
 @import "mixins";
@@ -101,7 +102,7 @@ body {
 }
 
 .top-bar {
-  height: 64px;
+  height: $top-bar-height;
   width: 100%;
   background-color: $brand-primary;
   color: white;
@@ -109,7 +110,7 @@ body {
 }
 
 .top-bar-logo {
-  height: 64px;
+  height: $top-bar-height;
   width: 96px;
   background: url('../assets/header-logo.svg');
   background-repeat: no-repeat;
@@ -152,7 +153,7 @@ body {
   }
 }
 
-.side-nav-item-wrapper {
+a.side-nav-item-wrapper {
   text-decoration: none;
   &:hover, &:active, &:active {
     color: white;
@@ -162,7 +163,7 @@ body {
 
 .app-container {
   display: flex;
-  height: calc(100vh - 56px);
+  height: calc(100vh - #{$top-bar-height});
   overflow: hidden;
 }
 
