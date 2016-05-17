@@ -43,26 +43,39 @@ $filestore = new \Illuminate\Cache\FileStore(
 $app->cache = new \Illuminate\Cache\Repository($filestore);
 $container['MediaService'] = new \Dullahan\Service\MediaService();
 $container['ContentService'] = new \Dullahan\Service\ContentService();
-
-/*function checkLogin(){
-    return function () {
-        $app = \Slim\Slim::getInstance();
-        if ($app->helperService->isFirstRun()) {
-            $app->redirectTo('firstRun');
-        }
-        $user = Sentinel::check();
-        if (!$user) {
-            $app->flash('error', 'Please log in first.');
-            $app->redirectTo('login');
-        }
-    };
-}*/
+$container['user'] = null;
 
 $app->add(new RKA\Middleware\IpAddress());
 
 $app->get('/', function(\Slim\Http\Request $request, \Slim\Http\Response $response, $arguments){
    echo 'works';
 });
+
+/**
+ * This middleware validates access token sent by client.
+ *
+ * If token is valid, the middleware will set user object in the container so that it's available in other parts of the
+ * application.
+ */
+$authMiddleware = function(){
+    return function(\Slim\Http\Request $request, \Slim\Http\Response $response, $next) {
+        $token = $request->getHeader('X-Access-Token');
+        if (!$token) {
+            return $response->withJson(['message' => 'Access token missing'], 401, JSON_PRETTY_PRINT);
+        }
+
+        $tokenObject = \Dullahan\Model\Token::where('value', $token)->first();
+        if (!$tokenObject) {
+            return $response->withJson(['message' => 'Invalid access token'], 401, JSON_PRETTY_PRINT);
+        }
+
+        $container = $this;
+        $container->user = $tokenObject->user;
+
+        $response = $next($request, $response);
+        return $response;
+    };
+};
 
 $throttleMiddleware = function($throttleName) {
     return function(\Slim\Http\Request $request, \Slim\Http\Response $response, $next) use ($throttleName){
@@ -80,9 +93,10 @@ $throttleMiddleware = function($throttleName) {
     };
 };
 
-$app->group('/api', function() use ($throttleMiddleware){
+$app->group('/api', function() use ($throttleMiddleware, $authMiddleware){
     $this->post('/register', '\Dullahan\Controller\UserController:register');
     $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
+    $this->get('/login', '\Dullahan\Controller\UserController:getUserDetails')->add($authMiddleware());
     $this->get('/media', '\Dullahan\Controller\MediaController:listMedia');
     $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia');
     $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent');
