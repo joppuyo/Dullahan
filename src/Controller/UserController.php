@@ -5,6 +5,7 @@ namespace Dullahan\Controller;
 use Dullahan\Model\Token;
 use Dullahan\Model\User;
 use RandomLib\Factory;
+use RandomLib\Generator;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -32,7 +33,7 @@ class UserController extends Controller
         }
         $factory = new Factory();
         $generator = $factory->getMediumStrengthGenerator();
-        $tokenValue = $generator->generateString(128);
+        $tokenValue = $generator->generateString(128, Generator::CHAR_ALNUM);
         
         $token = new Token();
         $token->value = $tokenValue;
