@@ -117,6 +117,25 @@ body {
   background-position: center;
 }
 
+.top-bar-user {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.top-bar-user-name {
+  float: left;
+}
+
+.top-bar-user-dropdown-arrow {
+  height: $top-bar-height;
+  width: 42px;
+  float: left;
+  background-image: url('../assets/icons/icon-top-bar-dropdown-arrow.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .side-nav {
   min-width: 96px;
   background-color: #2c3e50;
