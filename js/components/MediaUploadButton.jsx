@@ -14,9 +14,12 @@ export default class MediaUploadButton extends React.Component {
                 data.append(i.toString(),files[i]);
             }
         }
-        fetch('/api/media',{
+        fetch('/api/media', {
             method: 'POST',
-            body: data
+            headers: {
+                'X-Access-Token': localStorage.getItem('token')
+            },
+            body: data,
         })
     }
     render() {

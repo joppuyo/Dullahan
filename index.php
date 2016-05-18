@@ -98,7 +98,7 @@ $app->group('/api', function() use ($throttleMiddleware, $authMiddleware){
     $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
     $this->get('/login', '\Dullahan\Controller\UserController:getUserDetails')->add($authMiddleware());
     $this->get('/media', '\Dullahan\Controller\MediaController:listMedia');
-    $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia');
+    $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia')->add($authMiddleware());
     $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent');
 });
 
