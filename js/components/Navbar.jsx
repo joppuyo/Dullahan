@@ -23,6 +23,12 @@ export default class Navbar extends React.Component {
                 url: 'media',
                 icon: 'icon-nav-media',
             },
+            {
+                name: 'Users',
+                active: false,
+                url: 'users',
+                icon: 'icon-nav-users',
+            },
         ]
     }
     render() {

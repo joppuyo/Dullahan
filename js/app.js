@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard.jsx';
 import Content from './components/Content.jsx';
 import Media from './components/Media.jsx';
 import DocumentTitle from 'react-document-title';
+import Users from './components/users.jsx'
 
 ReactDOM.render(
     <DocumentTitle title="Dullahan">
@@ -18,6 +19,7 @@ ReactDOM.render(
                 <Route path="/app" component={Dashboard}>
                     <Route path="/content" component={Content}/>
                     <Route path="/media" component={Media}/>
+                    <Route path="/users" component={Users}/>
                 </Route>
         </Router>
     </DocumentTitle>, document.getElementById('app')

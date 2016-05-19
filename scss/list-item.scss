@@ -1,0 +1,26 @@
+$list-item-icon-background-color: #D8D8D8;
+
+.list-item {
+  padding: 20px;
+  background-color: white;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.list-item-icon {
+  height: 42px;
+  width: 42px;
+  float: left;
+  background-color: $list-item-icon-background-color;
+  border-radius: 2px;
+}
+
+.list-item-right {
+  float: left;
+  padding-left: 20px;
+}
+
+.list-item-subtitle {
+  font-size: 14px;
+  opacity: 0.4;
+  margin-top: 2px;
+}
