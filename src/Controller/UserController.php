@@ -46,7 +46,11 @@ class UserController extends Controller
 
         return $response->withJson($output, 200);
     }
-    
+
+    public function listUsers(Request $request, Response $response, $arguments) {
+        return $response->withJson(User::all(), 200, JSON_PRETTY_PRINT);
+    }
+
     public function getUserDetails(Request $request, Response $response, $arguments) {
         $user = $this->container->user;
         if ($user) {
