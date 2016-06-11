@@ -8,6 +8,7 @@
 
 namespace Dullahan\Controller;
 
+use Intervention\Image\Image;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local;
 use Intervention\Image\ImageManager;
@@ -23,31 +24,6 @@ class MediaController extends Controller
         $this->manager = new ImageManager(['driver' => IMAGE_LIBRARY]);
         $adapter = new Local('uploads/');
         $this->filesystem = new Filesystem($adapter);
-    }
-
-    public function addContent()
-    {
-        $errors = [];
-        if ($this->app->request->isPost()) {
-            $storage = new \Upload\Storage\FileSystem('uploads');
-            $file = new \Upload\File('media', $storage);
-            $file->addValidations([
-                new \Upload\Validation\Mimetype(['image/png', 'image/gif', 'image/jpeg'])
-            ]);
-            try {
-                $file->upload();
-                $this->app->redirectTo('mediaList');
-            } catch (\Exception $e) {
-                $errors = $file->getErrors();
-            }
-        }
-        $this->app->render('mediaAdd.twig', ['errors' => $errors]);
-    }
-
-    public function listContent()
-    {
-        $media = $this->app->mediaService->getAllMedia();
-        $this->app->render('mediaList.twig', ['media' => $media]);
     }
 
     public function getFile($filename)
@@ -87,11 +63,19 @@ class MediaController extends Controller
         $media = collect($media)->values();
         $baseUrl = $request->getUri()->getBaseUrl();
         $media = $media->map(function($item) use ($baseUrl) {
-            $item['url'] = $baseUrl . '/uploads/' . $item['path'];
+            $item['is_image'] = false;
+            if ($this->isImage($item)) {
+                $imagick = $this->manager->make($item['full_name_with_path']);
+                $item['height'] = $imagick->height();
+                $item['width'] = $imagick->width();
+                $item['is_image'] = true;
+            }
+            $item['url'] = $baseUrl . '/uploads/' . $item['full_name'];
             return $item;
         });
         return $response->withJson($media);
     }
+
     public function uploadMedia(Request $request, Response $response, $arguments)
     {
         $errors = [];
@@ -109,5 +93,11 @@ class MediaController extends Controller
         
         return $response->withJson(['errors' => $errors], 200, JSON_PRETTY_PRINT);
 
+    }
+
+    public function isImage($file)
+    {
+        $mimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        return in_array($file['mime'], $mimeTypes);
     }
 }
