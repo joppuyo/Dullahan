@@ -1,4 +1,5 @@
 import React from 'react';
+import MediaDropdown from './MediaDropdown.jsx';
 
 export default class MediaItem extends React.Component {
     render() {
@@ -9,7 +10,7 @@ export default class MediaItem extends React.Component {
                     <div className="media-item-lower">
                         <div className="media-item-name">{this.props.filename}</div>
                         <div className="media-item-meta">{this.props.extension} - 2012-12-12 12:32</div>
-                        {/*<div className="media-item-button"></div>*/}
+                        <MediaDropdown image={this.props.full_name}></MediaDropdown>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,7 @@
 .media-item-inner {
   background-color: white;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.15);
+  position: relative;
 }
 
 .media-item-image {
@@ -49,7 +50,35 @@
   bottom:0;
   width: 40px;
   position: absolute;
-  background-color: red;
+  background-image: url("../assets/icons/icon-media-dropdown.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.media-item-button-active {
+  background-color: rgba(0,0,0,0.07);
+}
+
+.media-dropdown {
+  right: 0;
+  position: absolute;
+  width: 128px;
+  background-color: white;
+  z-index: 1;
+  margin-top: 15px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.15);
+}
+
+.media-dropdown-item {
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 48px;
+  line-height: 48px;
+}
+
+.media-dropdown-item:not(:first-of-type) {
+  border-top: 1px solid rgba(0,0,0,0.07);
 }
 
 .media-upload-button {
