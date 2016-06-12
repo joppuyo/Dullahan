@@ -38,9 +38,9 @@ $app = new \Slim\App($container);
 
 $filestore = new \Illuminate\Cache\FileStore(
   new \Illuminate\Filesystem\Filesystem(),
-  'cache'
+  'cache/illuminate'
 );
-$app->cache = new \Illuminate\Cache\Repository($filestore);
+$container['cache'] = new \Illuminate\Cache\Repository($filestore);
 $container['MediaService'] = new \Dullahan\Service\MediaService();
 $container['ContentService'] = new \Dullahan\Service\ContentService();
 $container['user'] = null;
@@ -98,6 +98,7 @@ $app->group('/api', function() use ($throttleMiddleware, $authMiddleware){
     $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
     $this->get('/login', '\Dullahan\Controller\UserController:getUserDetails')->add($authMiddleware());
     $this->get('/media', '\Dullahan\Controller\MediaController:listMedia');
+    $this->get('/media/thumbnail/{filename}', '\Dullahan\Controller\MediaController:getMediaThumbnail');
     $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia')->add($authMiddleware());
     $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent');
     $this->get('/users', '\Dullahan\Controller\UserController:listUsers')->add($authMiddleware());

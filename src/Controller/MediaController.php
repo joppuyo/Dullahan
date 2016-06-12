@@ -18,12 +18,13 @@ use function Stringy\create as s;
 
 class MediaController extends Controller
 {
-    function __construct($ci)
+    function __construct($containerInterface)
     {
-        parent::__construct($ci);
+        parent::__construct($containerInterface);
         $this->manager = new ImageManager(['driver' => IMAGE_LIBRARY]);
         $adapter = new Local('uploads/');
         $this->filesystem = new Filesystem($adapter);
+        $this->cache = $containerInterface->cache;
     }
 
     public function getFile($filename)
@@ -71,6 +72,11 @@ class MediaController extends Controller
                 $item['is_image'] = true;
             }
             $item['url'] = $baseUrl . '/uploads/' . $item['full_name'];
+            if ($this->isPdf($item)) {
+                $item['thumbnail'] = $baseUrl . '/api/media/thumbnail/' . $item['full_name'];
+            } else {
+                $item['thumbnail'] = $item['url'];
+            }
             return $item;
         });
         return $response->withJson($media);
@@ -99,5 +105,30 @@ class MediaController extends Controller
     {
         $mimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
         return in_array($file['mime'], $mimeTypes);
+    }
+
+    public function isPdf($file)
+    {
+        return $file['mime'] === 'application/pdf';
+    }
+
+    public function getMediaThumbnail(Request $request, Response $response, $arguments)
+    {
+        try {
+            $imagick = new \Imagick();
+            $imagick->setResolution(144,144);
+            $imagick->setBackgroundColor('#ffffff');
+            $imagick->readImage('uploads/' . $arguments['filename'] . '[0]');
+            $imagick->scaleImage(640,0);
+            $imagick->cropImage(640,480,0,0);
+            $imagick->setImagePage(0, 0, 0, 0);
+            $imagick = $imagick->flattenImages();
+            $imagick->setImageFormat('jpeg');
+            $imageData = $imagick->getImageBlob();
+            return $response->withHeader('Content-Type', 'image/jpeg')->write($imageData);
+        } catch (\Exception $e) {
+            return $response->withStatus(404);
+        }
+
     }
 }
