@@ -131,4 +131,10 @@ class MediaController extends Controller
         }
 
     }
+
+    public function deleteMediaItem(Request $request, Response $response, $arguments)
+    {
+        $filename = $arguments['filename'];
+        $this->filesystem->delete($filename);
+    }
 }
