@@ -17,9 +17,8 @@ export default class MediaDropdown extends React.Component {
         }
     }
 
-    onDeleteImage() {
-        console.log('deleting image...' + this.props.image);
-        fetch(`/api/media/${this.props.image}`, {
+    onDeleteMedia() {
+        fetch(`/api/media/${this.props.mediaItem.full_name}`, {
             method: 'DELETE',
             headers: {
                 'X-Access-Token': localStorage.getItem('token')
@@ -29,12 +28,22 @@ export default class MediaDropdown extends React.Component {
         })
     }
 
+    onOpenMedia() {
+        window.open(this.props.mediaItem.url);
+    }
+
+    onDownloadMedia() {
+        window.open(this.props.mediaItem.downloadUrl);
+    }
+
     render(){
         return (
             <div>
             <div className={this.state.className} onClick={this.onDropdownToggle.bind(this)}></div>
             <div className="media-dropdown" style={this.state.style}>
-                <div className="media-dropdown-item" onClick={this.onDeleteImage.bind(this)}>Delete</div>
+                <div className="media-dropdown-item" onClick={this.onOpenMedia.bind(this)}>Open</div>
+                <div className="media-dropdown-item" onClick={this.onDownloadMedia.bind(this)}>Download</div>
+                <div className="media-dropdown-item" onClick={this.onDeleteMedia.bind(this)}>Delete</div>
             </div>
             </div>
         )

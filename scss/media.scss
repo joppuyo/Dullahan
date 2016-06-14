@@ -75,6 +75,11 @@
   padding-right: 15px;
   height: 48px;
   line-height: 48px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0,0,0,0.07);
+    border-top-color: transparent !important;
+  }
 }
 
 .media-dropdown-item:not(:first-of-type) {

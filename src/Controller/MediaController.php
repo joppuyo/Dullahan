@@ -1,21 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joppu
- * Date: 06/08/15
- * Time: 21:17
- */
 
 namespace Dullahan\Controller;
 
+use Illuminate\Cache\Repository;
 use Intervention\Image\Image;
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local;
 use Intervention\Image\ImageManager;
+use League\Flysystem\Plugin\GetWithMetadata;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use function Stringy\create as s;
 
+/**
+ * Class MediaController
+ * @package Dullahan\Controller
+ * @property Filesystem $filesystem
+ * @property ImageManager $manager
+ * @property Repository $cache
+ */
 class MediaController extends Controller
 {
     function __construct($containerInterface)
@@ -24,6 +28,7 @@ class MediaController extends Controller
         $this->manager = new ImageManager(['driver' => IMAGE_LIBRARY]);
         $adapter = new Local('uploads/');
         $this->filesystem = new Filesystem($adapter);
+        $this->filesystem->addPlugin(new GetWithMetadata());
         $this->cache = $containerInterface->cache;
     }
 
@@ -77,6 +82,7 @@ class MediaController extends Controller
             } else {
                 $item['thumbnail'] = $item['url'];
             }
+            $item['downloadUrl'] = $baseUrl . '/api/media/download/' . $item['full_name'];
             return $item;
         });
         return $response->withJson($media);
@@ -136,5 +142,20 @@ class MediaController extends Controller
     {
         $filename = $arguments['filename'];
         $this->filesystem->delete($filename);
+    }
+
+    public function downloadMedia(Request $request, Response $response, $arguments)
+    {
+        $filename = $arguments['filename'];
+        try {
+            $file = $this->filesystem->read($filename);
+            $mime = $this->filesystem->getWithMetadata($filename, ['mimetype'])['mimetype'];
+            return $response
+                ->withHeader('Content-Disposition', "attachment; filename=$filename")
+                ->withHeader('Content-Type', $mime)
+                ->write($file);
+        } catch (FileNotFoundException $e) {
+            return $response->withStatus(404);
+        }
     }
 }
