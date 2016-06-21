@@ -2,8 +2,8 @@ import React from 'react';
 import { Router, Route, Link, hashHistory } from 'react-router';
 import SectionHeader from './SectionHeader.jsx';
 import DocumentTitle from 'react-document-title';
-import 'whatwg-fetch';
 import ListItem from './ListItem.jsx';
+import FetchService from '../services/FetchService';
 
 export default class Users extends React.Component {
     constructor(props) {
@@ -11,25 +11,13 @@ export default class Users extends React.Component {
         this.state = {users: []};
     }
     componentDidMount() {
-        fetch('/api/users', {
-            method: 'get',
-            headers: {
-                'Accept': 'application/json',
-                'X-Access-Token': localStorage.getItem('token'),
-            }
-        }).then(response => {
-            if (response.status >= 200 && response.status < 300) {
-                return response;
-            } else {
-                var error = new Error(response.statusText);
-                error.response = response;
-                throw error;
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
+        FetchService.get('/api/users').then(data => {
             console.log(data);
-            this.setState({users: data});
+            this.setState(
+                {
+                    users: data
+                }
+            );
         })
     }
 

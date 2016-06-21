@@ -1,6 +1,7 @@
 import React from 'react';
 import { hashHistory } from 'react-router';
 import DocumentTitle from 'react-document-title';
+import FetchService from '../services/FetchService.js';
 
 export default class LoginBox extends React.Component {
     constructor (props) {
@@ -13,30 +14,13 @@ export default class LoginBox extends React.Component {
             email: this.state.email,
             password: this.state.password,
         };
-
-        fetch('/api/login', {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(credentials)
-        })
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    var error = new Error(response.statusText);
-                    error.response = response;
-                    throw error;
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
+        FetchService.post('/api/login', credentials)
+            .then((data) => {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
-                hashHistory.push('/app')
+                hashHistory.push('/app');
             })
+
     }
 
     onEmailInput(event){

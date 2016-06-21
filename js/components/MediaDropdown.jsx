@@ -1,4 +1,5 @@
 import React from 'react';
+import FetchService from '../services/FetchService';
 
 export default class MediaDropdown extends React.Component {
 
@@ -18,14 +19,10 @@ export default class MediaDropdown extends React.Component {
     }
 
     onDeleteMedia() {
-        fetch(`/api/media/${this.props.mediaItem.full_name}`, {
-            method: 'DELETE',
-            headers: {
-                'X-Access-Token': localStorage.getItem('token')
-            }
-        }).then(() => {
-            // Refresh view
-        })
+        FetchService.deleteRequest(`/api/media/${this.props.mediaItem.full_name}`)
+            .then((data) => {
+                // TODO: Refresh view
+            })
     }
 
     onOpenMedia() {

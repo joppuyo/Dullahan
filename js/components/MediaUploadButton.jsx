@@ -1,4 +1,5 @@
 import React from 'react';
+import FetchService from '../services/FetchService';
 
 export default class MediaUploadButton extends React.Component {
     onOpenFileDialog() {
@@ -14,13 +15,9 @@ export default class MediaUploadButton extends React.Component {
                 data.append(i.toString(),files[i]);
             }
         }
-        fetch('/api/media', {
-            method: 'POST',
-            headers: {
-                'X-Access-Token': localStorage.getItem('token')
-            },
-            body: data,
-        })
+        FetchService.post('api/media', data, {json: false}).then(() => {
+            // TODO: Update view
+        });
     }
     render() {
         return <div>
