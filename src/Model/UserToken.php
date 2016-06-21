@@ -3,7 +3,7 @@ namespace Dullahan\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Token extends Model
+class UserToken extends Model
 {
     function user()
     {

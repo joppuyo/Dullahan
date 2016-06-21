@@ -2,7 +2,7 @@
 
 namespace Dullahan\Controller;
 
-use Dullahan\Model\Token;
+use Dullahan\Model\UserToken;
 use Dullahan\Model\User;
 use RandomLib\Factory;
 use RandomLib\Generator;
@@ -35,9 +35,9 @@ class UserController extends Controller
         $generator = $factory->getMediumStrengthGenerator();
         $tokenValue = $generator->generateString(128, Generator::CHAR_ALNUM);
         
-        $token = new Token();
+        $token = new UserToken();
         $token->value = $tokenValue;
-        $user->tokens()->save($token);
+        $user->user_tokens()->save($token);
 
         $output = [
             'user' => $user,

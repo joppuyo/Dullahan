@@ -54,23 +54,54 @@ $app->get('/', function(\Slim\Http\Request $request, \Slim\Http\Response $respon
 /**
  * This middleware validates access token sent by client.
  *
- * If token is valid, the middleware will set user object in the container so that it's available in other parts of the
- * application.
+ * Token must be a valid user token or app token. If the user token is valid, the middleware will set user object in
+ * the container so that it's available in other parts of the application.
  */
 $authMiddleware = function(){
     return function(\Slim\Http\Request $request, \Slim\Http\Response $response, $next) {
-        $token = $request->getHeader('X-Access-Token');
+
+        $token = null;
+        $tokenObject = null;
+
+        if ($request->hasHeader('X-User-Token')) {
+            $token = $request->getHeader('X-User-Token');
+            $tokenObject = \Dullahan\Model\UserToken::where('value', $token)->first();
+        }
+
+        if ($request->hasHeader('X-App-Token')) {
+            $token = $request->getHeader('X-App-Token');
+            $tokenObject = \Dullahan\Model\App::where('token', $token)->first();
+        }
+
+        // Allow access token as URL parameter in case custom headers are not supported by the client platform
+
+        if ($request->getParam('app_token')) {
+            $token = $request->getParam('app_token');
+            $tokenObject = \Dullahan\Model\App::where('token', $token)->first();
+        }
+
         if (!$token) {
-            return $response->withJson(['message' => 'Access token missing'], 401, JSON_PRETTY_PRINT);
+            $error = [
+                'message' => 'Access token missing',
+                'errorCode' => 'ACCESS_TOKEN_MISSING'
+            ];
+            return $response->withJson($error, 401, JSON_PRETTY_PRINT);
         }
 
-        $tokenObject = \Dullahan\Model\Token::where('value', $token)->first();
         if (!$tokenObject) {
-            return $response->withJson(['message' => 'Invalid access token'], 401, JSON_PRETTY_PRINT);
+            $error = [
+                'message' => 'Access token invalid',
+                'errorCode' => 'ACCESS_TOKEN_INVALID'
+            ];
+            return $response->withJson($error, 401, JSON_PRETTY_PRINT);
         }
 
-        $container = $this;
-        $container->user = $tokenObject->user;
+        // If we are using user token, make the user object globally available to the application in the container
+
+        if ($request->hasHeader('X-User-Token')) {
+            $container = $this;
+            $container->user = $tokenObject->user;
+        }
 
         $response = $next($request, $response);
         return $response;

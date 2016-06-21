@@ -9,9 +9,9 @@ class User extends Model
         'password'
     ];
 
-    function tokens()
+    function user_tokens()
     {
-        return $this->hasMany('Dullahan\Model\Token');
+        return $this->hasMany('Dullahan\Model\UserToken');
     }
 
     function content()
