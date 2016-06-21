@@ -129,11 +129,11 @@ $app->group('/api', function() use ($throttleMiddleware, $authMiddleware){
     $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
     $this->get('/login', '\Dullahan\Controller\UserController:getUserDetails')->add($authMiddleware());
     $this->get('/media', '\Dullahan\Controller\MediaController:listMedia')->add($authMiddleware());
-    $this->delete('/media/{filename}', '\Dullahan\Controller\MediaController:deleteMediaItem');
+    $this->delete('/media/{filename}', '\Dullahan\Controller\MediaController:deleteMediaItem')->add($authMiddleware());
     $this->get('/media/thumbnail/{filename}', '\Dullahan\Controller\MediaController:getMediaThumbnail');
     $this->get('/media/download/{filename}', '\Dullahan\Controller\MediaController:downloadMedia');
     $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia')->add($authMiddleware());
-    $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent');
+    $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent')->add($authMiddleware());
     $this->get('/users', '\Dullahan\Controller\UserController:listUsers')->add($authMiddleware());
 });
 
