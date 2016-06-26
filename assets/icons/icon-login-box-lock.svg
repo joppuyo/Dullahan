@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="58px" height="74px" viewBox="0 0 58 74" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-login-box-lock</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Export" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.2">
+        <g id="icon-login-box-lock" fill="#000000">
+            <path d="M31.3671069,50.4052833 C32.9345913,49.5612503 34,47.9050449 34,46 C34,43.2385763 31.7614237,41 29,41 C26.2385763,41 24,43.2385763 24,46 C24,47.9050449 25.0654087,49.5612503 26.6328931,50.4052833 L26,58 C26,58 27.9719933,59 29,59 C29.9719933,59 32,58 32,58 L31.3671069,50.4052833 Z M45,27 L45,19.4 C45,7.812 39.66,1 29,1 C18.336,1 13,7.812 13,19.4 L13,27 L5,27 C2.788,27 1,29.584 1,31.796 L1,67.5 C1,68.8360594 2,72 2,72 C2,72 4.62969505,73 6.5,73 L52,73 C53.6839599,73 56,72 56,72 C56,72 57,69.8169554 57,68 L57,31.796 C57,29.584 54.408,27 52.2,27 L45,27 Z M20,27 L20,17.2846667 C20,11.1835556 23.5865,8 29,8 C34.4135,8 38,11.1835556 38,17.2846667 L38,27 L20,27 Z" id="Page-1"></path>
+        </g>
+    </g>
+</svg>

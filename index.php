@@ -7,14 +7,7 @@ require "config.php";
 
 date_default_timezone_set(TIMEZONE);
 
-use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Illuminate\Database\Capsule\Manager as Capsule;
-
-$config = new Cartalyst\Sentinel\Native\ConfigRepository('config-sentinel.php');
-
-$bootstrapper = new Cartalyst\Sentinel\Native\SentinelBootstrapper($config);
-
-Sentinel::instance($bootstrapper);
 
 $capsule = new Capsule;
 
@@ -33,63 +26,117 @@ $capsule->bootEloquent();
 
 $capsule->setAsGlobal();
 
-$app = new Slim\Slim;
+$app = new Slim\App;
 
-$app->view(new \Slim\Views\Twig());
-
-$app->view()->parserExtensions = [
-  new \Slim\Views\TwigExtension(),
+$configuration = [
+    'settings' => [
+        'displayErrorDetails' => true,
+    ],
 ];
-
-$app->contentService = function(){
-    return new \Dullahan\Service\ContentService();
-};
-
-$app->mediaService = function(){
-    return new \Dullahan\Service\MediaService();
-};
-
-$app->helperService = function(){
-    return new \Dullahan\Service\HelperService();
-};
+$container = new \Slim\Container($configuration);
+$app = new \Slim\App($container);
 
 $filestore = new \Illuminate\Cache\FileStore(
   new \Illuminate\Filesystem\Filesystem(),
-  'cache'
+  'cache/illuminate'
 );
-$app->cache = new \Illuminate\Cache\Repository($filestore);
+$container['cache'] = new \Illuminate\Cache\Repository($filestore);
+$container['MediaService'] = new \Dullahan\Service\MediaService();
+$container['ContentService'] = new \Dullahan\Service\ContentService();
+$container['user'] = null;
 
-function checkLogin(){
-    return function () {
-        $app = \Slim\Slim::getInstance();
-        if ($app->helperService->isFirstRun()) {
-            $app->redirectTo('firstRun');
-        }
-        $user = Sentinel::check();
-        if (!$user) {
-            $app->flash('error', 'Please log in first.');
-            $app->redirectTo('login');
-        }
-    };
-}
+$app->add(new RKA\Middleware\IpAddress());
 
-$app->map('/admin/login/', '\Dullahan\Controller\UserController:login')->via('GET', 'POST')->name('login');
-
-$app->map('/admin/register/', '\Dullahan\Controller\UserController:register')->via('GET', 'POST');
-
-$app->map('/admin/firstrun/', '\Dullahan\Controller\AdminController:firstRun')->via('GET', 'POST')->name('firstRun');
-
-$app->group('/admin', checkLogin(), function () use ($app) {
-    $app->get('/', '\Dullahan\Controller\AdminController:adminRoot')->name('admin');
-    $app->get('/content', '\Dullahan\Controller\ContentController:listContent')->name('contentList');
-    $app->map('/content/add/', '\Dullahan\Controller\ContentController:addContentSelect')->via('GET', 'POST')->name('contentAddSelect');
-    $app->map('/content/add/:contentType/', '\Dullahan\Controller\ContentController:addContent')->via('GET', 'POST')->name('contentAdd');
-    $app->map('/content/edit/:contentId/', '\Dullahan\Controller\ContentController:editContent')->via('GET', 'POST')->name('contentEdit');
-    $app->get('/media', '\Dullahan\Controller\MediaController:listContent')->name('mediaList');
-    $app->map('/media/add/', '\Dullahan\Controller\MediaController:addContent')->via('GET', 'POST')->name('mediaAdd');
+$app->get('/', function(\Slim\Http\Request $request, \Slim\Http\Response $response, $arguments){
+   echo 'works';
 });
-$app->get('/api/content/:contentType/', '\Dullahan\Controller\ContentController:listContentJson');
-$app->get('/api/content/:contentType/:slug/', '\Dullahan\Controller\ContentController:getContentJson');
-$app->get('/media/:fileName', '\Dullahan\Controller\MediaController:getFile');
+
+/**
+ * This middleware validates access token sent by client.
+ *
+ * Token must be a valid user token or app token. If the user token is valid, the middleware will set user object in
+ * the container so that it's available in other parts of the application.
+ */
+$authMiddleware = function(){
+    return function(\Slim\Http\Request $request, \Slim\Http\Response $response, $next) {
+
+        $token = null;
+        $tokenObject = null;
+
+        if ($request->hasHeader('X-User-Token')) {
+            $token = $request->getHeader('X-User-Token');
+            $tokenObject = \Dullahan\Model\UserToken::where('value', $token)->first();
+        }
+
+        if ($request->hasHeader('X-App-Token')) {
+            $token = $request->getHeader('X-App-Token');
+            $tokenObject = \Dullahan\Model\App::where('token', $token)->first();
+        }
+
+        // Allow access token as URL parameter in case custom headers are not supported by the client platform
+
+        if ($request->getParam('app_token')) {
+            $token = $request->getParam('app_token');
+            $tokenObject = \Dullahan\Model\App::where('token', $token)->first();
+        }
+
+        if (!$token) {
+            $error = [
+                'message' => 'Access token missing',
+                'errorCode' => 'ACCESS_TOKEN_MISSING'
+            ];
+            return $response->withJson($error, 401, JSON_PRETTY_PRINT);
+        }
+
+        if (!$tokenObject) {
+            $error = [
+                'message' => 'Access token invalid',
+                'errorCode' => 'ACCESS_TOKEN_INVALID'
+            ];
+            return $response->withJson($error, 401, JSON_PRETTY_PRINT);
+        }
+
+        // If we are using user token, make the user object globally available to the application in the container
+
+        if ($request->hasHeader('X-User-Token')) {
+            $container = $this;
+            $container->user = $tokenObject->user;
+        }
+
+        $response = $next($request, $response);
+        return $response;
+    };
+};
+
+$throttleMiddleware = function($throttleName) {
+    return function(\Slim\Http\Request $request, \Slim\Http\Response $response, $next) use ($throttleName){
+        $cache = new Doctrine\Common\Cache\FilesystemCache('cache/doctrine');
+        $storage = new \BehEh\Flaps\Storage\DoctrineCacheAdapter($cache);
+        $flaps = new \BehEh\Flaps\Flaps($storage);
+        $flap = $flaps->__get($throttleName);
+        $flap->pushThrottlingStrategy(new \BehEh\Flaps\Throttling\LeakyBucketStrategy(5, '20s'));
+        $flap->setViolationHandler(new \BehEh\Flaps\Violation\PassiveViolationHandler());
+        if (!$flap->limit($request->getAttribute('ip_address'))) {
+            return $response->withJson(['message' => 'Too many requests'], 429);
+        }
+        $response = $next($request, $response);
+        return $response;
+    };
+};
+
+$app->group('/api', function() use ($throttleMiddleware, $authMiddleware){
+    $this->post('/register', '\Dullahan\Controller\UserController:register');
+    $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
+    $this->get('/login', '\Dullahan\Controller\UserController:getUserDetails')->add($authMiddleware());
+    $this->get('/media', '\Dullahan\Controller\MediaController:listMedia')->add($authMiddleware());
+    $this->delete('/media/{filename}', '\Dullahan\Controller\MediaController:deleteMediaItem')->add($authMiddleware());
+    $this->get('/media/thumbnail/{filename}', '\Dullahan\Controller\MediaController:getMediaThumbnail');
+    $this->get('/media/download/{filename}', '\Dullahan\Controller\MediaController:downloadMedia');
+    $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia')->add($authMiddleware());
+    $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent')->add($authMiddleware());
+    $this->get('/users', '\Dullahan\Controller\UserController:listUsers')->add($authMiddleware());
+});
+
+$app->get('/test', '\Dullahan\Controller\ContentController:listContent');
 
 $app->run();

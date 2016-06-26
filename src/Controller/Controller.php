@@ -1,15 +1,13 @@
 <?php
 namespace Dullahan\Controller;
 
+use Interop\Container\ContainerInterface;
+
 class Controller
 {
-    /**
-     * @property $app \Slim\Slim
-     */
-    public $app;
+    public $container;
 
-    function __construct()
-    {
-        $this->app = \Slim\Slim::getInstance();
+    public function __construct(ContainerInterface $container) {
+        $this->container = $container;
     }
 }
