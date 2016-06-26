@@ -58,7 +58,6 @@ export default class FetchService {
             }
         })
             .then(this.handleError)
-            .then(response => response.json())
     }
     handleError(response) {
         if (response.status >= 200 && response.status < 300) {

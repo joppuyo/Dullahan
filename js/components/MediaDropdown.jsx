@@ -19,10 +19,7 @@ export default class MediaDropdown extends React.Component {
     }
 
     onDeleteMedia() {
-        FetchService.deleteRequest(`/api/media/${this.props.mediaItem.full_name}`)
-            .then((data) => {
-                // TODO: Refresh view
-            })
+        this.props.onDelete(this.props.mediaItem.full_name);
     }
 
     onOpenMedia() {

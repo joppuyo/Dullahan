@@ -10,7 +10,7 @@ export default class MediaItem extends React.Component {
                     <div className="media-item-lower">
                         <div className="media-item-name">{this.props.filename}</div>
                         <div className="media-item-meta">{this.props.extension} - 2012-12-12 12:32</div>
-                        <MediaDropdown mediaItem={this.props}></MediaDropdown>
+                        <MediaDropdown onDelete={this.props.onDelete} mediaItem={this.props}/>
                     </div>
                 </div>
             </div>

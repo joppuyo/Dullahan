@@ -11,14 +11,17 @@ export default class Media extends React.Component {
         super(props);
         this.state = {images: []};
     }
+
     componentDidMount() {
         this.getMedia();
     }
+
     handleUpload(data) {
         FetchService.post('api/media', data, {json: false}).then(() => {
             this.getMedia();
         });
     }
+
     getMedia() {
         FetchService.get('/api/media').then((data) => {
             this.setState(
@@ -29,6 +32,13 @@ export default class Media extends React.Component {
         })
     }
 
+    handleDelete(filename) {
+        FetchService.deleteRequest(`/api/media/${filename}`)
+            .then((data) => {
+                this.getMedia();
+            })
+    }
+
     render() {
         return (
         <DocumentTitle title="Media - Dullahan">
@@ -37,7 +47,7 @@ export default class Media extends React.Component {
                     <MediaUploadButton onUpload={this.handleUpload.bind(this)}/>
                 </SectionHeader>
                 <div className="media-items-container">
-                    {this.state.images.map(image => <MediaItem{...image}/>)}
+                    {this.state.images.map(image => <MediaItem {...image} key={image.filename} onDelete={this.handleDelete.bind(this)}/>)}
                 </div>
             </div>
         </DocumentTitle>
