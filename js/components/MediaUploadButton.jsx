@@ -15,9 +15,7 @@ export default class MediaUploadButton extends React.Component {
                 data.append(i.toString(),files[i]);
             }
         }
-        FetchService.post('api/media', data, {json: false}).then(() => {
-            // TODO: Update view
-        });
+        this.props.onUpload(data);
     }
     render() {
         return <div>

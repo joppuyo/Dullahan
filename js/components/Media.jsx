@@ -12,6 +12,14 @@ export default class Media extends React.Component {
         this.state = {images: []};
     }
     componentDidMount() {
+        this.getMedia();
+    }
+    handleUpload(data) {
+        FetchService.post('api/media', data, {json: false}).then(() => {
+            this.getMedia();
+        });
+    }
+    getMedia() {
         FetchService.get('/api/media').then((data) => {
             this.setState(
                 {
@@ -26,7 +34,7 @@ export default class Media extends React.Component {
         <DocumentTitle title="Media - Dullahan">
             <div className="section-wrapper">
                 <SectionHeader title="Media">
-                    <MediaUploadButton/>
+                    <MediaUploadButton onUpload={this.handleUpload.bind(this)}/>
                 </SectionHeader>
                 <div className="media-items-container">
                     {this.state.images.map(image => <MediaItem{...image}/>)}
