@@ -10,19 +10,8 @@ export default class FetchService {
                 'X-User-Token': localStorage.getItem('token'),
             }
         })
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    var error = new Error(response.statusText);
-                    error.response = response;
-                    throw error;
-                }
-            })
+            .then(this.handleError)
             .then(response => response.json())
-            .then(data => {
-                return data;
-            })
     }
     static post(url, data, customOptions) {
 
@@ -57,19 +46,8 @@ export default class FetchService {
             headers: headers,
             body: body,
         })
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    var error = new Error(response.statusText);
-                    error.response = response;
-                    throw error;
-                }
-            })
+            .then(this.handleError)
             .then(response => response.json())
-            .then(data => {
-                return data;
-            })
     }
     static deleteRequest(url) {
         return fetch(url, {
@@ -79,18 +57,16 @@ export default class FetchService {
                 'X-User-Token': localStorage.getItem('token'),
             }
         })
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    var error = new Error(response.statusText);
-                    error.response = response;
-                    throw error;
-                }
-            })
+            .then(this.handleError)
             .then(response => response.json())
-            .then(data => {
-                return data;
-            })
+    }
+    handleError(response) {
+        if (response.status >= 200 && response.status < 300) {
+            return response;
+        } else {
+            var error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+        }
     }
 }
