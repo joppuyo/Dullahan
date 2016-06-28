@@ -8,9 +8,16 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\Plugin\ListWith;
 use Stringy\Stringy;
 
+/**
+ * Class MediaService
+ * @package Dullahan\Service
+ * @property Filesystem $filesystem
+ */
+
 class MediaService extends Service
 {
-    function __construct(){
+    public function __construct()
+    {
         $adapter = new Local('.');
         $this->filesystem = new Filesystem($adapter);
         $this->filesystem->addPlugin(new ListWith());
