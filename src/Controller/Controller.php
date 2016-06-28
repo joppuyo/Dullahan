@@ -7,7 +7,8 @@ class Controller
 {
     public $container;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
     }
 }

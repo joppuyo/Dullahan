@@ -22,7 +22,7 @@ use function Stringy\create as s;
  */
 class MediaController extends Controller
 {
-    function __construct($containerInterface)
+    public function __construct($containerInterface)
     {
         parent::__construct($containerInterface);
         $this->manager = new ImageManager(['driver' => IMAGE_LIBRARY]);
@@ -42,7 +42,7 @@ class MediaController extends Controller
         $this->app->lastModified($lastModified);
         $cacheKey = "$filename.$lastModified.$size.$aspect";
         $cached = $this->app->cache->get($cacheKey);
-        if(is_null($cached)){
+        if (is_null($cached)) {
             if ($size !== null) {
                 $size = intval($size);
                 if ($size <= 0 || $size > 5000) {
@@ -64,11 +64,12 @@ class MediaController extends Controller
         }
     }
 
-    public function listMedia(Request $request, Response $response, $arguments) {
+    public function listMedia(Request $request, Response $response, $arguments)
+    {
         $media = $this->container->MediaService->getAllMedia();
         $media = collect($media)->values();
         $baseUrl = $request->getUri()->getBaseUrl();
-        $media = $media->map(function($item) use ($baseUrl) {
+        $media = $media->map(function ($item) use ($baseUrl) {
             $item['is_image'] = false;
             if ($this->isImage($item)) {
                 $imagick = $this->manager->make($item['full_name_with_path']);
@@ -122,11 +123,11 @@ class MediaController extends Controller
     {
         try {
             $imagick = new \Imagick();
-            $imagick->setResolution(144,144);
+            $imagick->setResolution(144, 144);
             $imagick->setBackgroundColor('#ffffff');
             $imagick->readImage('uploads/' . $arguments['filename'] . '[0]');
-            $imagick->scaleImage(640,0);
-            $imagick->cropImage(640,480,0,0);
+            $imagick->scaleImage(640, 0);
+            $imagick->cropImage(640, 480, 0, 0);
             $imagick->setImagePage(0, 0, 0, 0);
             $imagick = $imagick->flattenImages();
             $imagick->setImageFormat('jpeg');
