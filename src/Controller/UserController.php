@@ -13,12 +13,64 @@ class UserController extends Controller
 {
     public function register(Request $request, Response $response, array $arguments)
     {
-        $body = $request->getParsedBody();
-        $user = new \Dullahan\Model\User();
-        $user->email = $body['email'];
-        $user->password = password_hash($body['password'], PASSWORD_DEFAULT);
-        $user->save();
-        return $response->withJson($user, 201);
+        $errors = [];
+
+        $body = [
+            'email' => null,
+            'password' => null
+        ];
+
+        $body = array_merge($body, $request->getParsedBody());
+        if (!isset($body['email'])) {
+            array_push(
+                $errors,
+                [
+                    'value' => 'email',
+                    'error' => 'EMAIL_MISSING',
+                    'message' => 'Email address is missing'
+                ]
+            );
+        }
+        if (!isset($body['password'])) {
+            array_push(
+                $errors,
+                [
+                    'value' => 'password',
+                    'error' => 'PASSWORD_MISSING',
+                    'message' => 'Password is missing'
+                ]
+            );
+        }
+        if (!filter_var($body['email'], FILTER_VALIDATE_EMAIL)) {
+            array_push(
+                $errors,
+                [
+                    'value' => 'email',
+                    'error' => 'EMAIL_INVALID',
+                    'message' => 'Email address is invalid'
+                ]
+            );
+        }
+        if (!User::where(['email' => $body['email']])->get()->isEmpty()) {
+            array_push(
+                $errors,
+                [
+                    'value' => 'email',
+                    'error' => 'EMAIL_IN_USE',
+                    'message' => 'Email address is in use'
+                ]
+            );
+        }
+        if (!$errors) {
+            $user = new User();
+            $user->email = mb_strtolower($body['email']);
+            $user->password = password_hash($body['password'], PASSWORD_DEFAULT);
+            $user->save();
+            return $response->withJson($user, 201);
+        } else {
+            return $response->withJson($errors, 400);
+        }
+
     }
 
     public function login(Request $request, Response $response, array $arguments)
