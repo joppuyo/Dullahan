@@ -190,6 +190,7 @@ a.side-nav-item-wrapper {
 
 .form-control {
   box-shadow: none;
+  border: 2px solid transparent;
   &:focus {
     box-shadow: none;
     border: 2px solid $brand-primary;
