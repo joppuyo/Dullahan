@@ -20,7 +20,10 @@ class UserController extends Controller
             'password' => null
         ];
 
-        $body = array_merge($body, $request->getParsedBody());
+        if (is_array($request->getParsedBody())) {
+            $body = array_merge($body, $request->getParsedBody());
+        }
+
         if (!isset($body['email'])) {
             array_push(
                 $errors,
@@ -31,6 +34,7 @@ class UserController extends Controller
                 ]
             );
         }
+
         if (!isset($body['password'])) {
             array_push(
                 $errors,
@@ -41,6 +45,7 @@ class UserController extends Controller
                 ]
             );
         }
+
         if (!filter_var($body['email'], FILTER_VALIDATE_EMAIL)) {
             array_push(
                 $errors,
@@ -51,6 +56,7 @@ class UserController extends Controller
                 ]
             );
         }
+
         if (!User::where(['email' => $body['email']])->get()->isEmpty()) {
             array_push(
                 $errors,
@@ -61,6 +67,7 @@ class UserController extends Controller
                 ]
             );
         }
+        
         if (!$errors) {
             $user = new User();
             $user->email = mb_strtolower($body['email']);

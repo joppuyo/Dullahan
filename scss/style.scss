@@ -227,5 +227,23 @@ a.side-nav-item-wrapper {
   flex-grow: 1;
 }
 
+.section-body {
+  padding: 20px;
+  background-color: white;
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    margin-bottom: 20px;
+  }
+}
+
+.section-header-right .btn {
+  margin: 18px;
+  margin-left: 0;
+  padding: 9px 11px;
+  border-radius: 3px;
+}
+
 @import 'media';
 @import 'list-item';
