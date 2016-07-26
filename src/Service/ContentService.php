@@ -2,6 +2,7 @@
 
 namespace Dullahan\Service;
 
+use Dullahan\Model\Content;
 use Symfony\Component\Yaml\Parser;
 
 class ContentService extends Service
@@ -9,7 +10,7 @@ class ContentService extends Service
     public function enumerateContentTypes()
     {
         $yaml = new Parser();
-        $contentTypeDescriptors = glob('content-types/*.yaml');
+        $contentTypeDescriptors = glob('content/content-types/*.yaml');
         $contentTypes = [];
 
         foreach($contentTypeDescriptors as $descriptor) {
@@ -42,18 +43,22 @@ class ContentService extends Service
 
                 $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
 
-                // Add full URL to image field
-
                 $fieldType = $this->getContentTypeField($item['content_type'], $field['slug']);
 
+                // Add full URL to image field
                 if ($fieldType['type'] === 'image' && !empty($field['value'])) {
                     $value = $mediaPath . $field['value'];
                 }
 
-                if (!empty($value)) {
-                    $item->$name = $value;
+                // Expand references
+                if ($fieldType['type'] === 'reference' && !empty($field['value'])) {
+                    $value = Content::where('id', $field['value'])->get();
+                    if (!$value->isEmpty()) {
+                        $value = $this->convertFields($value, $request)->first();
+                    }
                 }
 
+                $item->$name = $value;
             }
             unset($item->fields);
         });

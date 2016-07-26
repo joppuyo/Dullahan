@@ -19,7 +19,7 @@ class ContentController extends Controller
             ->where('is_published', true)
             ->get();
         $content = $this->container->ContentService->convertFields($content, $request);
-        return $response->withJson($content, 200, JSON_PRETTY_PRINT);
+        return $response->withJson($content, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
     public function addContentSelect()
