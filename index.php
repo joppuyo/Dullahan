@@ -124,6 +124,14 @@ $throttleMiddleware = function($throttleName) {
     };
 };
 
+// Throw Slim exception also in case of PHP notice or warning
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+
 $app->group('/api', function() use ($throttleMiddleware, $authMiddleware){
     $this->post('/register', '\Dullahan\Controller\UserController:register');
     $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
