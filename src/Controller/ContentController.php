@@ -18,7 +18,13 @@ class ContentController extends Controller
         $content = Content::where('content_type', $arguments['contentTypeSlug'])
             ->where('is_published', true)
             ->get();
-        $content = $this->container->ContentService->convertFields($content, $request);
+        $contentTypeDefinition = $this->container->ContentService
+            ->getContentTypeDefinition($arguments['contentTypeSlug']);
+
+        $content = $content->map(function ($item) use ($request, $contentTypeDefinition) {
+            return $this->container->ContentService->convertFields($item, $contentTypeDefinition, $request);
+        });
+
         return $response->withJson($content, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
