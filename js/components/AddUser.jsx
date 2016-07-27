@@ -36,8 +36,9 @@ export default class AddUser extends React.Component {
         FetchService.post('api/register', request).then((response) => {
             hashHistory.push('/users');
         }).catch((response) => {
-            // TODO: add error handling
-            alert('Could not add a new user because of an error');
+            // TODO: improve error handling
+            const errors = response.map(error => error.message).join(', ');
+            alert('Could not add a new user because of the following errors: ' + errors);
         });
     }
 
