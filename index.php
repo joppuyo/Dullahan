@@ -37,8 +37,8 @@ $container = new \Slim\Container($configuration);
 $app = new \Slim\App($container);
 
 $filestore = new \Illuminate\Cache\FileStore(
-  new \Illuminate\Filesystem\Filesystem(),
-  'cache/illuminate'
+    new \Illuminate\Filesystem\Filesystem(),
+    'cache/illuminate'
 );
 $container['cache'] = new \Illuminate\Cache\Repository($filestore);
 $container['MediaService'] = new \Dullahan\Service\MediaService();
@@ -57,8 +57,8 @@ $app->get('/', function(\Slim\Http\Request $request, \Slim\Http\Response $respon
  * Token must be a valid user token or app token. If the user token is valid, the middleware will set user object in
  * the container so that it's available in other parts of the application.
  */
-$authMiddleware = function(){
-    return function(\Slim\Http\Request $request, \Slim\Http\Response $response, $next) {
+$authMiddleware = function () {
+    return function (\Slim\Http\Request $request, \Slim\Http\Response $response, $next) {
 
         $token = null;
         $tokenObject = null;
@@ -108,8 +108,8 @@ $authMiddleware = function(){
     };
 };
 
-$throttleMiddleware = function($throttleName) {
-    return function(\Slim\Http\Request $request, \Slim\Http\Response $response, $next) use ($throttleName){
+$throttleMiddleware = function ($throttleName) {
+    return function (\Slim\Http\Request $request, \Slim\Http\Response $response, $next) use ($throttleName) {
         $cache = new Doctrine\Common\Cache\FilesystemCache('cache/doctrine');
         $storage = new \BehEh\Flaps\Storage\DoctrineCacheAdapter($cache);
         $flaps = new \BehEh\Flaps\Flaps($storage);
@@ -132,7 +132,7 @@ set_error_handler(function ($severity, $message, $file, $line) {
     throw new \ErrorException($message, 0, $severity, $file, $line);
 });
 
-$app->group('/api', function() use ($throttleMiddleware, $authMiddleware){
+$app->group('/api', function () use ($throttleMiddleware, $authMiddleware) {
     $this->post('/register', '\Dullahan\Controller\UserController:register');
     $this->post('/login', '\Dullahan\Controller\UserController:login')->add($throttleMiddleware('login'));
     $this->get('/login', '\Dullahan\Controller\UserController:getUserDetails')->add($authMiddleware());
