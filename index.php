@@ -47,10 +47,6 @@ $container['user'] = null;
 
 $app->add(new RKA\Middleware\IpAddress());
 
-$app->get('/', function(\Slim\Http\Request $request, \Slim\Http\Response $response, $arguments){
-   echo 'works';
-});
-
 /**
  * This middleware validates access token sent by client.
  *
@@ -144,7 +140,5 @@ $app->group('/api', function () use ($throttleMiddleware, $authMiddleware) {
     $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent')->add($authMiddleware());
     $this->get('/users', '\Dullahan\Controller\UserController:listUsers')->add($authMiddleware());
 });
-
-$app->get('/test', '\Dullahan\Controller\ContentController:listContent');
 
 $app->run();
