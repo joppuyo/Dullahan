@@ -2,26 +2,25 @@ import 'whatwg-fetch';
 import _ from 'underscore';
 
 export default class FetchService {
-    static get(url){
+    static get(url) {
         return fetch(url, {
             method: 'get',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'X-User-Token': localStorage.getItem('token'),
-            }
+            },
         })
             .then(this.handleError)
-            .then(response => response.json())
+            .then(response => response.json());
     }
     static post(url, data, customOptions) {
-
-        var defaultOptions = {
+        const defaultOptions = {
             json: true,
         };
 
-        var options = _.extend(defaultOptions, customOptions);
+        let options = _.extend(defaultOptions, customOptions);
 
-        var body = null;
+        let body = null;
 
         if (options.json) {
             body = JSON.stringify(data);
@@ -29,8 +28,8 @@ export default class FetchService {
             body = data;
         }
 
-        var headers = {
-            'Accept': 'application/json',
+        let headers = {
+            Accept: 'application/json',
         };
 
         if (localStorage.getItem('token')) {
@@ -47,17 +46,17 @@ export default class FetchService {
             body: body,
         })
             .then(this.handleError)
-            .then(response => response.json())
+            .then(response => response.json());
     }
     static deleteRequest(url) {
         return fetch(url, {
             method: 'delete',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'X-User-Token': localStorage.getItem('token'),
-            }
+            },
         })
-            .then(this.handleError)
+            .then(this.handleError);
     }
 
     static handleError(response) {
