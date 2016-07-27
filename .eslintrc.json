@@ -1,0 +1,12 @@
+{
+  "extends": ["airbnb", "plugin:react/recommended"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "quote-props": ["error", "as-needed"],
+    "indent": ["error", 4],
+    "react/jsx-indent-props": ["error", 4],
+    "react/jsx-indent": ["error", 4]
+  }
+}
