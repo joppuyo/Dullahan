@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Parser;
 
 class ContentService extends Service
 {
-    public function enumerateContentTypes()
+    public function getContentTypes()
     {
         $yaml = new Parser();
         $contentTypeDescriptors = glob('content/content-types/*.yaml');
@@ -47,7 +47,7 @@ class ContentService extends Service
     public function getContentTypeDefinition($contentTypeSlug)
     {
         $definition = null;
-        $contentTypes = $this->enumerateContentTypes();
+        $contentTypes = $this->getContentTypes();
         foreach ($contentTypes as $currentContentType) {
             if (isset($currentContentType->slug) && $currentContentType->slug === $contentTypeSlug) {
                 $definition = $currentContentType;
