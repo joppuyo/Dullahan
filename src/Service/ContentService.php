@@ -3,6 +3,7 @@
 namespace Dullahan\Service;
 
 use Dullahan\Model\Content;
+use JsonSchema\Validator;
 use Symfony\Component\Yaml\Parser;
 
 class ContentService extends Service
@@ -14,16 +15,33 @@ class ContentService extends Service
         $contentTypes = [];
 
         foreach ($contentTypeDescriptors as $descriptor) {
-            $contentType = $yaml->parse(file_get_contents($descriptor));
+            $contentType = $yaml->parse(file_get_contents($descriptor), false, false, true);
             array_push($contentTypes, $contentType);
         }
 
         return $contentTypes;
     }
 
-    public function validateContentTypes()
+    /**
+     * Validate content type
+     *
+     * This function will validate that the content type definition of the content being accessed is valid and well
+     * formed.
+     *
+     * @param object $definition Content type definition
+     * @param string $contentTypeSlug Content type slug
+     * @throws \Exception
+     */
+    public function validateContentType($definition, $contentTypeSlug)
     {
-
+        $validator = new Validator();
+        $validator->check($definition, json_decode(file_get_contents('assets/schema/content-type.json')));
+        if (!$validator->isValid()) {
+            $errorString = collect($validator->getErrors())->map(function ($error) {
+                return $error['property'] . ": " . $error['message'];
+            })->implode(', ');
+            throw new \Exception("Content type \"$contentTypeSlug\" validation failed because of the following errors: $errorString");
+        }
     }
 
     public function getContentTypeDefinition($contentTypeSlug)
@@ -31,13 +49,14 @@ class ContentService extends Service
         $definition = null;
         $contentTypes = $this->enumerateContentTypes();
         foreach ($contentTypes as $currentContentType) {
-            if ($currentContentType['slug'] === $contentTypeSlug) {
+            if (isset($currentContentType->slug) && $currentContentType->slug === $contentTypeSlug) {
                 $definition = $currentContentType;
             }
         }
         if (!$definition) {
-            throw new \Exception('Content type not found');
+            throw new \Exception("Content type \"$contentTypeSlug\" not found");
         }
+        $this->validateContentType($definition, $contentTypeSlug);
         return $definition;
     }
 
@@ -48,7 +67,7 @@ class ContentService extends Service
      * object representing the data.
      *
      * @param object $contentItem Content item fetched from database
-     * @param array $contentTypeDefinition Content item fetched from database
+     * @param array $contentTypeDefinition Content type definition parsed from a YAML file
      * @param object $request Slim HTTP request object, needed for getting the paths right
      * @return object
      */
@@ -61,8 +80,8 @@ class ContentService extends Service
 
         // This will hold the data for the user who has created the content.
         $convertedObject->_user = null;
-        collect($contentTypeDefinition['fields'])->map(function ($field) use ($convertedObject) {
-            $fieldSlug = $field['slug'];
+        collect($contentTypeDefinition->fields)->map(function ($field) use ($convertedObject) {
+            $fieldSlug = $field->slug;
             $convertedObject->$fieldSlug = null;
         });
 
@@ -74,15 +93,15 @@ class ContentService extends Service
 
             $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
 
-            $fieldType = collect($contentTypeDefinition['fields'])->where('slug', $field['slug'])->first();
+            $fieldType = collect($contentTypeDefinition->fields)->where('slug', $field['slug'])->first();
 
             // Add full URL to image field
-            if ($fieldType['type'] === 'image' && !empty($field['value'])) {
+            if ($fieldType->type === 'image' && !empty($field['value'])) {
                 $value = $mediaPath . $field['value'];
             }
 
             // Expand references
-            if ($fieldType['type'] === 'reference' && !empty($field['value'])) {
+            if ($fieldType->type === 'reference' && !empty($field['value'])) {
                 $referenceObject = Content::where('id', $field['value'])->first();
                 if ($referenceObject) {
                     $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
