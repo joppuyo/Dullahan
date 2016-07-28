@@ -6,12 +6,25 @@ use Carbon\Carbon;
 use Cartalyst\Sentinel\Native\Facades\Sentinel;
 use Dullahan\Model\Content;
 use Exception;
+use Illuminate\Support\Collection;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Symfony\Component\Yaml\Parser;
 
 class ContentController extends Controller
 {
+    public function listContentTypes(Request $request, Response $response, $arguments)
+    {
+        $list = new Collection();
+        $contentTypes = collect($this->container->ContentService->getContentTypes());
+        $contentTypes->each(function ($type) use ($list) {
+            $new = new \stdClass();
+            $new->name = $type->name;
+            $new->slug = $type->slug;
+            $list->push($new);
+        });
+        return $response->withJson($list, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
 
     public function listContent(Request $request, Response $response, $arguments)
     {

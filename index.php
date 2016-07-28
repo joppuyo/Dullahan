@@ -137,6 +137,7 @@ $app->group('/api', function () use ($throttleMiddleware, $authMiddleware) {
     $this->get('/media/thumbnail/{filename}', '\Dullahan\Controller\MediaController:getMediaThumbnail');
     $this->get('/media/download/{filename}', '\Dullahan\Controller\MediaController:downloadMedia');
     $this->post('/media', '\Dullahan\Controller\MediaController:uploadMedia')->add($authMiddleware());
+    $this->get('/content', '\Dullahan\Controller\ContentController:listContentTypes')->add($authMiddleware());
     $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent')->add($authMiddleware());
     $this->get('/users', '\Dullahan\Controller\UserController:listUsers')->add($authMiddleware());
 });
