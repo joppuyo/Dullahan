@@ -5,6 +5,7 @@ import MediaItem from './MediaItem.jsx';
 import MediaUploadButton from './MediaUploadButton.jsx';
 import DocumentTitle from 'react-document-title';
 import FetchService from '../services/FetchService';
+import SectionHeaderRight from './SectionHeaderRight.jsx';
 
 export default class Media extends React.Component {
     constructor(props) {
@@ -44,7 +45,9 @@ export default class Media extends React.Component {
         <DocumentTitle title="Media - Dullahan">
             <div className="section-wrapper">
                 <SectionHeader title="Media">
-                    <MediaUploadButton onUpload={this.handleUpload.bind(this)}/>
+                    <SectionHeaderRight>
+                        <MediaUploadButton onUpload={this.handleUpload.bind(this)}/>
+                    </SectionHeaderRight>
                 </SectionHeader>
                 <div className="media-items-container">
                     {this.state.images.map(image => <MediaItem {...image} key={image.filename} onDelete={this.handleDelete.bind(this)}/>)}

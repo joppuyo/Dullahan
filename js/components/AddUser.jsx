@@ -4,6 +4,7 @@ import DocumentTitle from 'react-document-title';
 import { Link, hashHistory } from 'react-router';
 import _ from 'underscore';
 import FetchService from '../services/FetchService';
+import SectionHeaderRight from './SectionHeaderRight.jsx';
 
 export default class AddUser extends React.Component {
 
@@ -55,8 +56,10 @@ export default class AddUser extends React.Component {
             <DocumentTitle title="Add User - Dullahan">
                 <div className="section-wrapper">
                     <SectionHeader title="Add user">
-                        <Link to="/users" className="btn btn-default">Cancel</Link>
-                        <button className="btn btn-primary" onClick={this.onSubmit.bind(this)}>Add user</button>
+                        <SectionHeaderRight>
+                            <Link to="/users" className="btn btn-default">Cancel</Link>
+                            <button className="btn btn-primary" onClick={this.onSubmit.bind(this)}>Add user</button>
+                        </SectionHeaderRight>
                     </SectionHeader>
                     <div className="section-body">
                         <form>

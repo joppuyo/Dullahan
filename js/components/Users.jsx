@@ -4,6 +4,7 @@ import SectionHeader from './SectionHeader.jsx';
 import DocumentTitle from 'react-document-title';
 import ListItem from './ListItem.jsx';
 import FetchService from '../services/FetchService';
+import SectionHeaderRight from './SectionHeaderRight.jsx';
 
 export default class Users extends React.Component {
     constructor(props) {
@@ -26,7 +27,9 @@ export default class Users extends React.Component {
             <DocumentTitle title="Users - Dullahan">
                 <div className="section-wrapper">
                     <SectionHeader title="Users">
-                        <Link to="users/add" className="btn btn-primary media-upload-button">Add user</Link>
+                        <SectionHeaderRight>
+                            <Link to="users/add" className="btn btn-primary media-upload-button">Add user</Link>
+                        </SectionHeaderRight>
                     </SectionHeader>
                     {this.state.users.map(user =>
                         <ListItem

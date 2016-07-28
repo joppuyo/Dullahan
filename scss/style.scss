@@ -1,5 +1,8 @@
+$color-primary: #9E4D9C;
+$color-secondary-action: #979797;
+
 $font-size-base: 16px;
-$brand-primary: #9E4D9C;
+$brand-primary: $color-primary;
 $body-bg: #ebebeb;
 $btn-primary-border: $brand-primary;
 $sidebar-bg-color: #2C3E50;
@@ -223,6 +226,10 @@ a.side-nav-item-wrapper {
   float: right;
 }
 
+.section-header-left {
+  float: left;
+}
+
 .section-wrapper {
   flex-grow: 1;
 }
@@ -247,3 +254,5 @@ a.side-nav-item-wrapper {
 
 @import 'media';
 @import 'list-item';
+@import 'select-css';
+@import 'custom-select';

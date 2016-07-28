@@ -1,0 +1,31 @@
+.section-header-left .custom-select {
+  margin: 18px;
+  margin-left: 20px;
+  background-color: $color-secondary-action;
+}
+
+.custom-select {
+  background-color: $color-primary;
+  color: white;
+  border-radius: 3px;
+  font-weight: normal;
+  & select {
+    padding-left: 14px;
+    padding-right: 40px;
+    height: 42px;
+  }
+    &:after {
+      content: '';
+      background-image: url("../assets/icons/select-dropdown-arrow.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      top:0;
+      right:0;
+      height: 42px;
+      width: 40px;
+  }
+}
+
+.custom-select select:focus {
+  border-color: transparent;
+}
