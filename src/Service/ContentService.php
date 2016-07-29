@@ -77,6 +77,8 @@ class ContentService extends Service
         $convertedObject = new \stdClass();
         $convertedObject->_id = $contentItem['id'];
         $convertedObject->_contentType = $contentItem['content_type'];
+        $convertedObject->_title = null;
+        $convertedObject->_image = null;
 
         // This will hold the data for the user who has created the content.
         $convertedObject->_user = null;
@@ -95,25 +97,47 @@ class ContentService extends Service
 
             $fieldType = collect($contentTypeDefinition->fields)->where('slug', $field['slug'])->first();
 
-            // Add full URL to image field
-            if ($fieldType->type === 'image' && !empty($field['value'])) {
-                $value = $mediaPath . $field['value'];
-            }
-
-            // Expand references
-            if ($fieldType->type === 'reference' && !empty($field['value'])) {
-                $referenceObject = Content::where('id', $field['value'])->first();
-                if ($referenceObject) {
-                    $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
-                    $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
-                } else {
-                    // If we can't find the reference object, there's no use of returning the id in the response so
-                    // let's just return a null.
-                    $value = null;
+            if ($fieldType) {
+                // Add full URL to image field
+                if ($fieldType->type === 'image' && !empty($field['value'])) {
+                    $value = $mediaPath . $field['value'];
                 }
-            }
 
-            $convertedObject->$name = $value;
+                // Expand references
+                if ($fieldType->type === 'reference' && !empty($field['value'])) {
+                    $referenceObject = Content::where('id', $field['value'])->first();
+                    if ($referenceObject) {
+                        $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
+                        $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
+                    } else {
+                        // If we can't find the reference object, there's no use of returning the id in the response so
+                        // let's just return a null.
+                        $value = null;
+                    }
+                }
+
+                $convertedObject->$name = $value;
+            }
+        }
+
+        // Heuristic to determine the title field. Get the first field marked as text and use that as the title field.
+        // TODO: allow setting this explicitly
+        $titleField = collect($contentTypeDefinition->fields)->filter(function ($field) {
+            return $field->type === 'text';
+        })->first();
+
+        if ($titleField) {
+            $convertedObject->_title = $convertedObject->{$titleField->slug};
+        }
+
+        // Heuristic to determine the image field. Get the first field marked as image and use that as the image field.
+        // TODO: allow setting this explicitly
+        $titleField = collect($contentTypeDefinition->fields)->filter(function ($field) {
+            return $field->type === 'image';
+        })->first();
+
+        if ($titleField) {
+            $convertedObject->_image = $convertedObject->{$titleField->slug};
         }
 
         return $convertedObject;
