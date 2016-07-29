@@ -83,29 +83,25 @@ class ContentService extends Service
         // This will hold the data for the user who has created the content.
         $convertedObject->_user = null;
         collect($contentTypeDefinition->fields)->map(function ($field) use ($convertedObject) {
-            $fieldSlug = $field->slug;
-            $convertedObject->$fieldSlug = null;
+            $convertedObject->{$field->slug} = null;
         });
 
         // Convert fields into object properties
 
-        foreach ($contentItem->fields as $field) {
-            $name = $field['slug'];
-            $value = $field['value'];
-
+        foreach ($contentItem->fields as $key => $value) {
             $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
 
-            $fieldType = collect($contentTypeDefinition->fields)->where('slug', $field['slug'])->first();
+            $fieldType = collect($contentTypeDefinition->fields)->where('slug', $key)->first();
 
             if ($fieldType) {
                 // Add full URL to image field
-                if ($fieldType->type === 'image' && !empty($field['value'])) {
-                    $value = $mediaPath . $field['value'];
+                if ($fieldType->type === 'image' && !empty($value)) {
+                    $value = $mediaPath . $value;
                 }
 
                 // Expand references
-                if ($fieldType->type === 'reference' && !empty($field['value'])) {
-                    $referenceObject = Content::where('id', $field['value'])->first();
+                if ($fieldType->type === 'reference' && !empty($value)) {
+                    $referenceObject = Content::where('id', $value)->first();
                     if ($referenceObject) {
                         $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
                         $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
@@ -116,8 +112,10 @@ class ContentService extends Service
                     }
                 }
 
-                $convertedObject->$name = $value;
+                $convertedObject->$key = $value;
+
             }
+
         }
 
         // Heuristic to determine the title field. Get the first field marked as text and use that as the title field.
