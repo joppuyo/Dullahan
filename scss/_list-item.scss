@@ -12,6 +12,8 @@ $list-item-icon-background-color: #D8D8D8;
   float: left;
   background-color: $list-item-icon-background-color;
   border-radius: 2px;
+  background-position: center;
+  background-size: cover;
 }
 
 .list-item-right {
