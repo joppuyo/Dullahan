@@ -41,10 +41,22 @@ class ContentController extends Controller
         return $response->withJson($content, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
-    public function addContentSelect()
+    public function getSingleContent(Request $request, Response $response, $arguments)
     {
-        $contentTypes = $this->app->contentService->enumerateContentTypes();
-        $this->app->render('contentAddSelect.twig', ['contentTypes' => $contentTypes]);
+        $content = Content::find($arguments['contentId']);
+        if (!$content) {
+            return $response->withJson(['message' => 'Content not found'], 404);
+        }
+        $contentTypeDefinition = $this->container->ContentService
+            ->getContentTypeDefinition($content['content_type']);
+        $content = $this->container->ContentService->convertFields($content, $contentTypeDefinition, $request);
+        return $response->withJson($content);
+    }
+
+    public function getContentType(Request $request, Response $response, $arguments)
+    {
+        $contentType = $this->container->ContentService->getContentTypeDefinition(($arguments['contentTypeSlug']));
+        return $response->withJson($contentType, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
     public function addContent($contentTypeSlug)

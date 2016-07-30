@@ -1,0 +1,14 @@
+.field-text-key {
+  // TODO: make this value global
+  line-height: 1.5;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.field-text-item:not(:last-of-type) {
+  margin-bottom: 20px;
+}
+
+.field-text-value-null {
+  opacity: 0.5;
+}

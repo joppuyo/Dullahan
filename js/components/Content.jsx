@@ -6,6 +6,7 @@ import SectionHeaderRight from './SectionHeaderRight.jsx';
 import FetchService from '../services/FetchService';
 import _ from 'underscore';
 import ListItem from './ListItem.jsx';
+import { Link } from 'react-router';
 
 export default class Content extends React.Component {
     constructor(props) {
@@ -57,12 +58,14 @@ export default class Content extends React.Component {
                         </SectionHeaderRight>
                     </SectionHeader>
                     {this.state.content.map(item =>
-                        <ListItem
-                            title={item._title}
-                            subtitle="Subtitle"
-                            key={item._id}
-                            image={item._image}
-                        />
+                        <Link to={`content/${item._id}`}>
+                            <ListItem
+                                title={item._title}
+                                subtitle="Subtitle"
+                                key={item._id}
+                                image={item._image}
+                            />
+                        </Link>
                     )}
                 </div>
             </DocumentTitle>

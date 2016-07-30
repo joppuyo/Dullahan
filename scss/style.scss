@@ -1,69 +1,9 @@
-$color-primary: #9E4D9C;
-$color-secondary-action: #979797;
-
-$font-size-base: 16px;
-$brand-primary: $color-primary;
-$body-bg: #ebebeb;
-$btn-primary-border: $brand-primary;
-$sidebar-bg-color: #2C3E50;
-$input-bg: #ECECEC;
-$input-border: #ECECEC;
-
-$section-header-border-color: #CDCDCD;
-$top-bar-height: 64px;
-
+@import "variables";
+@import "bootstrap-overrides";
 @import "bootstrap";
 @import "mixins";
 @import "nav";
 @import "featherlight";
-
-.center-vertically {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.dullahan-box {
-  background-color: white;
-  padding: 16px;
-  h1 {
-    margin-top: 0;
-  }
-}
-
-html, body, .container-fluid, .row {
-  height: 100%;
-}
-
-.content {
-  margin-left: 96px;
-}
-
-.media-image-grid-container {
-  padding: 8px;
-}
-
-.media-image-container {
-  padding:8px;
-}
-
-.media-image {
-  background-color: white;
-}
-
-.media-image-name {
-  padding: 8px;
-  @include truncate;
-}
-
-@media (max-width: $screen-sm-max) {
-
-  .dullahan-box-login {
-    top: 0;
-    transform: none;
-  }
-
-}
 
 body {
   background-color: #F2F2F2;
@@ -256,3 +196,4 @@ a.side-nav-item-wrapper {
 @import 'list-item';
 @import 'select-css';
 @import 'custom-select';
+@import 'field-text';
