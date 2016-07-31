@@ -58,14 +58,13 @@ export default class Content extends React.Component {
                         </SectionHeaderRight>
                     </SectionHeader>
                     {this.state.content.map(item =>
-                        <Link to={`content/${item._id}`}>
-                            <ListItem
-                                title={item._title}
-                                subtitle="Subtitle"
-                                key={item._id}
-                                image={item._image}
-                            />
-                        </Link>
+                        <ListItem
+                            link={`content/${item._id}`}
+                            title={item._title}
+                            subtitle="Subtitle"
+                            key={item._id}
+                            image={item._image}
+                        />
                     )}
                 </div>
             </DocumentTitle>
