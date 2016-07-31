@@ -7,6 +7,7 @@ import FetchService from '../services/FetchService';
 import _ from 'underscore';
 import FieldText from './FieldText.jsx';
 import FieldImage from './FieldImage.jsx';
+import FieldReference from './FieldReference.jsx';
 
 export default class ContentView extends React.Component {
 
@@ -51,6 +52,11 @@ export default class ContentView extends React.Component {
                             }
                             if (field.type === 'image') {
                                 return (<FieldImage name={field.name} url={field.value} />);
+                            }
+                            if (field.type === 'reference') {
+                                return (<FieldReference name={field.name} title={field.value._title}
+                                                        subtitle={field.value._contentType}
+                                                        image={field.value._image} />);
                             }
                             return false;
                         })}

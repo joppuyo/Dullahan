@@ -141,7 +141,6 @@ a.side-nav-item-wrapper {
 }
 
 .app-content {
-  display: flex;
   flex-grow: 1;
   overflow: scroll;
 }
@@ -199,3 +198,4 @@ a.side-nav-item-wrapper {
 @import "content-view";
 @import "field-text";
 @import "field-image";
+@import "field-reference";

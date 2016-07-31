@@ -1,0 +1,33 @@
+.field-reference-value {
+
+}
+
+.field-reference-value-image {
+  height: 42px;
+  width: 42px;
+  background-color: $list-item-icon-background-color;
+  border-radius: 2px;
+  background-position: center;
+  background-size: cover;
+  float: left;
+  margin-right: 20px;
+}
+
+.field-reference-value-text {
+  line-height: 19px;
+}
+
+.field-reference-value-text-title {
+  margin-bottom: 5px;
+}
+
+.field-reference-value-text-subtitle {
+  opacity: 0.4;
+  font-size: 14px;
+}
+
+.field-reference-value-text-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
