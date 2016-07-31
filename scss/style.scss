@@ -192,8 +192,10 @@ a.side-nav-item-wrapper {
   border-radius: 3px;
 }
 
-@import 'media';
-@import 'list-item';
-@import 'select-css';
-@import 'custom-select';
-@import 'field-text';
+@import "media";
+@import "list-item";
+@import "select-css";
+@import "custom-select";
+@import "content-view";
+@import "field-text";
+@import "field-image";

@@ -5,7 +5,8 @@ import SectionHeaderRight from './SectionHeaderRight.jsx';
 import SectionHeaderLeft from './SectionHeaderLeft.jsx';
 import FetchService from '../services/FetchService';
 import _ from 'underscore';
-import FieldText from './FieldText.jsx'
+import FieldText from './FieldText.jsx';
+import FieldImage from './FieldImage.jsx';
 
 export default class ContentView extends React.Component {
 
@@ -47,6 +48,9 @@ export default class ContentView extends React.Component {
                         {this.state.fields.map(field => {
                             if (field.type === 'text' || field.type === 'textarea') {
                                 return (<FieldText name={field.name} value={field.value} />);
+                            }
+                            if (field.type === 'image') {
+                                return (<FieldImage name={field.name} url={field.value} />);
                             }
                             return false;
                         })}

@@ -1,0 +1,13 @@
+.field {
+  line-height: 1.5;
+}
+
+.field:not(:last-of-type) {
+  margin-bottom: 20px;
+}
+
+.field-name {
+  // TODO: make this value global
+  margin-bottom: 20px;
+  font-weight: bold;
+}
