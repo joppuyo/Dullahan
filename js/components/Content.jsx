@@ -14,6 +14,7 @@ export default class Content extends React.Component {
         this.state = {
             contentTypes: [],
             content: [],
+            currentContentType: null,
         };
     }
 
@@ -23,19 +24,21 @@ export default class Content extends React.Component {
 
             // Get the initial data
             if (data && data[0]) {
-                this.getContent(data[0].slug);
+                this.setContentType(data[0].slug);
             }
         });
     }
 
     onContentTypeSelect(event) {
         let contentTypeSlug = event.target.value;
-        this.getContent(contentTypeSlug);
+        this.setContentType(contentTypeSlug);
     }
 
-    getContent(contentTypeSlug) {
+    setContentType(contentTypeSlug) {
         FetchService.get(`api/content/${contentTypeSlug}`).then((data) => {
             this.setState(_.extend(this.state, { content: data }));
+            let contentType = _.findWhere(this.state.contentTypes, { slug: contentTypeSlug });
+            this.setState(_.extend(this.state, { currentContentType: contentType }));
         });
     }
 
@@ -54,7 +57,12 @@ export default class Content extends React.Component {
                             </label>
                         </SectionHeaderLeft>
                         <SectionHeaderRight>
-                            <a href="#" className="btn btn-primary">Add new content</a>
+                            {(() => {
+                                if (this.state.currentContentType) {
+                                    return <Link to={`content/create/${this.state.currentContentType.slug}`} className="btn btn-primary">Add new {this.state.currentContentType.name}</Link>;
+                                }
+                                return false;
+                            })()}
                         </SectionHeaderRight>
                     </SectionHeader>
                     {this.state.content.map(item =>

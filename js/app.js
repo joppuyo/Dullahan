@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link, hashHistory } from 'react-router';
-import 'whatwg-fetch';
 
 import App from './components/App.jsx';
 import LoginBox from './components/LoginBox.jsx';
@@ -12,6 +11,7 @@ import Media from './components/Media.jsx';
 import DocumentTitle from 'react-document-title';
 import Users from './components/Users.jsx';
 import AddUser from './components/AddUser.jsx';
+import ContentCreate from './components/ContentCreate.jsx';
 
 ReactDOM.render(
     <DocumentTitle title="Dullahan">
@@ -20,6 +20,7 @@ ReactDOM.render(
                 <Route path="/login" component={LoginBox} />
                 <Route path="/app" component={Dashboard}>
                     <Route path="/content" component={Content} />
+                    <Route path="/content/create/:contentTypeSlug" component={ContentCreate} />
                     <Route path="/content/:contentId" component={ContentView} />
                     <Route path="/media" component={Media} />
                     <Route path="/users" component={Users} />
