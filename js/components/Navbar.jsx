@@ -34,9 +34,9 @@ export default class Navbar extends React.Component {
     render() {
         return (
             <div className="side-nav">
-                {this.navItems.map(item => <NavItem {...item}/>)}
+                {this.navItems.map((item, index) => <NavItem key={index} {...item} />)}
             </div>
-        )
+        );
     }
 }
 
