@@ -54,7 +54,7 @@ export default class Content extends React.Component {
                                         <select onChange={this.onContentTypeSelect.bind(this)}>
                                             {this.state.contentTypes.map((contentType) => {
                                                 return (
-                                                    <option value={contentType.slug}  key={contentType.slug}>{contentType.name}</option>
+                                                    <option value={contentType.slug} key={contentType.slug}>{contentType.name}</option>
                                                 );
                                             })
                                             }
