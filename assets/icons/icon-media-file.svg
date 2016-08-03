@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="63px" height="78px" viewBox="0 0 63 78" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-media-file</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="media-icon-export" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-media-file">
+            <path d="M36.7867966,1 L4.00419299,1 C2.34516394,1 1,2.34435385 1,4.00269837 L1,73.9973016 C1,75.6486223 2.34502301,77 4.00419299,77 L58.995807,77 C60.6548361,77 62,75.6556461 62,73.9973016 L62,26.2132034 L36.7867966,1 Z" id="Combined-Shape" fill="#4990E2"></path>
+            <path d="M36,1 L36.7867966,1 L62,26.2132034 L62,27 L40.0079746,27 C37.7944314,27 36,25.2062258 36,22.9946605 L36,1 Z" id="Combined-Shape" fill="#3268A7"></path>
+        </g>
+    </g>
+</svg>

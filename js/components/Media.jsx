@@ -50,7 +50,7 @@ export default class Media extends React.Component {
                     </SectionHeaderRight>
                 </SectionHeader>
                 <div className="media-items-container">
-                    {this.state.images.map(image => <MediaItem {...image} key={image.filename} onDelete={this.handleDelete.bind(this)}/>)}
+                    {this.state.images.map(image => <MediaItem {...image} key={image.full_name} onDelete={this.handleDelete.bind(this)}/>)}
                 </div>
             </div>
         </DocumentTitle>

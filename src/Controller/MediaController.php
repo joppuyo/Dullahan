@@ -80,8 +80,10 @@ class MediaController extends Controller
             $item['url'] = $baseUrl . '/uploads/' . $item['full_name'];
             if ($this->isPdf($item)) {
                 $item['thumbnail'] = $baseUrl . '/api/media/thumbnail/' . $item['full_name'];
-            } else {
+            } elseif ($this->isImage($item)) {
                 $item['thumbnail'] = $item['url'];
+            } else {
+                $item['thumbnail'] = null;
             }
             $item['downloadUrl'] = $baseUrl . '/api/media/download/' . $item['full_name'];
             return $item;
