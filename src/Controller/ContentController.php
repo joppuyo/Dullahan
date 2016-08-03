@@ -59,38 +59,27 @@ class ContentController extends Controller
         return $response->withJson($contentType, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
-    public function addContent($contentTypeSlug)
+    public function createContent(Request $request, Response $response, $arguments)
     {
-        $yaml = new Parser();
-        try {
-            $contentType = $yaml->parse(file_get_contents("content-types/$contentTypeSlug.yaml"));
-        } catch (Exception $e) {
-            echo "could not open configuration: " . $e->getMessage();
+        $data = $request->getParsedBody();
+        if (!$data) {
+            return $response->withJson(['message' => 'Could not parse JSON', 'errorCode' => 'JSON_PARSE_ERROR'], 400);
         }
-
-        $media = $this->app->mediaService->getAllMedia();
-        $this->app->render('contentAdd.twig', ['contentType' => $contentType, 'media' => $media]);
-
-        if ($this->app->request->isPost()) {
-            $content = new Content();
-            $content->title = $this->app->request->post('d-title');
-            $content->slug = $this->app->request->post('d-slug');
-            $content->is_published = true;
-            $content->user_id = Sentinel::getUser()->id;
-            $content->content_type = $contentTypeSlug;
-            $fields = [];
-            foreach ($contentType['fields'] as $currentField) {
-                $field = [];
-                $field['name'] = $currentField['name'];
-                $field['slug'] = $currentField['slug'];
-                $field['value'] = $this->app->request->post($currentField['slug']);
+        $contentType = $this->container->ContentService->getContentTypeDefinition(($arguments['contentTypeSlug']));
+        $content = new Content();
+        $content->is_published = false;
+        $content->user_id = $this->container->user->id;
+        $content->content_type = $arguments['contentTypeSlug'];
+        $fields = [];
+        foreach ($contentType->fields as $currentField) {
+            $field = new \stdClass();
+            if (array_key_exists($currentField->slug, $data)) {
+                $field->{$currentField->slug} = $data[$currentField->slug];
                 array_push($fields, $field);
             }
-            $content->fields = $fields;
-            $content->save();
-            $this->app->flash('success', 'New content added succesfully!');
-            $this->app->redirectTo('contentList');
         }
+        $content->fields = $fields;
+        $content->save();
     }
 
     public function editContent($contentId){
