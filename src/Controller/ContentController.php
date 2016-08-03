@@ -30,6 +30,7 @@ class ContentController extends Controller
     {
         $content = Content::where('content_type', $arguments['contentTypeSlug'])
             ->where('is_published', true)
+            ->orderBy('updated_at', true)
             ->get();
         $contentTypeDefinition = $this->container->ContentService
             ->getContentTypeDefinition($arguments['contentTypeSlug']);
