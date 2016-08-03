@@ -43,39 +43,43 @@ export default class Content extends React.Component {
     }
 
     render() {
-        return (
-            <DocumentTitle title="Content - Dullahan">
-                <div className="section-wrapper">
-                    <SectionHeader title="Content">
-                        <SectionHeaderLeft>
-                            <label>
-                                <div className="custom-select content-type-selector">
-                                    <select onChange={this.onContentTypeSelect.bind(this)}>
-                                        {this.state.contentTypes.map((contentType) => <option value={contentType.slug} key={contentType.slug}>{contentType.name}</option>)});}
-                                    </select>
-                                </div>
-                            </label>
-                        </SectionHeaderLeft>
-                        <SectionHeaderRight>
-                            {(() => {
-                                if (this.state.currentContentType) {
-                                    return <Link to={`content/create/${this.state.currentContentType.slug}`} className="btn btn-primary">Add new {this.state.currentContentType.name}</Link>;
-                                }
-                                return false;
-                            })()}
-                        </SectionHeaderRight>
-                    </SectionHeader>
-                    {this.state.content.map(item =>
-                        <ListItem
-                            link={`content/${item._id}`}
-                            title={item._title}
-                            subtitle="Subtitle"
-                            key={item._id}
-                            image={item._image}
-                        />
-                    )}
-                </div>
-            </DocumentTitle>
-        );
+        if (this.state.currentContentType) {
+            return (
+                <DocumentTitle title="Content - Dullahan">
+                    <div className="section-wrapper">
+                        <SectionHeader title="Content">
+                            <SectionHeaderLeft>
+                                <label>
+                                    <div className="custom-select content-type-selector">
+                                        <select onChange={this.onContentTypeSelect.bind(this)}>
+                                            {this.state.contentTypes.map((contentType) => {
+                                                return (
+                                                    <option value={contentType.slug}  key={contentType.slug}>{contentType.name}</option>
+                                                );
+                                            })
+                                            }
+                                        </select>
+                                    </div>
+                                </label>
+                            </SectionHeaderLeft>
+                            <SectionHeaderRight>
+                                <Link to={`content/create/${this.state.currentContentType.slug}`}
+                                      className="btn btn-primary">Add new {this.state.currentContentType.name}</Link>
+                            </SectionHeaderRight>
+                        </SectionHeader>
+                        {this.state.content.map(item =>
+                            <ListItem
+                                link={`content/${item._id}`}
+                                title={item._title}
+                                subtitle="Subtitle"
+                                key={item._id}
+                                image={item._image}
+                            />
+                        )}
+                    </div>
+                </DocumentTitle>
+            );
+        }
+        return null;
     }
 }
