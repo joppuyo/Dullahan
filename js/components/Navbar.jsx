@@ -29,7 +29,7 @@ export default class Navbar extends React.Component {
                 url: 'users',
                 icon: 'icon-nav-users',
             },
-        ]
+        ];
     }
     render() {
         return (
@@ -41,10 +41,13 @@ export default class Navbar extends React.Component {
 }
 
 function NavItem (props) {
-    return <Link to={props.url} className="side-nav-item-wrapper" activeClassName="side-nav-item-wrapper-active">
-        <div className="side-nav-item">
-            <div className="side-nav-item-icon" style={{backgroundImage: `url("/assets/icons/${props.icon}.svg")` }}></div>
-            <div className="side-nav-item-text">{props.name}</div>
-        </div>
-    </Link>
+    return (
+        <Link to={props.url} className="side-nav-item-wrapper" activeClassName="side-nav-item-wrapper-active">
+            <div className="side-nav-item">
+                <div className="side-nav-item-icon"
+                     style={{backgroundImage: `url("/assets/icons/${props.icon}.svg")`}} />
+                <div className="side-nav-item-text">{props.name}</div>
+            </div>
+        </Link>
+    )
 }
