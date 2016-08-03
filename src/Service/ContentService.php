@@ -42,6 +42,13 @@ class ContentService extends Service
             })->implode(', ');
             throw new \Exception("Content type \"$contentTypeSlug\" validation failed because of the following errors: $errorString");
         }
+
+        // JSON schema does not allow unique validation for array properties, only key so we need to check this
+        // separately. See: http://stackoverflow.com/questions/24763759/how-to-if-possible-define-in-json-schema-one-of-array-items-property-shall-be
+        $fields = collect($definition->fields);
+        if ($fields->count() !== $fields->unique('slug')->count()) {
+            throw new \Exception("Content type \"$contentTypeSlug\" validation failed: Field slugs must be unique");
+        }
     }
 
     public function getContentTypeDefinition($contentTypeSlug)
