@@ -9,7 +9,7 @@ import { hashHistory } from 'react-router';
 
 export default class ContentCreate extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             contentType: null,
             formData: {},
