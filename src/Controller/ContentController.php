@@ -71,16 +71,15 @@ class ContentController extends Controller
         $content->is_published = false;
         $content->user_id = $this->container->user->id;
         $content->content_type = $arguments['contentTypeSlug'];
-        $fields = [];
+        $fields = new \stdClass();
         foreach ($contentType->fields as $currentField) {
-            $field = new \stdClass();
             if (array_key_exists($currentField->slug, $data)) {
-                $field->{$currentField->slug} = $data[$currentField->slug];
-                array_push($fields, $field);
+                $fields->{$currentField->slug} = $data[$currentField->slug];
             }
         }
         $content->fields = $fields;
         $content->save();
+        return $response->withJson($this->container->ContentService->convertFields($content, $contentType, $request), 201);
     }
 
     public function editContent($contentId){
