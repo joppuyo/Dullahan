@@ -1,10 +1,10 @@
 import React from 'react';
 import { Router, Route, Link, hashHistory } from 'react-router';
-import SectionHeader from './SectionHeader.jsx';
+import SectionHeader from '../SectionHeader.jsx';
 import DocumentTitle from 'react-document-title';
-import ListItem from './ListItem.jsx';
-import FetchService from '../services/FetchService';
-import SectionHeaderRight from './SectionHeaderRight.jsx';
+import ListItem from '../ListItem.jsx';
+import FetchService from '../../services/FetchService';
+import SectionHeaderRight from '../SectionHeaderRight.jsx';
 
 export default class Users extends React.Component {
     constructor(props) {

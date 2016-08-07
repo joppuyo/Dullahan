@@ -1,5 +1,5 @@
 import React from 'react';
-import FetchService from '../services/FetchService';
+import FetchService from '../../services/FetchService';
 
 export default class MediaUploadButton extends React.Component {
     onOpenFileDialog() {

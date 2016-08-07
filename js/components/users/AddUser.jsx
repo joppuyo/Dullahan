@@ -1,10 +1,10 @@
 import React from 'react';
-import SectionHeader from './SectionHeader.jsx';
+import SectionHeader from '../SectionHeader.jsx';
 import DocumentTitle from 'react-document-title';
 import { Link, hashHistory } from 'react-router';
 import _ from 'underscore';
-import FetchService from '../services/FetchService';
-import SectionHeaderRight from './SectionHeaderRight.jsx';
+import FetchService from '../../services/FetchService';
+import SectionHeaderRight from '../SectionHeaderRight.jsx';
 
 export default class AddUser extends React.Component {
 

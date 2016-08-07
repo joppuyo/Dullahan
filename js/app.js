@@ -5,13 +5,13 @@ import { Router, Route, Link, hashHistory } from 'react-router';
 import App from './components/App.jsx';
 import LoginBox from './components/LoginBox.jsx';
 import Dashboard from './components/Dashboard.jsx';
-import Content from './components/Content.jsx';
-import ContentView from './components/ContentView.jsx';
-import Media from './components/Media.jsx';
+import Content from './components/content/Content.jsx';
+import ContentView from './components/content/ContentView.jsx';
+import Media from './components/media/Media.jsx';
 import DocumentTitle from 'react-document-title';
-import Users from './components/Users.jsx';
-import AddUser from './components/AddUser.jsx';
-import ContentCreate from './components/ContentCreate.jsx';
+import Users from './components/users/Users.jsx';
+import AddUser from './components/users/AddUser.jsx';
+import ContentCreate from './components/content/ContentCreate.jsx';
 
 ReactDOM.render(
     <DocumentTitle title="Dullahan">
