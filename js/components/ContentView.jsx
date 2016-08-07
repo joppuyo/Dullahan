@@ -45,21 +45,23 @@ export default class ContentView extends React.Component {
                             <a href="#" className="btn btn-primary">Edit</a>
                         </SectionHeaderRight>
                     </SectionHeader>
-                    <div className="section-body">
-                        {this.state.fields.map(field => {
-                            if (field.type === 'text' || field.type === 'textarea') {
-                                return (<FieldText name={field.name} value={field.value} />);
-                            }
-                            if (field.type === 'image') {
-                                return (<FieldImage name={field.name} url={field.value} />);
-                            }
-                            if (field.type === 'reference') {
-                                return (<FieldReference name={field.name} title={field.value._title}
-                                                        subtitle={field.value._contentType}
-                                                        image={field.value._image} />);
-                            }
-                            return false;
-                        })}
+                    <div className="items-container">
+                        <div className="section-body">
+                            {this.state.fields.map(field => {
+                                if (field.type === 'text' || field.type === 'textarea') {
+                                    return (<FieldText name={field.name} value={field.value} />);
+                                }
+                                if (field.type === 'image') {
+                                    return (<FieldImage name={field.name} url={field.value} />);
+                                }
+                                if (field.type === 'reference') {
+                                    return (<FieldReference name={field.name} title={field.value._title}
+                                                            subtitle={field.value._contentType}
+                                                            image={field.value._image} />);
+                                }
+                                return false;
+                            })}
+                        </div>
                     </div>
                 </div>
             </DocumentTitle>

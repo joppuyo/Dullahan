@@ -67,15 +67,17 @@ export default class Content extends React.Component {
                                       className="btn btn-primary">Add new {this.state.currentContentType.name}</Link>
                             </SectionHeaderRight>
                         </SectionHeader>
-                        {this.state.content.map(item =>
-                            <ListItem
-                                link={`content/${item._id}`}
-                                title={item._title}
-                                subtitle="Subtitle"
-                                key={item._id}
-                                image={item._image}
-                            />
-                        )}
+                        <div className="items-container">
+                            {this.state.content.map(item =>
+                                <ListItem
+                                    link={`content/${item._id}`}
+                                    title={item._title}
+                                    subtitle="Subtitle"
+                                    key={item._id}
+                                    image={item._image}
+                                />
+                            )}
+                        </div>
                     </div>
                 </DocumentTitle>
             );

@@ -36,27 +36,29 @@ export default class ContentCreate extends React.Component {
                                 <button className="btn btn-primary">Publish</button>
                             </SectionHeaderRight>
                         </SectionHeader>
-                        <div className="section-body">
-                            {
-                                this.state.contentType.fields.map((field) => {
-                                    if (field.type === 'text') {
-                                        return (
-                                            <div key={field.slug}>
-                                                <label htmlFor={field.slug}>{field.name}</label>
-                                                <div className="form-group">
-                                                    <input id={field.slug} className="form-control" type="text" onInput={this.onTextFieldInput.bind(this, field.slug)} />
+                        <div className="items-container">
+                            <div className="section-body">
+                                {
+                                    this.state.contentType.fields.map((field) => {
+                                        if (field.type === 'text') {
+                                            return (
+                                                <div key={field.slug}>
+                                                    <label htmlFor={field.slug}>{field.name}</label>
+                                                    <div className="form-group">
+                                                        <input id={field.slug} className="form-control" type="text" onInput={this.onTextFieldInput.bind(this, field.slug)} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    }
-                                    if (field.type === 'image') {
-                                        return (
-                                            <FieldEditImage key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} />
-                                        );
-                                    }
-                                    return null;
-                                })
-                            }
+                                            );
+                                        }
+                                        if (field.type === 'image') {
+                                            return (
+                                                <FieldEditImage key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} />
+                                            );
+                                        }
+                                        return null;
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
                 </DocumentTitle>

@@ -31,14 +31,16 @@ export default class Users extends React.Component {
                             <Link to="users/add" className="btn btn-primary media-upload-button">Add user</Link>
                         </SectionHeaderRight>
                     </SectionHeader>
-                    {this.state.users.map(user =>
-                        <ListItem
-                        title={user.email}
-                        subtitle={user.email}
-                        key={user.id}
-                        image="/assets/icons/icon-user-avatar-placeholder.svg"
-                        />
-                    )}
+                    <div className="items-container">
+                        {this.state.users.map(user =>
+                            <ListItem
+                            title={user.email}
+                            subtitle={user.email}
+                            key={user.id}
+                            image="/assets/icons/icon-user-avatar-placeholder.svg"
+                            />
+                        )}
+                    </div>
                 </div>
             </DocumentTitle>
         )

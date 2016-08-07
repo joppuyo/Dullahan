@@ -142,13 +142,12 @@ a.side-nav-item-wrapper {
 
 .app-content {
   flex-grow: 1;
-  overflow: scroll;
 }
 
 .section-header {
   background-color: white;
   height: 80px;
-  flex-grow: 1;
+  flex-grow: 0;
   border-bottom: 1px solid $section-header-border-color;
   h1 {
     font-size: 24px;
@@ -171,6 +170,9 @@ a.side-nav-item-wrapper {
 
 .section-wrapper {
   flex-grow: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .section-body {
@@ -189,6 +191,10 @@ a.side-nav-item-wrapper {
   margin-left: 0;
   padding: 9px 11px;
   border-radius: 3px;
+}
+
+.items-container {
+  overflow-y: scroll;
 }
 
 @import "media";

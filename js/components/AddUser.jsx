@@ -61,26 +61,28 @@ export default class AddUser extends React.Component {
                             <button className="btn btn-primary" onClick={this.onSubmit.bind(this)}>Add user</button>
                         </SectionHeaderRight>
                     </SectionHeader>
-                    <div className="section-body">
-                        <form>
-                            <div className="form-group">
-                                <label>Email</label>
-                                <input type="email" className="form-control" onInput={this.onEmailInput.bind(this)} />
-                            </div>
-                            <div className="form-group">
-                                <label>Name</label>
-                                <input type="text" className="form-control" onInput={this.onPasswordInput.bind(this)} />
-                            </div>
-                            <div className="form-group">
-                                <label>Password</label>
-                                <input type={passwordInputType} className="form-control" />
-                                <div className="checkbox">
-                                    <label>
-                                        <input type="checkbox" checked={this.state.showPassword} onChange={this.onTogglePasswordInput.bind(this)} /> Show password
-                                    </label>
+                    <div className="items-container">
+                        <div className="section-body">
+                            <form>
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <input type="email" className="form-control" onInput={this.onEmailInput.bind(this)} />
                                 </div>
-                            </div>
-                        </form>
+                                <div className="form-group">
+                                    <label>Name</label>
+                                    <input type="text" className="form-control" onInput={this.onPasswordInput.bind(this)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Password</label>
+                                    <input type={passwordInputType} className="form-control" />
+                                    <div className="checkbox">
+                                        <label>
+                                            <input type="checkbox" checked={this.state.showPassword} onChange={this.onTogglePasswordInput.bind(this)} /> Show password
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </DocumentTitle>
