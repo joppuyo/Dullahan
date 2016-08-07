@@ -6,6 +6,8 @@ import SectionHeaderRight from './SectionHeaderRight.jsx';
 import FetchService from '../services/FetchService';
 import _ from 'underscore';
 import { hashHistory } from 'react-router';
+import MediaItemSelect from './MediaItemSelect.jsx';
+import FieldEditImage from './FieldEditImage.jsx';
 
 export default class ContentCreate extends React.Component {
     constructor(props) {
@@ -47,6 +49,11 @@ export default class ContentCreate extends React.Component {
                                             </div>
                                         );
                                     }
+                                    if (field.type === 'image') {
+                                        return (
+                                            <FieldEditImage key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} />
+                                        );
+                                    }
                                     return null;
                                 })
                             }
@@ -76,5 +83,4 @@ export default class ContentCreate extends React.Component {
             alert('Error adding content');
         });
     }
-
 }
