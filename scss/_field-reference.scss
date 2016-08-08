@@ -13,12 +13,23 @@
   margin-right: 20px;
 }
 
+.field-reference-value-image-add {
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-image: url("../assets/icons/icon-reference-add.svg");
+}
+
 .field-reference-value-text {
   line-height: 19px;
 }
 
 .field-reference-value-text-title {
   margin-bottom: 5px;
+}
+
+.field-reference-value-text-title-no-subtitle {
+  line-height: 42px;
+  margin-bottom: 0;
 }
 
 .field-reference-value-text-subtitle {
