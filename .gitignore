@@ -1,7 +1,7 @@
-vendor
-config.php
-node_modules
-.idea
-dist
-css/style.css
-content
+/vendor
+/config.php
+/node_modules
+/.idea
+/dist
+/css/style.css
+/content
