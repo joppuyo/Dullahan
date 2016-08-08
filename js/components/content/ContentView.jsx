@@ -15,7 +15,7 @@ export default class ContentView extends React.Component {
         super(props);
         this.state = {
             documentTitle: 'Dullahan',
-            fields: [],
+            contentType: null,
         };
     }
 
@@ -29,41 +29,50 @@ export default class ContentView extends React.Component {
                     }
                     return field;
                 });
-                this.setState(_.extend(this.state, { fields: contentTypeData.fields }));
+                this.setState(_.extend(this.state, { contentType: contentTypeData }));
             });
         });
     }
 
     render() {
-        return (
-            <DocumentTitle title={this.state.documentTitle}>
-                <div className="section-wrapper">
-                    <SectionHeader title="View Content">
-                        <SectionHeaderRight>
-                            <a href="#" className="btn btn-danger">Delete</a>
-                            <a href="#" className="btn btn-primary">Edit</a>
-                        </SectionHeaderRight>
-                    </SectionHeader>
-                    <div className="items-container">
-                        <div className="section-body">
-                            {this.state.fields.map(field => {
-                                if (field.type === 'text' || field.type === 'textarea') {
-                                    return (<FieldText name={field.name} value={field.value} />);
-                                }
-                                if (field.type === 'image') {
-                                    return (<FieldImage name={field.name} url={field.value} />);
-                                }
-                                if (field.type === 'reference') {
-                                    return (<FieldReference name={field.name} title={field.value._title}
-                                                            subtitle={field.value._contentType}
-                                                            image={field.value._image} />);
-                                }
-                                return false;
-                            })}
+        if (this.state.contentType) {
+            return (
+                <DocumentTitle title={this.state.documentTitle}>
+                    <div className="section-wrapper">
+                        <SectionHeader title={`View ${this.state.contentType.name}`}>
+                            <SectionHeaderRight>
+                                <a href="#" className="btn btn-danger">Delete</a>
+                                <a href="#" className="btn btn-primary">Edit</a>
+                            </SectionHeaderRight>
+                        </SectionHeader>
+                        <div className="items-container">
+                            <div className="section-body">
+                                {this.state.contentType.fields.map(field => {
+                                    if (field.type === 'text' || field.type === 'textarea') {
+                                        return (<FieldText name={field.name} value={field.value} key={field.slug} />);
+                                    }
+                                    if (field.type === 'image') {
+                                        return (<FieldImage name={field.name} url={field.value} key={field.slug} />);
+                                    }
+                                    if (field.type === 'reference') {
+                                        return (
+                                            <FieldReference
+                                                name={field.name}
+                                                title={field.value._title}
+                                                subtitle={field.value._contentType}
+                                                image={field.value._image}
+                                                key={field.slug}
+                                            />
+                                        );
+                                    }
+                                    return false;
+                                })}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </DocumentTitle>
-        );
+                </DocumentTitle>
+            );
+        }
+        return null;
     }
 }
