@@ -1,9 +1,24 @@
 import React from 'react';
-import LoginBox from './LoginBox.jsx';
-import { Link } from 'react-router'
+import { hashHistory } from 'react-router';
+import FetchService from '../services/FetchService';
 
 export default class App extends React.Component {
+    componentDidMount() {
+        // If there is no token, the user is not logged in
+        if (!localStorage.getItem('token')) {
+            hashHistory.push('/login');
+        }
+        // Let's try to see if the user session is valid
+        FetchService.get('api/login').then((user) => {
+            hashHistory.push('/content');
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                // TODO: error handling
+                hashHistory.push('/login');
+            }
+        });
+    }
     render() {
-        return <h1>I am app <Link to="/login">Login</Link></h1>
+        return null;
     }
 }

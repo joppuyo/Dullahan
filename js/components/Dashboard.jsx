@@ -1,25 +1,25 @@
 import React from 'react';
 import { hashHistory } from 'react-router';
+import FetchService from '../services/FetchService';
 
 import Navbar from './Navbar.jsx';
 
 export default class Dashboard extends React.Component {
     constructor(props) {
         super(props);
-        // If user does not have token, redirect to login
-        // TODO: validate token in backend
-        if (!localStorage.getItem('token')) {
-            hashHistory.push('/login')
-        }
-        this.user = JSON.parse(localStorage.getItem('user'));
+
+        this.state = {
+            user: JSON.parse(localStorage.getItem('user')),
+        };
     }
+
     render() {
         return (
             <div>
                 <div className="top-bar">
                     <div className="top-bar-logo"></div>
                         <div className="top-bar-user">
-                            <div className="top-bar-user-name">{this.user ? this.user.email : ''}</div>
+                            <div className="top-bar-user-name">{this.state.user ? this.state.user.email : ''}</div>
                             <div className="top-bar-user-dropdown-arrow test"></div>
                         </div>
                 </div>

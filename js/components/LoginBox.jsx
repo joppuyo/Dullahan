@@ -18,7 +18,7 @@ export default class LoginBox extends React.Component {
             .then((data) => {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
-                hashHistory.push('/app');
+                hashHistory.push('/content');
             })
 
     }
