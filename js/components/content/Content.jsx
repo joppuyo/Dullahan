@@ -74,7 +74,7 @@ export default class Content extends React.Component {
                                     title={item._title}
                                     subtitle="Subtitle"
                                     key={item._id}
-                                    image={item._image}
+                                    image={item._image ? item._image : '/assets/icons/icon-content-placeholder.svg'}
                                 />
                             )}
                         </div>
