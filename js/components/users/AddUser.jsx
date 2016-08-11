@@ -38,7 +38,7 @@ export default class AddUser extends React.Component {
             hashHistory.push('/users');
         }).catch((response) => {
             // TODO: improve error handling
-            const errors = response.map(error => error.message).join(', ');
+            const errors = response.data.map(error => error.message).join(', ');
             alert('Could not add a new user because of the following errors: ' + errors);
         });
     }

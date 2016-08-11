@@ -63,7 +63,11 @@ export default class FetchService {
         if (response.status >= 200 && response.status < 300) {
             return response;
         }
-        return response.json().then((error) => {
+        return response.json().then((data) => {
+            const error = {
+                response,
+                data,
+            };
             throw error;
         });
     }
