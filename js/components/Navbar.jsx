@@ -29,6 +29,12 @@ export default class Navbar extends React.Component {
                 url: 'users',
                 icon: 'icon-nav-users',
             },
+            {
+                name: 'Apps',
+                active: false,
+                url: 'apps',
+                icon: 'icon-nav-apps',
+            },
         ];
     }
     render() {
