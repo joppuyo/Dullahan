@@ -19,9 +19,7 @@ export default class ReferencePicker extends React.Component {
     }
 
     onSelectReference(item) {
-        //this.props.closeImagePicker();
         this.props.changeValue(item._id);
-        console.log(item);
     }
 
     render() {
@@ -31,23 +29,25 @@ export default class ReferencePicker extends React.Component {
         }
         return (
             <div className={classes}>
-                <div className="section-header">
-                    <h1>Select reference</h1>
-                    <div className="section-header-right">
-                    <button className="btn btn-default" onClick={this.props.closeReferencePicker.bind(this)}>Cancel</button>
+                <div className="section-wrapper">
+                    <div className="section-header">
+                        <h1>Select reference</h1>
+                        <div className="section-header-right">
+                        <button className="btn btn-default" onClick={this.props.closeReferencePicker.bind(this)}>Cancel</button>
+                        </div>
                     </div>
-                </div>
-                <div className="content-create-items-container">
-                    {this.state.content.map(item => {
-                        return (
-                            <div onClick={this.onSelectReference.bind(this, item)} key={item._id}>
-                                <ListItem
-                                    title={item._title}
-                                    image={item._image}
-                                />
-                            </div>
-                        );
-                    })}
+                    <div className="items-container">
+                        {this.state.content.map(item => {
+                            return (
+                                <div onClick={this.onSelectReference.bind(this, item)} key={item._id}>
+                                    <ListItem
+                                        title={item._title}
+                                        image={item._image}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         );
