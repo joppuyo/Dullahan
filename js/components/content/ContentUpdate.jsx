@@ -5,37 +5,54 @@ import SectionHeader from '../SectionHeader.jsx';
 import SectionHeaderRight from '../SectionHeaderRight.jsx';
 import FetchService from '../../services/FetchService';
 import _ from 'underscore';
-import { hashHistory } from 'react-router';
-import MediaItemSelect from './MediaItemSelect.jsx';
+import { Link } from 'react-router';
 import FieldImageEditContainer from './fields/FieldImageEditContainer.jsx';
-import FieldReferenceEdit from './fields/FieldReferenceEditContainer.jsx';
+import FieldReferenceEditContainer from './fields/FieldReferenceEditContainer.jsx';
 import FieldTextAreaEdit from './fields/FieldTextAreaEdit.jsx';
 
-export default class ContentCreate extends React.Component {
+export default class ContentUpdate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             contentType: null,
+            content: null,
             formData: {},
         };
     }
 
     componentDidMount() {
-        FetchService.get(`api/content-types/${this.props.params.contentTypeSlug}`).then((contentTypeData) => {
-            this.setState(_.extend(this.state, { contentType: contentTypeData }));
+        FetchService.get(`api/content/any/${this.props.params.contentId}`).then((contentData) => {
+            FetchService.get(`api/content-types/${contentData._contentType}`).then((contentTypeData) => {
+                // TODO: Fix these ugly hacks
+                // References should be sent to the API using just the id, but the API will return the complete objects.
+                // That's why we need to replace the object with just the id. The same with the image, we'd only need
+                // the file name instead of the full path
+                contentTypeData.fields.forEach(contentType => {
+                    if (contentType.type === 'reference') {
+                        contentData[contentType.slug] = contentData[contentType.slug]._id;
+                    }
+                    if (contentType.type === 'image') {
+                        contentData[contentType.slug] = _.last(contentData[contentType.slug].split('/'));
+                    }
+                });
+
+                _.extend(this.state, { content: contentData });
+                _.extend(this.state, { formData: contentData });
+                this.setState(_.extend(this.state, { contentType: contentTypeData }));
+                this.setState(_.extend(this.state, { documentTitle: `${this.state.content._title} - Dullahan` }));
+            });
         });
     }
 
     render() {
         if (this.state.contentType) {
             return (
-                <DocumentTitle title={`Add new ${this.state.contentType.name} - Dullahan`}>
+                <DocumentTitle title={`Edit ${this.state.contentType.name} - Dullahan`}>
                     <div className="section-wrapper">
-                        <SectionHeader title={`Add new ${this.state.contentType.name}`}>
+                        <SectionHeader title={`Edit ${this.state.contentType.name}`}>
                             <SectionHeaderRight>
-                                <button className="btn btn-default">Cancel</button>
-                                <button onClick={this.publishContent.bind(this)} className="btn btn-primary">Save</button>
-                                <button className="btn btn-primary">Publish</button>
+                                <Link to={`content/${this.state.content._id}`} className="btn btn-default">Cancel</Link>
+                                <button className="btn btn-primary">Save</button>
                             </SectionHeaderRight>
                         </SectionHeader>
                         <div className="items-container">
@@ -59,7 +76,7 @@ export default class ContentCreate extends React.Component {
                                         }
                                         if (field.type === 'reference') {
                                             return (
-                                                <FieldReferenceEdit key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} formData={this.state.formData} />
+                                                <FieldReferenceEditContainer key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} formData={this.state.formData} />
                                             );
                                         }
                                         if (field.type === 'textarea') {
@@ -89,12 +106,4 @@ export default class ContentCreate extends React.Component {
         this.setState(_.extend(this.state, { formData: newFormData }));
     }
 
-    publishContent() {
-        FetchService.post(`api/content/${this.state.contentType.slug}`, this.state.formData).then((response) => {
-            hashHistory.push('/content');
-        }).catch((error) => {
-            // TODO: error handling
-            alert('Error adding content');
-        });
-    }
 }

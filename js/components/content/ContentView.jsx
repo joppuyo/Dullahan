@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import SectionHeader from '../SectionHeader.jsx';
 import SectionHeaderRight from '../SectionHeaderRight.jsx';
@@ -21,7 +22,8 @@ export default class ContentView extends React.Component {
 
     componentDidMount() {
         FetchService.get(`api/content/any/${this.props.params.contentId}`).then((contentData) => {
-            this.setState(_.extend(this.state, { documentTitle: `${contentData._title} - Dullahan` }));
+            _.extend(this.state, { content: contentData });
+            this.setState(_.extend(this.state, { documentTitle: `${this.state.content._title} - Dullahan` }));
             FetchService.get(`api/content-types/${contentData._contentType}`).then((contentTypeData) => {
                 contentTypeData.fields.map(field => {
                     if (contentData[field.slug]) {
@@ -42,7 +44,7 @@ export default class ContentView extends React.Component {
                         <SectionHeader title={`View ${this.state.contentType.name}`}>
                             <SectionHeaderRight>
                                 <a href="#" className="btn btn-danger">Delete</a>
-                                <a href="#" className="btn btn-primary">Edit</a>
+                                <Link to={`content/${this.state.content._id}/edit`} className="btn btn-primary">Edit</Link>
                             </SectionHeaderRight>
                         </SectionHeader>
                         <div className="items-container">

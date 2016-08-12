@@ -12,6 +12,7 @@ import DocumentTitle from 'react-document-title';
 import Users from './components/users/Users.jsx';
 import AddUser from './components/users/AddUser.jsx';
 import ContentCreate from './components/content/ContentCreate.jsx';
+import ContentUpdate from './components/content/ContentUpdate.jsx';
 import Apps from './components/apps/Apps.jsx';
 
 ReactDOM.render(
@@ -23,6 +24,7 @@ ReactDOM.render(
                 <Route path="/content" component={Content} />
                 <Route path="/content/create/:contentTypeSlug" component={ContentCreate} />
                 <Route path="/content/:contentId" component={ContentView} />
+                <Route path="/content/:contentId/edit" component={ContentUpdate} />
                 <Route path="/media" component={Media} />
                 <Route path="/users" component={Users} />
                 <Route path="/users/add" component={AddUser} />

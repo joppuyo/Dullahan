@@ -23,18 +23,23 @@ export default class FieldReferenceEditContainer extends React.Component {
         this.closeReferencePicker();
     }
 
-    componentDidMount() {
-        console.log('mounted it');
-    }
-
-    componentWillReceiveProps() {
-        console.log('updated it');
+    updateField() {
         if (_.has(this.props.formData, this.props.field.slug)) {
             const value = this.props.formData[this.props.field.slug];
             FetchService.get(`api/content/any/${value}`).then(data => {
                 this.setState(_.extend(this.state, { selected: true, data: data }));
             });
         }
+    }
+
+    componentDidMount() {
+        console.log('Reference field mounted');
+        this.updateField();
+    }
+
+    componentWillReceiveProps() {
+        console.log('Reference field updated');
+        this.updateField();
     }
 
     render() {
