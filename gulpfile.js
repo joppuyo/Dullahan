@@ -1,7 +1,11 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var sourcemaps = require('gulp-sourcemaps');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const sourcemaps = require('gulp-sourcemaps');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const rename = require('gulp-rename');
 
 gulp.task('sass', function () {
     gulp.src('scss/style.scss')
@@ -14,4 +18,21 @@ gulp.task('sass', function () {
 
 gulp.task('watch', function () {
     gulp.watch('scss/**/*.scss', ['sass']);
+    gulp.watch('js/**/*.*', ['browserify']);
 });
+
+gulp.task('browserify', () => {
+    const bundler = browserify({ entries: 'js/app.js' })
+        .transform('babelify', { presets: ['es2015', 'react'] });
+
+    return bundler.bundle().on('error', function (error) {
+        console.error(error.message);
+        console.error(error.codeFrame);
+        this.emit('end');
+    })
+    .pipe(source('Browser/Browser.js'))
+    .pipe(buffer())
+    .pipe(rename({ dirname: '', basename: 'bundle' }))
+    .pipe(gulp.dest('dist/'));
+});
+
