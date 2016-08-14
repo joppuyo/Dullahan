@@ -31,6 +31,6 @@ a .list-item {
   color: black;
 }
 
-.list-item-outer:hover {
+.list-item-outer:hover, .list-item-outer:focus {
   text-decoration: none;
 }
