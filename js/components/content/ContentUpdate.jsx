@@ -32,7 +32,9 @@ export default class ContentUpdate extends React.Component {
                         contentData[contentType.slug] = contentData[contentType.slug]._id;
                     }
                     if (contentType.type === 'image') {
-                        contentData[contentType.slug] = _.last(contentData[contentType.slug].split('/'));
+                        if (contentData[contentType.slug]) {
+                            contentData[contentType.slug] = _.last(contentData[contentType.slug].split('/'));
+                        }
                     }
                 });
 
