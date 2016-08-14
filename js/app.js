@@ -21,14 +21,22 @@ ReactDOM.render(
             <Route path="/login" component={LoginBox} />
             <Route path="/" component={Dashboard}>
                 <IndexRoute component={App} />
-                <Route path="content" component={Content} />
-                <Route path="content/create/:contentTypeSlug" component={ContentCreate} />
-                <Route path="content/:contentId" component={ContentView} />
-                <Route path="content/:contentId/edit" component={ContentUpdate} />
-                <Route path="media" component={Media} />
-                <Route path="users" component={Users} />
-                <Route path="users/add" component={AddUser} />
-                <Route path="apps" component={Apps} />
+                <Route path="content">
+                    <IndexRoute component={Content} />
+                    <Route path="create/:contentTypeSlug" component={ContentCreate} />
+                    <Route path=":contentId" component={ContentView} />
+                    <Route path=":contentId/edit" component={ContentUpdate} />
+                </Route>
+                <Route path="media">
+                    <IndexRoute component={Media} />
+                </Route>
+                <Route path="users">
+                    <IndexRoute component={Users} />
+                    <Route path="add" component={AddUser} />
+                </Route>
+                <Route path="apps">
+                    <IndexRoute component={Apps} />
+                </Route>
             </Route>
         </Router>
     </DocumentTitle>, document.getElementById('app')
