@@ -8,7 +8,7 @@ import _ from 'underscore';
 import { hashHistory } from 'react-router';
 import MediaItemSelect from './MediaItemSelect.jsx';
 import FieldImageEditContainer from './fields/FieldImageEditContainer.jsx';
-import FieldReferenceEdit from './fields/FieldReferenceEditContainer.jsx';
+import FieldReferenceEditContainer from './fields/FieldReferenceEditContainer.jsx';
 import FieldTextAreaEdit from './fields/FieldTextAreaEdit.jsx';
 
 export default class ContentCreate extends React.Component {
@@ -59,7 +59,7 @@ export default class ContentCreate extends React.Component {
                                         }
                                         if (field.type === 'reference') {
                                             return (
-                                                <FieldReferenceEdit key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} formData={this.state.formData} />
+                                                <FieldReferenceEditContainer key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} value={this.state.formData[field.slug]} />
                                             );
                                         }
                                         if (field.type === 'textarea') {
