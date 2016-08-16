@@ -59,7 +59,7 @@ export default class ContentCreate extends React.Component {
                                         }
                                         if (field.type === 'reference') {
                                             return (
-                                                <FieldReferenceEditContainer key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} value={this.state.formData[field.slug]} />
+                                                <FieldReferenceEditContainer key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} formData={this.state.formData} />
                                             );
                                         }
                                         if (field.type === 'textarea') {
