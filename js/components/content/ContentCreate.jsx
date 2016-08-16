@@ -10,6 +10,7 @@ import MediaItemSelect from './MediaItemSelect.jsx';
 import FieldImageEditContainer from './fields/FieldImageEditContainer.jsx';
 import FieldReferenceEditContainer from './fields/FieldReferenceEditContainer.jsx';
 import FieldTextAreaEdit from './fields/FieldTextAreaEdit.jsx';
+import FieldTextEdit from './fields/FieldTextEdit.jsx';
 
 export default class ContentCreate extends React.Component {
     constructor(props) {
@@ -44,12 +45,7 @@ export default class ContentCreate extends React.Component {
                                     this.state.contentType.fields.map((field) => {
                                         if (field.type === 'text') {
                                             return (
-                                                <div key={field.slug}>
-                                                    <label htmlFor={field.slug}>{field.name}</label>
-                                                    <div className="form-group">
-                                                        <input id={field.slug} className="form-control" type="text" onInput={this.onTextFieldInput.bind(this, field.slug)} />
-                                                    </div>
-                                                </div>
+                                                <FieldTextEdit key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} formData={this.state.formData} />
                                             );
                                         }
                                         if (field.type === 'image') {
@@ -77,10 +73,6 @@ export default class ContentCreate extends React.Component {
             );
         }
         return false;
-    }
-
-    onTextFieldInput(fieldSlug, event) {
-        this.setFormValue(fieldSlug, event.target.value);
     }
 
     setFormValue(key, value) {

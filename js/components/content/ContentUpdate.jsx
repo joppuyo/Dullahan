@@ -5,10 +5,12 @@ import SectionHeader from '../SectionHeader.jsx';
 import SectionHeaderRight from '../SectionHeaderRight.jsx';
 import FetchService from '../../services/FetchService';
 import _ from 'underscore';
+import __ from 'lodash';
 import { Link } from 'react-router';
 import FieldImageEditContainer from './fields/FieldImageEditContainer.jsx';
 import FieldReferenceEditContainer from './fields/FieldReferenceEditContainer.jsx';
 import FieldTextAreaEdit from './fields/FieldTextAreaEdit.jsx';
+import FieldTextEdit from './fields/FieldTextEdit.jsx';
 
 export default class ContentUpdate extends React.Component {
     constructor(props) {
@@ -38,8 +40,12 @@ export default class ContentUpdate extends React.Component {
                     }
                 });
 
+                // Strip "private" properties from the object, they are prefixed with an underscore.
+                // TODO: update this function when private properties are moved under their own meta key
+                const formData = __.omitBy(contentData, (value, key) => __.startsWith(key, '_'));
+
                 _.extend(this.state, { content: contentData });
-                _.extend(this.state, { formData: contentData });
+                _.extend(this.state, { formData });
                 this.setState(_.extend(this.state, { contentType: contentTypeData }));
                 this.setState(_.extend(this.state, { documentTitle: `${this.state.content._title} - Dullahan` }));
             });
@@ -63,12 +69,7 @@ export default class ContentUpdate extends React.Component {
                                     this.state.contentType.fields.map((field) => {
                                         if (field.type === 'text') {
                                             return (
-                                                <div key={field.slug}>
-                                                    <label htmlFor={field.slug}>{field.name}</label>
-                                                    <div className="form-group">
-                                                        <input id={field.slug} className="form-control" type="text" onInput={this.onTextFieldInput.bind(this, field.slug)} />
-                                                    </div>
-                                                </div>
+                                                <FieldTextEdit key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} formData={this.state.formData} />
                                             );
                                         }
                                         if (field.type === 'image') {
