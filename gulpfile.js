@@ -22,7 +22,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('browserify', () => {
-    const bundler = browserify({ entries: 'js/app.js' })
+    const bundler = browserify({ entries: 'js/app.js', debug: true })
         .transform('babelify', { presets: ['es2015', 'react'] });
 
     return bundler.bundle().on('error', function (error) {
