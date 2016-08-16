@@ -23,7 +23,7 @@ export default class ContentUpdate extends React.Component {
     }
 
     componentDidMount() {
-        FetchService.get(`api/content/any/${this.props.params.contentId}`).then((contentData) => {
+        FetchService.get(`api/content/all/${this.props.params.contentId}`).then((contentData) => {
             FetchService.get(`api/content-types/${contentData._contentType}`).then((contentTypeData) => {
                 // TODO: Fix these ugly hacks
                 // References should be sent to the API using just the id, but the API will return the complete objects.

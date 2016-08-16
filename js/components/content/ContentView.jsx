@@ -21,7 +21,7 @@ export default class ContentView extends React.Component {
     }
 
     componentDidMount() {
-        FetchService.get(`api/content/any/${this.props.params.contentId}`).then((contentData) => {
+        FetchService.get(`api/content/all/${this.props.params.contentId}`).then((contentData) => {
             _.extend(this.state, { content: contentData });
             this.setState(_.extend(this.state, { documentTitle: `${this.state.content._title} - Dullahan` }));
             FetchService.get(`api/content-types/${contentData._contentType}`).then((contentTypeData) => {
