@@ -36,3 +36,4 @@ gulp.task('browserify', () => {
     .pipe(gulp.dest('dist/'));
 });
 
+gulp.task('default', ['browserify', 'sass', 'watch']);
