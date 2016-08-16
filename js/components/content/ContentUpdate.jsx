@@ -6,7 +6,7 @@ import SectionHeaderRight from '../SectionHeaderRight.jsx';
 import FetchService from '../../services/FetchService';
 import _ from 'underscore';
 import __ from 'lodash';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import FieldImageEditContainer from './fields/FieldImageEditContainer.jsx';
 import FieldReferenceEditContainer from './fields/FieldReferenceEditContainer.jsx';
 import FieldTextAreaEdit from './fields/FieldTextAreaEdit.jsx';
@@ -60,7 +60,7 @@ export default class ContentUpdate extends React.Component {
                         <SectionHeader title={`Edit ${this.state.contentType.name}`}>
                             <SectionHeaderRight>
                                 <Link to={`content/${this.state.content._id}`} className="btn btn-default">Cancel</Link>
-                                <button className="btn btn-primary">Save</button>
+                                <button onClick={this.updateContent.bind(this)} className="btn btn-primary">Save</button>
                             </SectionHeaderRight>
                         </SectionHeader>
                         <div className="items-container">
@@ -99,14 +99,17 @@ export default class ContentUpdate extends React.Component {
         return false;
     }
 
-    onTextFieldInput(fieldSlug, event) {
-        this.setFormValue(fieldSlug, event.target.value);
-    }
-
     setFormValue(key, value) {
         const newFormField = { [key]: value };
         const newFormData = _.extend(this.state.formData, newFormField);
         this.setState(_.extend(this.state, { formData: newFormData }));
+    }
+
+    updateContent() {
+        // TODO: error handling
+        FetchService.put(`api/content/all/${this.state.content._id}`, this.state.formData).then((response) => {
+            hashHistory.push(`content/${this.state.content._id}`)
+        });
     }
 
 }

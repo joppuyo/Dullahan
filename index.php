@@ -141,6 +141,7 @@ $app->group('/api', function () use ($throttleMiddleware, $authMiddleware) {
     $this->get('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:listContent')->add($authMiddleware());
     $this->post('/content/{contentTypeSlug}', '\Dullahan\Controller\ContentController:createContent')->add($authMiddleware());
     $this->get('/content/any/{contentId}', '\Dullahan\Controller\ContentController:getSingleContent')->add($authMiddleware());
+    $this->put('/content/all/{contentId}', '\Dullahan\Controller\ContentController:updateContent')->add($authMiddleware());
     $this->get('/content-types/{contentTypeSlug}', '\Dullahan\Controller\ContentController:getContentType')->add($authMiddleware());
     $this->get('/users', '\Dullahan\Controller\UserController:listUsers')->add($authMiddleware());
     $this->get('/apps', '\Dullahan\Controller\AppController:listApps')->add($authMiddleware());

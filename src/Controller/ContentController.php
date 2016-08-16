@@ -82,6 +82,29 @@ class ContentController extends Controller
         return $response->withJson($this->container->ContentService->convertFields($content, $contentType, $request), 201);
     }
 
+    public function updateContent(Request $request, Response $response, $arguments)
+    {
+        $data = $request->getParsedBody();
+        if (!$data) {
+            return $response->withJson(['message' => 'Could not parse JSON', 'errorCode' => 'JSON_PARSE_ERROR'], 400);
+        }
+        $content = Content::find($arguments['contentId']);
+        if (!$content) {
+            return $response->withJson(['message' => 'Content not found', 'errorCode' => 'CONTENT_NOT_FOUND'], 404);
+        }
+        $contentType = $this->container->ContentService->getContentTypeDefinition(($content->content_type));
+        $fields = new \stdClass();
+        foreach ($contentType->fields as $currentField) {
+            if (array_key_exists($currentField->slug, $data)) {
+                $fields->{$currentField->slug} = $data[$currentField->slug];
+            }
+        }
+        $content->fields = $fields;
+        $content->save();
+        // TODO: return modified object
+        return $response->withJson($this->container->ContentService->convertFields($content, $contentType, $request), 201);
+    }
+
     public function editContent($contentId){
         $content = Content::find($contentId);
         $yaml = new Parser();
