@@ -31,7 +31,9 @@ export default class ContentUpdate extends React.Component {
                 // the file name instead of the full path
                 contentTypeData.fields.forEach(contentType => {
                     if (contentType.type === 'reference') {
-                        contentData[contentType.slug] = contentData[contentType.slug]._id;
+                        if (contentData[contentType.slug]) {
+                            contentData[contentType.slug] = contentData[contentType.slug]._id;
+                        }
                     }
                     if (contentType.type === 'image') {
                         if (contentData[contentType.slug]) {

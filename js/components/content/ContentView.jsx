@@ -9,6 +9,7 @@ import _ from 'underscore';
 import FieldText from './fields/FieldText.jsx';
 import FieldImage from './fields/FieldImage.jsx';
 import FieldReference from './fields/FieldReference.jsx';
+import FieldEmpty from './fields/FieldEmpty.jsx';
 
 export default class ContentView extends React.Component {
 
@@ -51,21 +52,30 @@ export default class ContentView extends React.Component {
                             <div className="section-body">
                                 {this.state.contentType.fields.map(field => {
                                     if (field.type === 'text' || field.type === 'textarea') {
-                                        return (<FieldText name={field.name} value={field.value} key={field.slug} />);
+                                        if (field.value) {
+                                            return (<FieldText name={field.name} value={field.value} key={field.slug} />);
+                                        }
+                                        return (<FieldEmpty name={field.name} key={field.slug} />);
                                     }
                                     if (field.type === 'image') {
-                                        return (<FieldImage name={field.name} url={field.value} key={field.slug} />);
+                                        if (field.value) {
+                                            return (<FieldImage name={field.name} url={field.value} key={field.slug} />);
+                                        }
+                                        return (<FieldEmpty name={field.name} key={field.slug} />);
                                     }
                                     if (field.type === 'reference') {
-                                        return (
-                                            <FieldReference
-                                                name={field.name}
-                                                title={field.value._title}
-                                                subtitle={field.value._contentType}
-                                                image={field.value._image}
-                                                key={field.slug}
-                                            />
-                                        );
+                                        if (field.value) {
+                                            return (
+                                                <FieldReference
+                                                    name={field.name}
+                                                    title={field.value._title}
+                                                    subtitle={field.value._contentType}
+                                                    image={field.value._image}
+                                                    key={field.slug}
+                                                />
+                                            );
+                                        }
+                                        return (<FieldEmpty name={field.name} key={field.slug} />);
                                     }
                                     return false;
                                 })}

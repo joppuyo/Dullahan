@@ -26,9 +26,11 @@ export default class FieldReferenceEditContainer extends React.Component {
     updateField() {
         if (_.has(this.props.formData, this.props.field.slug)) {
             const value = this.props.formData[this.props.field.slug];
-            FetchService.get(`api/content/all/${value}`).then(data => {
-                this.setState(_.extend(this.state, { selected: true, data: data }));
-            });
+            if (value) {
+                FetchService.get(`api/content/all/${value}`).then(data => {
+                    this.setState(_.extend(this.state, { selected: true, data: data }));
+                });
+            }
         }
     }
 
