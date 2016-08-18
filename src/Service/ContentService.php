@@ -127,14 +127,12 @@ class ContentService extends Service
         // Convert fields into object properties
 
         foreach ($contentItem->fields as $key => $value) {
-            $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
-
             $fieldType = collect($contentTypeDefinition->fields)->where('slug', $key)->first();
 
             if ($fieldType) {
                 // Add full URL to image field
                 if ($fieldType->type === 'image' && !empty($value)) {
-                    $value = $mediaPath . $value;
+                    $value = $this->addMediaPath($value, $request);
                 }
 
                 // Expand references
@@ -151,14 +149,12 @@ class ContentService extends Service
                 }
 
                 if ($fieldType->type === 'array' && !empty($value)) {
-                    $value = collect($value)->map(function ($item) use ($request) {
+                    foreach ($value as &$item) {
 
+                        //dump($item);
                         $componentDefinition = $this->getComponentTypeDefinition($item['type']);
-
-                        $item = $this->convertComponentField($item, $componentDefinition, $request);
-
-                        return $item;
-                    });
+                        $item = $this->convertComponentFields($item, $componentDefinition, $request);
+                    }
                 }
 
                 $convertedObject->$key = $value;
@@ -189,23 +185,34 @@ class ContentService extends Service
 
         return $convertedObject;
     }
-
-    // TODO: use YAML as the base instead of database content
-    public function convertComponentField($field, $contentTypeDefinition, $request)
+    
+    public function convertComponentFields($item, $contentTypeDefinition, $request)
     {
-        $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
+        $convertedObject = [];
 
-        foreach ($field as $key => &$value) {
-            if ($key !== 'type') {
-                foreach ($contentTypeDefinition->fields as $currentField) {
-                    if ($currentField->slug === $key) {
-                        if ($currentField->type === 'image') {
-                            $value = $mediaPath . $value;
-                        }
-                    }
+        // Add default null values
+        foreach ($contentTypeDefinition->fields as $definitionField) {
+            $convertedObject['type'] = $item['type'];
+            $convertedObject[$definitionField->slug] = null;
+        }
+
+        foreach ($item['fields'] as $key => $value) {
+            $fieldType = collect($contentTypeDefinition->fields)->where('slug', $key)->first();
+            if ($fieldType) {
+                $newValue = $value;
+                // Add full URL to image field
+                if ($fieldType->type === 'image' && !empty($value)) {
+                    $newValue = $this->addMediaPath($value, $request);
                 }
+                $convertedObject[$key] = $newValue;
             }
         }
-        return $field;
+
+        return $convertedObject;
+    }
+
+    public function addMediaPath($filename, $request) {
+        $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
+        return $mediaPath . $filename;
     }
 }
