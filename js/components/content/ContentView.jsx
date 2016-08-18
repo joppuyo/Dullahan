@@ -10,6 +10,8 @@ import FieldText from './fields/FieldText.jsx';
 import FieldImage from './fields/FieldImage.jsx';
 import FieldReference from './fields/FieldReference.jsx';
 import FieldEmpty from './fields/FieldEmpty.jsx';
+import FieldArray from './fields/FieldArray.jsx';
+import __ from 'lodash';
 
 export default class ContentView extends React.Component {
 
@@ -51,7 +53,7 @@ export default class ContentView extends React.Component {
                         <div className="items-container">
                             <div className="section-body">
                                 {this.state.contentType.fields.map(field => {
-                                    if (field.type === 'text' || field.type === 'textarea') {
+                                    if (field.type === 'text' || field.type === 'textarea' || field.type === 'markdown') {
                                         if (field.value) {
                                             return (<FieldText name={field.name} value={field.value} key={field.slug} />);
                                         }
@@ -72,6 +74,17 @@ export default class ContentView extends React.Component {
                                                     subtitle={field.value._contentType}
                                                     image={field.value._image}
                                                     key={field.slug}
+                                                />
+                                            );
+                                        }
+                                        return (<FieldEmpty name={field.name} key={field.slug} />);
+                                    }
+                                    if (field.type === 'array') {
+                                        if (field.value && !__.isEmpty(field.value)) {
+                                            return (
+                                                <FieldArray
+                                                    name={field.name}
+                                                    items={field.value}
                                                 />
                                             );
                                         }

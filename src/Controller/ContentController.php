@@ -60,6 +60,13 @@ class ContentController extends Controller
         return $response->withJson($contentType, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
+    public function getComponentType(Request $request, Response $response, $arguments)
+    {
+        $contentType = $this->container->ContentService->getComponentTypeDefinition(($arguments['componentTypeSlug']));
+        return $response->withJson($contentType, 200, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+
     public function createContent(Request $request, Response $response, $arguments)
     {
         $data = $request->getParsedBody();

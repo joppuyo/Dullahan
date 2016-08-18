@@ -11,3 +11,17 @@
   margin-bottom: 20px;
   font-weight: bold;
 }
+
+.field-array-item-container {
+  background-color: $color-background;
+  padding: 20px;
+}
+
+.field-array-item {
+  background-color: white;
+  padding: 20px;
+}
+
+.field-array-item:not(:last-of-type) {
+  margin-bottom: 20px;
+}

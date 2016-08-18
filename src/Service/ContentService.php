@@ -22,6 +22,21 @@ class ContentService extends Service
         return $contentTypes;
     }
 
+    // TODO: reduce copy-paste code
+    public function getComponentTypes()
+    {
+        $yaml = new Parser();
+        $componentTypeDescriptors = glob('content/component-types/*.yaml');
+        $componentTypes = [];
+
+        foreach ($componentTypeDescriptors as $descriptor) {
+            $componentType = $yaml->parse(file_get_contents($descriptor), false, false, true);
+            array_push($componentTypes, $componentType);
+        }
+
+        return $componentTypes;
+    }
+
     /**
      * Validate content type
      *
@@ -64,6 +79,22 @@ class ContentService extends Service
             throw new \Exception("Content type \"$contentTypeSlug\" not found");
         }
         $this->validateContentType($definition, $contentTypeSlug);
+        return $definition;
+    }
+
+    public function getComponentTypeDefinition($contentTypeSlug)
+    {
+        $definition = null;
+        $contentTypes = $this->getComponentTypes();
+        foreach ($contentTypes as $currentContentType) {
+            if (isset($currentContentType->slug) && $currentContentType->slug === $contentTypeSlug) {
+                $definition = $currentContentType;
+            }
+        }
+        if (!$definition) {
+            throw new \Exception("Component type \"$contentTypeSlug\" not found");
+        }
+        // TODO: validate component type
         return $definition;
     }
 
@@ -119,6 +150,17 @@ class ContentService extends Service
                     }
                 }
 
+                if ($fieldType->type === 'array' && !empty($value)) {
+                    $value = collect($value)->map(function ($item) use ($request) {
+
+                        $componentDefinition = $this->getComponentTypeDefinition($item['type']);
+
+                        $item = $this->convertComponentField($item, $componentDefinition, $request);
+
+                        return $item;
+                    });
+                }
+
                 $convertedObject->$key = $value;
 
             }
@@ -146,5 +188,24 @@ class ContentService extends Service
         }
 
         return $convertedObject;
+    }
+
+    // TODO: use YAML as the base instead of database content
+    public function convertComponentField($field, $contentTypeDefinition, $request)
+    {
+        $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
+
+        foreach ($field as $key => &$value) {
+            if ($key !== 'type') {
+                foreach ($contentTypeDefinition->fields as $currentField) {
+                    if ($currentField->slug === $key) {
+                        if ($currentField->type === 'image') {
+                            $value = $mediaPath . $value;
+                        }
+                    }
+                }
+            }
+        }
+        return $field;
     }
 }
