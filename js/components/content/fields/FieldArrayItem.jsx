@@ -5,6 +5,7 @@ import _ from 'underscore';
 import FieldText from '../fields/FieldText.jsx';
 import FieldEmpty from '../fields/FieldEmpty.jsx';
 import FieldImage from '../fields/FieldImage.jsx';
+import FieldMarkdown from '../fields/FieldMarkdown.jsx';
 
 export default class FieldArrayItem extends React.Component {
     constructor(props) {
@@ -29,9 +30,15 @@ export default class FieldArrayItem extends React.Component {
                 <div className="field-array-item">
                     <div className="field-name">{this.state.component.name}</div>
                     {this.state.component.fields.map((field) => {
-                        if (field.type === 'text' || field.type === 'textarea' || field.type === 'markdown') {
+                        if (field.type === 'text' || field.type === 'textarea') {
                             if (field.value) {
                                 return (<FieldText name={field.name} value={field.value} key={field.slug} />);
+                            }
+                            return (<FieldEmpty name={field.name} key={field.slug} />);
+                        }
+                        if (field.type === 'markdown') {
+                            if (field.value) {
+                                return (<FieldMarkdown name={field.name} value={field.value} key={field.slug} />);
                             }
                             return (<FieldEmpty name={field.name} key={field.slug} />);
                         }

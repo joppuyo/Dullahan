@@ -7,6 +7,7 @@ import SectionHeaderLeft from '../SectionHeaderLeft.jsx';
 import FetchService from '../../services/FetchService';
 import _ from 'underscore';
 import FieldText from './fields/FieldText.jsx';
+import FieldMarkdown from './fields/FieldMarkdown.jsx';
 import FieldImage from './fields/FieldImage.jsx';
 import FieldReference from './fields/FieldReference.jsx';
 import FieldEmpty from './fields/FieldEmpty.jsx';
@@ -53,9 +54,15 @@ export default class ContentView extends React.Component {
                         <div className="items-container">
                             <div className="section-body">
                                 {this.state.contentType.fields.map(field => {
-                                    if (field.type === 'text' || field.type === 'textarea' || field.type === 'markdown') {
+                                    if (field.type === 'text' || field.type === 'textarea') {
                                         if (field.value) {
                                             return (<FieldText name={field.name} value={field.value} key={field.slug} />);
+                                        }
+                                        return (<FieldEmpty name={field.name} key={field.slug} />);
+                                    }
+                                    if (field.type === 'markdown') {
+                                        if (field.value) {
+                                            return (<FieldMarkdown name={field.name} value={field.value} key={field.slug} />);
                                         }
                                         return (<FieldEmpty name={field.name} key={field.slug} />);
                                     }
