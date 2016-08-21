@@ -11,6 +11,7 @@ import FieldImageEditContainer from './fields/FieldImageEditContainer.jsx';
 import FieldReferenceEditContainer from './fields/FieldReferenceEditContainer.jsx';
 import FieldTextAreaEdit from './fields/FieldTextAreaEdit.jsx';
 import FieldTextEdit from './fields/FieldTextEdit.jsx';
+import FieldArrayEdit from './fields/FieldArrayEdit.jsx';
 
 export default class ContentUpdate extends React.Component {
     constructor(props) {
@@ -87,6 +88,12 @@ export default class ContentUpdate extends React.Component {
                                         if (field.type === 'textarea') {
                                             return (
                                                 <FieldTextAreaEdit key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} formData={this.state.formData} />
+                                            );
+                                        }
+                                        if (field.type === 'array' && field.arrayOf && __.some(field.arrayOf, { type: 'components' })) {
+                                            console.log(field);
+                                            return (
+                                                <FieldArrayEdit key={field.slug} field={field} setFormValue={this.setFormValue.bind(this)} formData={this.state.formData} />
                                             );
                                         }
                                         return null;
