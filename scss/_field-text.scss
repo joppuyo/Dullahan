@@ -1,6 +1,7 @@
 .field-text-value {
-  white-space: pre;
-  
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .field-text-value-null {

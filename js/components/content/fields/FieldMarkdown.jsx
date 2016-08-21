@@ -7,7 +7,7 @@ export default class FieldMarkdown extends React.Component {
         return (
             <div className="field field-text">
                 <div className="field-name">{this.props.name}</div>
-                <div className="field-text-value" dangerouslySetInnerHTML={{__html: md.render(this.props.value)}}></div>
+                <div className="field-markdown-value" dangerouslySetInnerHTML={{__html: md.render(this.props.value)}}></div>
             </div>
         );
     }
