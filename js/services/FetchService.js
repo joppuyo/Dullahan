@@ -1,14 +1,35 @@
 import 'whatwg-fetch';
 import _ from 'underscore';
+import __ from 'lodash';
 
 export default class FetchService {
-    static get(url) {
+    static get(url, customOptions) {
+
+        const defaultOptions = {
+            expandData: true,
+        };
+
+        let headers = {
+            Accept: 'application/json',
+        };
+
+        if (localStorage.getItem('token')) {
+            __.assign(headers, { 'X-User-Token': localStorage.getItem('token') });
+        }
+
+        const options = __.assign(defaultOptions, customOptions);
+
+        console.log('options', options);
+
+        if (options.expandData === false) {
+            __.assign(headers, { 'X-Expand-Data': 'false' });
+        }
+
+        console.log(headers);
+
         return fetch(url, {
             method: 'get',
-            headers: {
-                Accept: 'application/json',
-                'X-User-Token': localStorage.getItem('token'),
-            },
+            headers: headers,
         })
             .then(this.handleError)
             .then(response => response.json());

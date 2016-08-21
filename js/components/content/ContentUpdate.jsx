@@ -24,24 +24,8 @@ export default class ContentUpdate extends React.Component {
     }
 
     componentDidMount() {
-        FetchService.get(`api/content/all/${this.props.params.contentId}`).then((contentData) => {
+        FetchService.get(`api/content/all/${this.props.params.contentId}`, { expandData: false }).then((contentData) => {
             FetchService.get(`api/content-types/${contentData._contentType}`).then((contentTypeData) => {
-                // TODO: Fix these ugly hacks
-                // References should be sent to the API using just the id, but the API will return the complete objects.
-                // That's why we need to replace the object with just the id. The same with the image, we'd only need
-                // the file name instead of the full path
-                contentTypeData.fields.forEach(contentType => {
-                    if (contentType.type === 'reference') {
-                        if (contentData[contentType.slug]) {
-                            contentData[contentType.slug] = contentData[contentType.slug]._id;
-                        }
-                    }
-                    if (contentType.type === 'image') {
-                        if (contentData[contentType.slug]) {
-                            contentData[contentType.slug] = _.last(contentData[contentType.slug].split('/'));
-                        }
-                    }
-                });
 
                 // Strip "private" properties from the object, they are prefixed with an underscore.
                 // TODO: update this function when private properties are moved under their own meta key

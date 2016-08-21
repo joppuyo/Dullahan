@@ -120,43 +120,36 @@ class ContentService extends Service
 
         // This will hold the data for the user who has created the content.
         $convertedObject->_user = null;
-        collect($contentTypeDefinition->fields)->map(function ($field) use ($convertedObject) {
+        collect($contentTypeDefinition->fields)->each(function ($field) use ($convertedObject) {
             $convertedObject->{$field->slug} = null;
+            if ($field->type === 'array') {
+                $convertedObject->{$field->slug} = [];
+            }
         });
 
         // Convert fields into object properties
+
+        $expandData = true;
+        if ($request->hasHeader('X-Expand-Data') && $request->getHeaderLine('X-Expand-Data') === 'false') {
+            $expandData = false;
+        }
 
         foreach ($contentItem->fields as $key => $value) {
             $fieldType = collect($contentTypeDefinition->fields)->where('slug', $key)->first();
 
             if ($fieldType) {
-                // Add full URL to image field
-                if ($fieldType->type === 'image' && !empty($value)) {
-                    $value = $this->addMediaPath($value, $request);
+                if ($expandData) {
+                    $convertedObject->$key = $this->expandFields($fieldType, $value, $request);
+                } else {
+                    $convertedObject->$key = $value;
                 }
-
-                // Expand references
-                if ($fieldType->type === 'reference' && !empty($value)) {
-                    $referenceObject = Content::where('id', $value)->first();
-                    if ($referenceObject) {
-                        $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
-                        $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
-                    } else {
-                        // If we can't find the reference object, there's no use of returning the id in the response so
-                        // let's just return a null.
-                        $value = null;
-                    }
-                }
-
-                if ($fieldType->type === 'array' && !empty($value)) {
+                if ($fieldType->type === 'array' && collect($fieldType->arrayOf)->contains('type', 'components') && !empty($value)) {
                     foreach ($value as &$item) {
                         $componentDefinition = $this->getComponentTypeDefinition($item['type']);
-                        $item = $this->convertComponentFields($item, $componentDefinition, $request);
+                        $item = $this->convertComponentFields($item, $componentDefinition, $expandData, $request);
                     }
+                    $convertedObject->$key = $value;
                 }
-
-                $convertedObject->$key = $value;
-
             }
 
         }
@@ -184,7 +177,7 @@ class ContentService extends Service
         return $convertedObject;
     }
     
-    public function convertComponentFields($item, $contentTypeDefinition, $request)
+    public function convertComponentFields($item, $contentTypeDefinition, $expandData, $request)
     {
         $convertedObject = [];
         $convertedObject['fields'] = [];
@@ -200,7 +193,7 @@ class ContentService extends Service
             if ($fieldType) {
                 $newValue = $value;
                 // Add full URL to image field
-                if ($fieldType->type === 'image' && !empty($value)) {
+                if ($fieldType->type === 'image' && !empty($value) && $expandData) {
                     $newValue = $this->addMediaPath($value, $request);
                 }
                 $convertedObject['fields'][$key] = $newValue;
@@ -214,5 +207,28 @@ class ContentService extends Service
     {
         $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
         return $mediaPath . $filename;
+    }
+
+    public function expandFields($fieldType, $value, $request)
+    {
+        // Add full URL to image field
+        if ($fieldType->type === 'image' && !empty($value)) {
+            $value = $this->addMediaPath($value, $request);
+        }
+
+        // Expand references
+        if ($fieldType->type === 'reference' && !empty($value)) {
+            $referenceObject = Content::where('id', $value)->first();
+            if ($referenceObject) {
+                $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
+                $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
+            } else {
+                // If we can't find the reference object, there's no use of returning the id in the response so
+                // let's just return a null.
+                $value = null;
+            }
+        }
+
+        return $value;
     }
 }
