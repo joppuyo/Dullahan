@@ -17,8 +17,8 @@ export default class FieldArrayItem extends React.Component {
             console.log(this.props.item);
             // Add values to fields
             componentData.fields.map((field) => {
-                if (__.has(this.props.item, field.slug)) {
-                    field.value = __.get(this.props.item, field.slug);
+                if (__.has(this.props.item.fields, field.slug)) {
+                    field.value = __.get(this.props.item.fields, field.slug);
                 }
             });
             this.setState(__.assign(this.state, { component: componentData }));

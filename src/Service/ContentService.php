@@ -187,11 +187,12 @@ class ContentService extends Service
     public function convertComponentFields($item, $contentTypeDefinition, $request)
     {
         $convertedObject = [];
+        $convertedObject['fields'] = [];
 
         // Add default null values
         foreach ($contentTypeDefinition->fields as $definitionField) {
             $convertedObject['type'] = $item['type'];
-            $convertedObject[$definitionField->slug] = null;
+            $convertedObject['fields'][$definitionField->slug] = null;
         }
 
         foreach ($item['fields'] as $key => $value) {
@@ -202,7 +203,7 @@ class ContentService extends Service
                 if ($fieldType->type === 'image' && !empty($value)) {
                     $newValue = $this->addMediaPath($value, $request);
                 }
-                $convertedObject[$key] = $newValue;
+                $convertedObject['fields'][$key] = $newValue;
             }
         }
 
