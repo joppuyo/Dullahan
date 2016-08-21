@@ -28,7 +28,7 @@ export default class FieldArrayItem extends React.Component {
         if (this.state.component) {
             return (
                 <div className="field-array-item">
-                    <div className="field-name">{this.state.component.name}</div>
+                    <div className="field-array-item-name">{this.state.component.name}</div>
                     {this.state.component.fields.map((field) => {
                         if (field.type === 'text' || field.type === 'textarea') {
                             if (field.value) {
