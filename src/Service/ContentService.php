@@ -150,8 +150,6 @@ class ContentService extends Service
 
                 if ($fieldType->type === 'array' && !empty($value)) {
                     foreach ($value as &$item) {
-
-                        //dump($item);
                         $componentDefinition = $this->getComponentTypeDefinition($item['type']);
                         $item = $this->convertComponentFields($item, $componentDefinition, $request);
                     }
@@ -211,7 +209,8 @@ class ContentService extends Service
         return $convertedObject;
     }
 
-    public function addMediaPath($filename, $request) {
+    public function addMediaPath($filename, $request)
+    {
         $mediaPath = $request->getUri()->getBaseUrl() . '/uploads/';
         return $mediaPath . $filename;
     }
