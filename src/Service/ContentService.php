@@ -117,6 +117,16 @@ class ContentService extends Service
         $convertedObject->_contentType = $contentItem['content_type'];
         $convertedObject->_title = null;
         $convertedObject->_image = null;
+        $convertedObject->_createdAt = null;
+        $convertedObject->_updatedAt = null;
+
+        if ($contentItem['created_at']) {
+            $convertedObject->_createdAt = $contentItem['created_at']->toIso8601String();
+        }
+
+        if ($contentItem['updated_at']) {
+            $convertedObject->_updatedAt = $contentItem['updated_at']->toIso8601String();
+        }
 
         // This will hold the data for the user who has created the content.
         $convertedObject->_user = null;
