@@ -7,6 +7,7 @@ import SectionHeaderLeft from '../SectionHeaderLeft.jsx';
 import FetchService from '../../services/FetchService';
 import _ from 'underscore';
 import FieldText from './fields/FieldText.jsx';
+import FieldBoolean from './fields/FieldBoolean.jsx';
 import FieldMarkdown from './fields/FieldMarkdown.jsx';
 import FieldImage from './fields/FieldImage.jsx';
 import FieldReference from './fields/FieldReference.jsx';
@@ -30,7 +31,7 @@ export default class ContentView extends React.Component {
             this.setState(_.extend(this.state, { documentTitle: `${this.state.content._title} - Dullahan` }));
             FetchService.get(`api/content-types/${contentData._contentType}`).then((contentTypeData) => {
                 contentTypeData.fields.map(field => {
-                    if (contentData[field.slug]) {
+                    if (__.has(contentData, field.slug)) {
                         field.value = contentData[field.slug];
                     }
                     return field;
@@ -57,6 +58,12 @@ export default class ContentView extends React.Component {
                                     if (field.type === 'text' || field.type === 'textarea') {
                                         if (field.value) {
                                             return (<FieldText name={field.name} value={field.value} key={field.slug} />);
+                                        }
+                                        return (<FieldEmpty name={field.name} key={field.slug} />);
+                                    }
+                                    if (field.type === 'boolean') {
+                                        if (field.value !== null) {
+                                            return (<FieldBoolean name={field.name} value={field.value} key={field.slug} />);
                                         }
                                         return (<FieldEmpty name={field.name} key={field.slug} />);
                                     }
