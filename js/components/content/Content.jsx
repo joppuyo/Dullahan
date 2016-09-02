@@ -35,7 +35,7 @@ export default class Content extends React.Component {
     }
 
     setContentType(contentTypeSlug) {
-        FetchService.get(`api/content/${contentTypeSlug}`).then((data) => {
+        FetchService.get(`api/content/${contentTypeSlug}?show-unpublished=true`).then((data) => {
             this.setState(_.extend(this.state, { content: data }));
             let contentType = _.findWhere(this.state.contentTypes, { slug: contentTypeSlug });
             this.setState(_.extend(this.state, { currentContentType: contentType }));

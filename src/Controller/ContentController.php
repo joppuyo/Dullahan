@@ -29,11 +29,16 @@ class ContentController extends Controller
     public function listContent(Request $request, Response $response, $arguments)
     {
         $content = Content::where('content_type', $arguments['contentTypeSlug'])
-            ->where('is_published', true)
             ->orderBy('updated_at', true)
             ->get();
         $contentTypeDefinition = $this->container->ContentService
             ->getContentTypeDefinition($arguments['contentTypeSlug']);
+
+        if ($request->getQueryParam('show-unpublished') !== 'true') {
+            $content = $content->filter(function ($value) {
+                return $value->is_published === true;
+            })->values();
+        }
 
         $content = $content->map(function ($item) use ($request, $contentTypeDefinition) {
             return $this->container->ContentService->convertFields($item, $contentTypeDefinition, $request);
