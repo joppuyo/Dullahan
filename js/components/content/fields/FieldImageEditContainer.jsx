@@ -11,36 +11,30 @@ export default class FieldImageEditContainer extends React.Component {
         this.state = { modalOpen: false, value: null, selected: false };
     }
 
+    fetchImage(value) {
+        FetchService.get('api/media').then((response) => {
+            // TODO: endpoint to get single image
+            response.forEach((image) => {
+                if (image.full_name === value) {
+                    this.setState(
+                        _.extend(this.state, { selected: true, data: image })
+                    );
+                }
+            });
+        });
+    }
+
     changeValue(value){
         this.setState(_.extend(this.state, { image: value }));
         this.props.setFormValue(this.props.field.slug, value);
-    }
-
-    updateField() {
-        if (_.has(this.props.formData, this.props.field.slug)) {
-            const value = this.props.formData[this.props.field.slug];
-
-            FetchService.get('api/media').then((response) => {
-                // TODO: endpoint to get single image
-                response.forEach((image) => {
-                    if (image.full_name === value) {
-                        this.setState(
-                            _.extend(this.state, { selected: true, data: image })
-                        );
-                    }
-                });
-            });
-        }
+        this.fetchImage(value);
     }
 
     componentDidMount() {
         console.log('Image field mounted');
-        this.updateField();
-    }
-
-    componentWillReceiveProps() {
-        console.log('Image field updated');
-        this.updateField();
+        if (_.has(this.props.formData, this.props.field.slug)) {
+            this.fetchImage(this.props.formData[this.props.field.slug]);
+        }
     }
 
     render() {
