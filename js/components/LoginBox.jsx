@@ -9,7 +9,8 @@ export default class LoginBox extends React.Component {
         this.state = {email: '', password: ''}
     }
 
-    onLoginClick(){
+    onLoginSubmit(event){
+        event.preventDefault();
         var credentials = {
             email: this.state.email,
             password: this.state.password,
@@ -37,7 +38,7 @@ export default class LoginBox extends React.Component {
                 <div className="login-container">
                     <div className="login-box">
                         <div className="login-box-left"></div>
-                        <div className="login-box-right">
+                        <form className="login-box-right" onSubmit={this.onLoginSubmit.bind(this)}>
                             <h1 className="login-header">User Login</h1>
                             <div className="form-group">
                                 <label htmlFor="email">Email Address</label>
@@ -48,8 +49,8 @@ export default class LoginBox extends React.Component {
                                 <input className="form-control" type="password" id="password" onInput={this.onPasswordInput.bind(this)}/>
                             </div>
                             <button className="btn btn-link pull-left">Lost password?</button>
-                            <button className="btn btn-primary pull-right" onClick={this.onLoginClick.bind(this)}>Login</button>
-                        </div>
+                            <button type="submit" className="btn btn-primary pull-right">Login</button>
+                        </form>
                     </div>
                 </div>
             </DocumentTitle>
