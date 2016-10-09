@@ -10,6 +10,8 @@
     "browserify": "^13.0.0",
     "eslint": "^2.13.1",
     "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^1.5.5",
     "eslint-plugin-react": "^5.2.2",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
