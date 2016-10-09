@@ -4,16 +4,11 @@ import DocumentTitle from 'react-document-title';
 import FetchService from '../services/FetchService.js';
 
 export default class LoginBox extends React.Component {
-    constructor (props) {
-        super(props);
-        this.state = {email: '', password: ''}
-    }
-
     onLoginSubmit(event){
         event.preventDefault();
         var credentials = {
-            email: this.state.email,
-            password: this.state.password,
+            email: this.refs.email.value,
+            password: this.refs.password.value,
         };
         FetchService.post('/api/login', credentials)
             .then((data) => {
@@ -22,14 +17,6 @@ export default class LoginBox extends React.Component {
                 hashHistory.push('/content');
             })
 
-    }
-
-    onEmailInput(event){
-        this.setState({email: event.target.value, password: this.state.password});
-    }
-
-    onPasswordInput(event){
-        this.setState({password: event.target.value, email: this.state.email});
     }
 
     render() {
@@ -42,11 +29,11 @@ export default class LoginBox extends React.Component {
                             <h1 className="login-header">User Login</h1>
                             <div className="form-group">
                                 <label htmlFor="email">Email Address</label>
-                                <input className="form-control" type="text" id="email" onInput={this.onEmailInput.bind(this)}/>
+                                <input className="form-control" type="text" id="email" ref="email"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
-                                <input className="form-control" type="password" id="password" onInput={this.onPasswordInput.bind(this)}/>
+                                <input className="form-control" type="password" id="password" ref="password"/>
                             </div>
                             <button className="btn btn-link pull-left">Lost password?</button>
                             <button type="submit" className="btn btn-primary pull-right">Login</button>
