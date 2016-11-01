@@ -243,23 +243,22 @@ class ContentService extends Service
 
         // Expand references
         if ($fieldType->type === 'reference' && !empty($value)) {
-        	$value = $this->expandReference($value, $request);
-
+            $value = $this->expandReference($value, $request);
         }
 
         return $value;
     }
     public function expandReference($value, $request)
     {
-	    $referenceObject = Content::where('id', $value)->first();
-	    if ($referenceObject) {
-		    $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
-		    $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
-	    } else {
-		    // If we can't find the reference object, there's no use of returning the id in the response so
-		    // let's just return a null.
-		    $value = null;
-	    }
-	    return $value;
+        $referenceObject = Content::where('id', $value)->first();
+        if ($referenceObject) {
+            $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
+            $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
+        } else {
+            // If we can't find the reference object, there's no use of returning the id in the response so
+            // let's just return a null.
+            $value = null;
+        }
+        return $value;
     }
 }
