@@ -10,6 +10,16 @@ export default class FieldReferenceEditContainer extends React.Component {
         this.state = { selected: false, modalOpen: false, data: null };
     }
 
+    componentDidMount() {
+        console.log('Reference field mounted');
+        this.updateField();
+    }
+
+    componentWillReceiveProps() {
+        console.log('Reference field updated');
+        this.updateField();
+    }
+
     openReferencePicker() {
         this.setState(_.extend(this.state, { modalOpen: true }));
     }
@@ -34,16 +44,6 @@ export default class FieldReferenceEditContainer extends React.Component {
         }
     }
 
-    componentDidMount() {
-        console.log('Reference field mounted');
-        this.updateField();
-    }
-
-    componentWillReceiveProps() {
-        console.log('Reference field updated');
-        this.updateField();
-    }
-
     render() {
         return (
             <div>
@@ -57,19 +57,20 @@ export default class FieldReferenceEditContainer extends React.Component {
                     <div className="field-name">{this.props.field.name}</div>
                     {(() => {
                         if (!this.state.selected) {
-                                return (
+                            return (
                                 <div className="field-reference-value clearfix" onClick={this.openReferencePicker.bind(this)}>
                                     <div className="field-reference-value-image field-reference-value-image-add" />
                                     <div className="field-reference-value-text">
                                         <div className="field-reference-value-text-title field-reference-value-text-title-no-subtitle">Select reference</div>
                                     </div>
                                 </div>
-                        )}
+                            );
+                        }
                         if (this.state.selected) {
-                        return (
-                        <FieldReferenceEdit title={this.state.data._title} image={this.state.data._image}/>
-                        );
-                    }
+                            return (
+                                <FieldReferenceEdit title={this.state.data._title} image={this.state.data._image}/>
+                            );
+                        }
                     })()}
                 </div>
             </div>

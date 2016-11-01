@@ -161,7 +161,7 @@ class ContentService extends Service
                     unset($item);
                     $convertedObject->$key = $value;
                 }
-                if ($fieldType->type === 'array' && collect($fieldType->arrayOf)->contains('type', 'reference') && !empty($value)) {
+                if ($expandData && $fieldType->type === 'array' && collect($fieldType->arrayOf)->contains('type', 'reference') && !empty($value)) {
                     $value = collect($value)->map(function ($item) use ($request) {
                         return $this->expandReference($item, $request);
                     });

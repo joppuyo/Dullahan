@@ -10,7 +10,7 @@ export default class FieldArray extends React.Component {
         }
 
         return (
-            <div >
+            <div className="field">
                 <label>{this.props.field.name}</label>
                 <div className="field-array-item-container">
                     {
