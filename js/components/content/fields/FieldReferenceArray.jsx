@@ -1,20 +1,22 @@
 import React from 'react';
-import FieldArrayItem from './FieldArrayItem.jsx';
+import FieldReferenceItem from './FieldReferenceItem.jsx';
 
-export default class FieldArray extends React.Component {
+export default class FieldReferenceArray extends React.Component {
     render() {
         return (
             <div className="field field-text">
                 <div className="field-name">{this.props.name}</div>
-                <div className="field-array-item-container">
                 {
                     this.props.items.map((item) => {
                         return (
-                            <FieldArrayItem item={item} />
+                            <FieldReferenceItem
+                                image={item._image}
+                                title={item._title}
+                                subtitle={item._contentType}
+                            />
                         );
                     })
                 }
-                </div>
             </div>
         );
     }

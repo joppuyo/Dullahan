@@ -158,6 +158,13 @@ class ContentService extends Service
                         $componentDefinition = $this->getComponentTypeDefinition($item['type']);
                         $item = $this->convertComponentFields($item, $componentDefinition, $expandData, $request);
                     }
+                    unset($item);
+                    $convertedObject->$key = $value;
+                }
+                if ($fieldType->type === 'array' && collect($fieldType->arrayOf)->contains('type', 'reference') && !empty($value)) {
+                    $value = collect($value)->map(function ($item) use ($request) {
+                        return $this->expandReference($item, $request);
+                    });
                     $convertedObject->$key = $value;
                 }
             }
@@ -228,17 +235,23 @@ class ContentService extends Service
 
         // Expand references
         if ($fieldType->type === 'reference' && !empty($value)) {
-            $referenceObject = Content::where('id', $value)->first();
-            if ($referenceObject) {
-                $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
-                $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
-            } else {
-                // If we can't find the reference object, there's no use of returning the id in the response so
-                // let's just return a null.
-                $value = null;
-            }
+        	$value = $this->expandReference($value, $request);
+
         }
 
         return $value;
+    }
+    public function expandReference($value, $request)
+    {
+	    $referenceObject = Content::where('id', $value)->first();
+	    if ($referenceObject) {
+		    $referenceContentTypeDefinition = $this->getContentTypeDefinition($referenceObject['content_type']);
+		    $value = $this->convertFields($referenceObject, $referenceContentTypeDefinition, $request);
+	    } else {
+		    // If we can't find the reference object, there's no use of returning the id in the response so
+		    // let's just return a null.
+		    $value = null;
+	    }
+	    return $value;
     }
 }

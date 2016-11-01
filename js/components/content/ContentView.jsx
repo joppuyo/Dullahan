@@ -12,7 +12,8 @@ import FieldMarkdown from './fields/FieldMarkdown.jsx';
 import FieldImage from './fields/FieldImage.jsx';
 import FieldReference from './fields/FieldReference.jsx';
 import FieldEmpty from './fields/FieldEmpty.jsx';
-import FieldArray from './fields/FieldArray.jsx';
+import FieldComponentArray from './fields/FieldComponentArray.jsx';
+import FieldReferenceArray from './fields/FieldReferenceArray.jsx';
 import __ from 'lodash';
 
 export default class ContentView extends React.Component {
@@ -93,10 +94,21 @@ export default class ContentView extends React.Component {
                                         }
                                         return (<FieldEmpty name={field.name} key={field.slug} />);
                                     }
-                                    if (field.type === 'array') {
+                                    if (field.type === 'array' && field.arrayOf && __.find(field.arrayOf, { type: 'components' })) {
                                         if (field.value && !__.isEmpty(field.value)) {
                                             return (
-                                                <FieldArray
+                                                <FieldComponentArray
+                                                    name={field.name}
+                                                    items={field.value}
+                                                />
+                                            );
+                                        }
+                                        return (<FieldEmpty name={field.name} key={field.slug} />);
+                                    }
+                                    if (field.type === 'array' && field.arrayOf && __.find(field.arrayOf, { type: 'reference' })) {
+                                        if (field.value && !__.isEmpty(field.value)) {
+                                            return (
+                                                <FieldReferenceArray
                                                     name={field.name}
                                                     items={field.value}
                                                 />
