@@ -5,8 +5,14 @@
 @import "nav";
 @import "featherlight";
 
+html {
+  height: 100vh;
+  overflow: scroll;
+}
+
 body {
   background-color: #F2F2F2;
+  height: 100vh;
 }
 
 .login-container {
@@ -83,6 +89,7 @@ body {
   min-width: 96px;
   background-color: #2c3e50;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .side-nav-item {
@@ -143,6 +150,8 @@ a.side-nav-item-wrapper {
 .app-content {
   min-width: 0;
   flex-grow: 1;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
 }
 
 .section-header {

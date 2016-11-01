@@ -14,6 +14,9 @@ import AddUser from './components/users/AddUser.jsx';
 import ContentCreate from './components/content/ContentCreate.jsx';
 import ContentUpdate from './components/content/ContentUpdate.jsx';
 import Apps from './components/apps/Apps.jsx';
+import viewportUnitsBuggyfill from 'viewport-units-buggyfill';
+
+viewportUnitsBuggyfill.init();
 
 ReactDOM.render(
     <DocumentTitle title="Dullahan">
