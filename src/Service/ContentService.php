@@ -193,7 +193,15 @@ class ContentService extends Service
 
         return $convertedObject;
     }
-    
+
+    /**
+     * @param $item array Component to be converted
+     * @param $contentTypeDefinition object definition of the component type TODO: rename
+     * @param $expandData boolean should references be expanded?
+     * @param $request object Slim request object, required for image paths
+     *
+     * @return array
+     */
     public function convertComponentFields($item, $contentTypeDefinition, $expandData, $request)
     {
         $convertedObject = [];
