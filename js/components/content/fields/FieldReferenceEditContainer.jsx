@@ -11,13 +11,11 @@ export default class FieldReferenceEditContainer extends React.Component {
     }
 
     componentDidMount() {
-        console.log('Reference field mounted');
-        this.updateField();
-    }
+        const value = this.props.formData[this.props.field.slug];
+        if (value) {
+            this.updateReference(value);
+        }
 
-    componentWillReceiveProps() {
-        console.log('Reference field updated');
-        this.updateField();
     }
 
     openReferencePicker() {
@@ -31,16 +29,14 @@ export default class FieldReferenceEditContainer extends React.Component {
     changeValue(value) {
         this.props.setFormValue(this.props.field.slug, value);
         this.closeReferencePicker();
+        this.updateReference(value);
     }
 
-    updateField() {
-        if (_.has(this.props.formData, this.props.field.slug)) {
-            const value = this.props.formData[this.props.field.slug];
-            if (value) {
-                FetchService.get(`api/content/all/${value}`).then(data => {
-                    this.setState(_.extend(this.state, { selected: true, data: data }));
-                });
-            }
+    updateReference(value) {
+        if (value) {
+            FetchService.get(`api/content/all/${value}`).then(data => {
+                this.setState(_.extend(this.state, { selected: true, data: data }));
+            });
         }
     }
 
