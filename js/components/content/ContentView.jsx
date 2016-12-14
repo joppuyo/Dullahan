@@ -85,6 +85,7 @@ export default class ContentView extends React.Component {
                                             return (
                                                 <FieldReference
                                                     name={field.name}
+                                                    value={field.value}
                                                     title={field.value._title}
                                                     subtitle={field.value._contentType}
                                                     image={field.value._image}

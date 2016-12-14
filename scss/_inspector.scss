@@ -1,0 +1,25 @@
+.inspector-background-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.inspector {
+  width: 320px;
+  background-color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 20px;
+  z-index: 10;
+}
+
+.inspector-title {
+  font-size: 24px;
+  margin-top: 0;
+  font-weight: normal;
+}
