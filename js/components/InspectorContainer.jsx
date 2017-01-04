@@ -19,10 +19,10 @@ class InspectorContainer extends React.Component {
 const mapDispatchToProps = function(dispatch) {
     return {
         closeInspector: () => {
-            dispatch({ type: 'CLOSE_INSPECTOR'});
-        }
-    }
-}
+            dispatch({ type: 'CLOSE_INSPECTOR' });
+        },
+    };
+};
 
 const mapStateToProps = function(store) {
     console.log('STORE', store);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import DocumentTitle from 'react-document-title';
 import SectionHeader from '../SectionHeader.jsx';
@@ -13,8 +14,10 @@ import FieldTextAreaEdit from './fields/FieldTextAreaEdit.jsx';
 import FieldTextEdit from './fields/FieldTextEdit.jsx';
 import FieldArrayEdit from './fields/FieldArrayEdit.jsx';
 import FieldReferenceArrayEdit from './fields/FieldReferenceArrayEdit.jsx';
+import store from '../../store';
+import { requestContentById } from '../../actions';
 
-export default class ContentUpdate extends React.Component {
+class ContentUpdate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,6 +28,9 @@ export default class ContentUpdate extends React.Component {
     }
 
     componentDidMount() {
+
+        store.dispatch(requestContentById(this.props.params.contentId));
+
         FetchService.get(`api/content/all/${this.props.params.contentId}`, { expandData: false }).then((contentData) => {
             FetchService.get(`api/content-types/${contentData._contentType}`).then((contentTypeData) => {
 
@@ -111,3 +117,19 @@ export default class ContentUpdate extends React.Component {
     }
 
 }
+
+const mapDispatchToProps = function(dispatch) {
+    return {
+        requestContentById: () => {
+            dispatch({ type: 'requestContentById' });
+        },
+    };
+};
+
+const mapStateToProps = function(store) {
+    return {
+
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContentUpdate);
