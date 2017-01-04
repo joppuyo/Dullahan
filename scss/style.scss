@@ -203,8 +203,9 @@ a.side-nav-item-wrapper {
   border-radius: 3px;
 }
 
-.items-container {
+.items-container, .media-items-container {
   overflow-y: scroll;
+  height: calc(100vh - 144px);
 }
 
 @import "media";
