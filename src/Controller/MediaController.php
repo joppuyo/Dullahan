@@ -72,9 +72,7 @@ class MediaController extends Controller
         $media = $media->map(function ($item) use ($baseUrl) {
             $item['is_image'] = false;
             if ($this->isImage($item)) {
-                $imagick = $this->manager->make($item['full_name_with_path']);
-                $item['height'] = $imagick->height();
-                $item['width'] = $imagick->width();
+                // Todo calculate image size using a cache
                 $item['is_image'] = true;
             }
             $item['url'] = $baseUrl . '/uploads/' . $item['full_name'];
