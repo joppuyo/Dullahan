@@ -2,6 +2,7 @@
 namespace Dullahan\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Alsofronie\Uuid\Uuid32ModelTrait;
 
 /**
  * Class Content
@@ -15,6 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Content extends Model
 {
+    use Uuid32ModelTrait;
+
+    protected $table = 'content';
+
     public function user()
     {
         return $this->belongsTo('Dullahan\Model\User');

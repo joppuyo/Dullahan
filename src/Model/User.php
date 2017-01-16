@@ -2,9 +2,12 @@
 namespace Dullahan\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Alsofronie\Uuid\Uuid32ModelTrait;
 
 class User extends Model
 {
+    use Uuid32ModelTrait;
+
     protected $hidden = [
         'password'
     ];
